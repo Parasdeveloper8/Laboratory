@@ -6,9 +6,9 @@
     <title>Laboratory</title>
 </head>
 <body>
-    <form action="/getMass" method="get">
-        <input type="text" required placeholder="eg.Hydrogen">
-        <button type="submit">Enter</button>
+    <form id="myform">
+        <input type="text" required placeholder="eg.Hydrogen" id="input">
+        <button type="submit" onclick="getMass()">Enter</button>
     </form>
     <div id="mass-div"></div>
     <script src="static/javascript/mass.js"></script>

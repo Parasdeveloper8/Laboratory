@@ -29,7 +29,7 @@ func AtomicMassAPI(c *gin.Context) {
 	}
 
 	// Parse JSON into slice of elements
-	var elements []reusable_structs.Element
+	var elements []reusable_structs.Element //Element struct in Structs/Struct.go
 	if err := json.Unmarshal(bytes, &elements); err != nil {
 		log.Fatalf("Failed to parse JSON: %v", err) //parse to json failed
 	}
