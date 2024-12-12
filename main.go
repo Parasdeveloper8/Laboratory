@@ -12,8 +12,7 @@ func main() {
 	r.Static("/static", "./static")
 
 	r.LoadHTMLGlob("templates/*")
-
 	r.GET("/", Routes.HomeHandler)
-
+	r.GET("/atomic-mass", Routes.AtomicMassAPI)
 	r.Run(":4300")
 }
