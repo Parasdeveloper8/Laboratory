@@ -15,6 +15,7 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 	r.GET("/", Routes.HomeHandler)
 	r.GET("/atomic-mass-page", Routes.RenderAtomicMassPage)
+	r.GET("/page-to-post", Routes.RenderPostPage)
 	r.GET("/atomic-mass", GETAPI.AtomicMassAPI) //API to get atomic mass
 	r.Run(":4900")
 }
