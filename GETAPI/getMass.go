@@ -1,4 +1,4 @@
-package Routes
+package GETAPI
 
 import (
 	"encoding/json"
