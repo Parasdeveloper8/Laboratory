@@ -5,7 +5,7 @@ const apiUrl = 'http://localhost:4900/atomic-mass';
 
 async function fetchAndDisplayElements() {
     try {
-        // Fetch data from the API
+        // Fetch data from the API 
         const response = await fetch(apiUrl);
 
         if (!response.ok) {
