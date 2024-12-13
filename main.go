@@ -19,5 +19,6 @@ func main() {
 	r.GET("/page-to-post", Routes.RenderPostPage)
 	r.GET("/atomic-mass", GETAPI.AtomicMassAPI) //API to get atomic mass
 	r.POST("/Addpost", postroutes.HandlePost)
+	r.GET("/blogs", GETAPI.GetImages) //API to get images
 	r.Run(":4900")
 }
