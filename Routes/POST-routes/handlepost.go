@@ -41,7 +41,8 @@ func HandlePost(c *gin.Context) {
 		return
 	}
 	defer fileContent.Close()
-	fileBytes, err := io.ReadAll(fileContent)
+	//Read file content
+	fileBytes, err := io.ReadAll(fileContent) //Reading from multipart.File variable and serving []byte variable to use with database
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
 		return
@@ -62,7 +63,7 @@ func HandlePost(c *gin.Context) {
 		fmt.Println("Failed to save file", err)
 		return
 	}
-
+	//custom image url
 	image_url := fmt.Sprintf("http://localhost:4900/uploads/%v", file.Filename)
 	//insert file into DB
 	query := "insert into laboratory.posts(name,content,email,title,image_url) values(?,?,?,?,?)"
@@ -72,6 +73,7 @@ func HandlePost(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
+	//on successful submission
 	fmt.Println("File uploaded successfully")
 	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": file.Filename})
 }
