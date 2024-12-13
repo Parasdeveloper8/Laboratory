@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -44,9 +46,27 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
 		return
 	}
+	// Create a new file on the server
+	dst, err := os.Create(filepath.Join("uploads", file.Filename))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		fmt.Printf("Failed to create file on server %v", err)
+		return
+	}
+	defer dst.Close()
+
+	// Save the file
+	_, err = dst.ReadFrom(fileContent)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		fmt.Println("Failed to save file", err)
+		return
+	}
+
+	image_url := fmt.Sprintf("http://localhost:4900/uploads/%v", file.Filename)
 	//insert file into DB
-	query := "insert into laboratory.posts(name,content,email,title) values(?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption)
+	query := "insert into laboratory.posts(name,content,email,title,image_url) values(?,?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption, image_url)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
