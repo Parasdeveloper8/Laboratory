@@ -11,6 +11,7 @@ import (
 )
 
 func GetImages(c *gin.Context) {
+	var blogsData []reusable_structs.BlogsData
 	config, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -24,10 +25,28 @@ func GetImages(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get images
-	query := "select * from laboratory.posts"
-	result, err := db.Query(query)
+	query := "select id,name,content,uploaded_at,email,title,image_url from laboratory.posts"
+	rows, err := db.Query(query)
 	if err != nil {
-		log.Fatalf("Failed to get images data %v", err)
+		log.Printf("Failed to get images data %v", err)
 	}
-	c.JSON(http.StatusOK, gin.H{"data": result})
+	defer rows.Close()
+
+	for rows.Next() {
+		var blog reusable_structs.BlogsData
+		err := rows.Scan(&blog.Id, &blog.Name, &blog.Content, &blog.Uploaded_at, &blog.Email, &blog.Title, &blog.Image_url)
+		if err != nil {
+			log.Printf("Failed to scan row: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+			return
+		}
+		blogsData = append(blogsData, blog)
+	}
+	//if any error during iteration
+	if err := rows.Err(); err != nil {
+		log.Printf("Row iteration error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": blogsData})
 }
