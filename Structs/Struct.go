@@ -1,9 +1,10 @@
 package reusable_structs
 
 import (
-	"log"
+	"fmt"
+	"os"
 
-	"github.com/kelseyhightower/envconfig"
+	"github.com/joho/godotenv"
 )
 
 // element struct
@@ -13,26 +14,33 @@ type Element struct {
 	Symbol      string  `json:"symbol"`
 } //configurations struct
 type Configurations struct {
-	DB_URL              string `envconfig:"DB_URL"` //Binds to DB_URL in env
-	SECRETKEY           string `envconfig:"SECRETKEY"`
-	DB_HOST             string `envconfig:"DB_HOST"`
-	DB_USER             string `envconfig:"DB_USER"`
-	DB_PASSWORD         string `envconfig:"DB_PASSWORD"`
-	DB_NAME             string `envconfig:"DB_NAME"`
-	DB_CONNECTION_LIMIT int    `envconfig:"DB_CONNECTION_LIMIT"`
-	EMAIL               string `envconfig:"EMAIL"`
-	EMAIL_PASSWORD      string `envconfig:"EMAIL_PASSWORD"`
+	DB_URL              string `env:"DB_URL"` //Binds to DB_URL in env
+	SECRETKEY           string `env:"SECRETKEY"`
+	DB_HOST             string `env:"DB_HOST"`
+	DB_USER             string `env:"DB_USER"`
+	DB_PASSWORD         string `env:"DB_PASSWORD"`
+	DB_NAME             string `env:"DB_NAME"`
+	DB_CONNECTION_LIMIT int
+	EMAIL               string `env:"EMAIL"`
+	EMAIL_PASSWORD      string `env:"EMAIL_PASSWORD"`
 }
 
 var GlobalConfigurations *Configurations
 
 func Init() (*Configurations, error) {
-	var cfg Configurations
-	// Load environment variables into the struct
-	err := envconfig.Process("", &cfg)
+	err := godotenv.Load(".env")
 	if err != nil {
-		log.Fatal(err.Error())
+		fmt.Println("Error loading .env file")
 	}
-	GlobalConfigurations = &cfg
-	return &cfg, nil
+	db_user := os.Getenv("DB_USER")
+	db_url := os.Getenv("DB_URL")
+	secretkey := os.Getenv("SECRETKEY")
+	db_host := os.Getenv("DB_HOST")
+	db_password := os.Getenv("DB_PASSWORD")
+	email := os.Getenv("EMAIL")
+	email_password := os.Getenv("EMAIL_PASSWORD")
+	db_name := os.Getenv("DB_NAME")
+	GlobalConfigurations = &Configurations{DB_USER: db_user, DB_URL: db_url, DB_HOST: db_host, DB_NAME: db_name, DB_CONNECTION_LIMIT: 10, DB_PASSWORD: db_password, EMAIL: email, EMAIL_PASSWORD: email_password, SECRETKEY: secretkey}
+	//fmt.Println(GlobalConfigurations)
+	return GlobalConfigurations, nil
 }

@@ -19,5 +19,5 @@ func main() {
 	r.GET("/page-to-post", Routes.RenderPostPage)
 	r.GET("/atomic-mass", GETAPI.AtomicMassAPI) //API to get atomic mass
 	r.POST("/Addpost", postroutes.HandlePost)
-	r.Run(":4900")
+	r.Run(":4901")
 }
