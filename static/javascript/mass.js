@@ -1,7 +1,7 @@
 
 const input = document.getElementById("input");
 
-const apiUrl = 'http://localhost:4901/atomic-mass';
+const apiUrl = 'http://localhost:4900/atomic-mass';
 
 async function fetchAndDisplayElements() {
     try {

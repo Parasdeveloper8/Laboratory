@@ -27,7 +27,7 @@ func HandlePost(c *gin.Context) {
 	defer db.Close()
 	// Parse the file from the request
 	file, err := c.FormFile("file")
-	/*caption := c.PostForm("caption")*/
+	caption := c.PostForm("caption")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
 		return
@@ -45,8 +45,8 @@ func HandlePost(c *gin.Context) {
 		return
 	}
 	//insert file into DB
-	query := "insert into laboratory.posts(name,content,email) values(?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com")
+	query := "insert into laboratory.posts(name,content,email,title) values(?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
