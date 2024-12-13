@@ -9,12 +9,18 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func HandlePost(c *gin.Context) {
+	//convert time to string
+	itime := time.Now()
+	convtime := itime.Unix()
+	timeString := fmt.Sprintf("%v", convtime)
+
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -34,6 +40,9 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
 		return
 	}
+	//custom image url
+	image_url := file.Filename + timeString
+
 	// Read file content
 	fileContent, err := file.Open()
 	if err != nil {
@@ -48,7 +57,7 @@ func HandlePost(c *gin.Context) {
 		return
 	}
 	// Create a new file on the server
-	dst, err := os.Create(filepath.Join("Uploads", file.Filename))
+	dst, err := os.Create(filepath.Join("Uploads", image_url))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		fmt.Printf("Failed to create file on server %v", err)
@@ -63,8 +72,6 @@ func HandlePost(c *gin.Context) {
 		fmt.Println("Failed to save file", err)
 		return
 	}
-	//custom image url
-	image_url := file.Filename
 	//insert file into DB
 	query := "insert into laboratory.posts(name,content,email,title,image_url) values(?,?,?,?,?)"
 	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption, image_url)
@@ -74,6 +81,7 @@ func HandlePost(c *gin.Context) {
 		return
 	}
 	//on successful submission
-	fmt.Println("File uploaded successfully")
-	c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": file.Filename})
+	//fmt.Println("File uploaded successfully")
+	//c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": file.Filename})
+	c.Redirect(http.StatusSeeOther, "/?message=file uploaded successfully")
 }

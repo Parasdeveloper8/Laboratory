@@ -25,9 +25,9 @@ func GetImages(c *gin.Context) {
 	defer db.Close()
 	//query to get images
 	query := "select * from laboratory.posts"
-	rows, err := db.Query(query)
+	result, err := db.Query(query)
 	if err != nil {
 		log.Fatalf("Failed to get images data %v", err)
 	}
-	fmt.Println(rows)
+	c.JSON(http.StatusOK, gin.H{"data": result})
 }
