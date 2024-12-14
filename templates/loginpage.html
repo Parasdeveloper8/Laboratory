@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <link rel="stylesheet" type="text/css" href="static/CSS/login.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2 class="login-title">Login</h2>
+    <form class="login-form" action="/login" method="post">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Submit</button>
+    </form>
+    <a class="forgot-password" id="forgot-password">Forgot Password</a>
+  </div>
+
+  <script>
+    const forgotPasswordLink = document.getElementById('forgot-password');
+
+    forgotPasswordLink.addEventListener('click', () => {
+      const email = prompt('Please enter your email:');
+      if (email) {
+        fetch('http://localhost:4900/resetlink', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        })
+        .then(response => {
+          if (response.ok) {
+            alert('Password reset link sent to your email!');
+          } else {
+            alert('Error: Unable to send reset link. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Something went wrong. Please try again later.');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

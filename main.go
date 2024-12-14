@@ -31,5 +31,9 @@ func main() {
 
 	r.GET("/my-posts", GETAPI.GetMyPosts) //API to get own posts
 
+	r.GET("register-page", Routes.RenderRegisterPage)
+
+	r.GET("login-page", Routes.RenderLoginPage)
+
 	r.Run(":4900")
 }

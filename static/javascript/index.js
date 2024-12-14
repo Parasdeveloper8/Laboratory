@@ -38,8 +38,18 @@ function renderBlogs(blogs) {
 
         // Create an email element at the top
         const emailBar = document.createElement("div");
-        emailBar.style = "color: #333; background: #f9f9f9; padding: 8px; text-align: center; font-size: 14px; font-weight: bold;";
-        emailBar.textContent = blog.Email;
+        emailBar.style = "color: #333; background: #f9f9f9; padding: 8px; text-align: center; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;";
+
+        // Create the image icon for the email
+        const emailIcon = document.createElement("img");
+        emailIcon.src = "https://example.com/email-icon.png"; // Replace with the actual icon URL
+        emailIcon.alt = "Email Icon";
+        emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
+
+        // Append the icon and email to the emailBar
+        emailBar.appendChild(emailIcon);
+        emailBar.appendChild(document.createTextNode(blog.Email));
+
         blogContainer.appendChild(emailBar);
 
         // Create an image element below the email

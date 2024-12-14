@@ -7,20 +7,12 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-	"path/filepath"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func HandlePost(c *gin.Context) {
-	//convert time to string
-	itime := time.Now()
-	convtime := itime.Unix()
-	timeString := fmt.Sprintf("%v", convtime)
-
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -40,8 +32,6 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
 		return
 	}
-	//custom image url
-	image_url := file.Filename + timeString
 
 	// Read file content
 	fileContent, err := file.Open()
@@ -56,25 +46,10 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
 		return
 	}
-	// Create a new file on the server
-	dst, err := os.Create(filepath.Join("Uploads", image_url))
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		fmt.Printf("Failed to create file on server %v", err)
-		return
-	}
-	defer dst.Close()
 
-	// Save the file
-	_, err = dst.ReadFrom(fileContent)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		fmt.Println("Failed to save file", err)
-		return
-	}
 	//insert file into DB
-	query := "insert into laboratory.posts(name,base64string,email,title,image_url) values(?,?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption, image_url)
+	query := "insert into laboratory.posts(name,base64string,email,title) values(?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
