@@ -25,7 +25,7 @@ func GetImages(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get images
-	query := "select base64string,uploaded_at,email,title from laboratory.posts"
+	query := "select base64string ,uploaded_at,email,title from laboratory.posts"
 	rows, err := db.Query(query)
 	if err != nil {
 		log.Printf("Failed to get images data %v", err)

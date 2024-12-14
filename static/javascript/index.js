@@ -1,4 +1,3 @@
-
 const apiUrl = "http://localhost:4900/blogs"; // Replace with the actual API URL
 
 // Function to fetch data from the API
@@ -35,20 +34,39 @@ function renderBlogs(blogs) {
         // Create a container for each blog
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
+        blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+
+        // Create an overlay container for email and uploaded date
+        const overlay = document.createElement("div");
+        overlay.style = "background: rgba(0, 0, 0, 0.7); color: white; padding: 10px; position: absolute; top: 0; width: 100%; display: flex; justify-content: space-between; font-size: 12px;";
+
+        const email = document.createElement("span");
+        email.textContent = blog.Email;
+        overlay.appendChild(email);
+
+        const uploadedAt = document.createElement("span");
+        uploadedAt.textContent = blog.Uploaded_at;
+        overlay.appendChild(uploadedAt);
 
         // Create an image element
+        const imgWrapper = document.createElement("div");
+        imgWrapper.style = "position: relative; width: 100%; height: 200px; overflow: hidden;";
+
         const img = document.createElement("img");
-        img.src =`data:image/jpeg;base64,${blog.base64string}`;
-        img.alt = blog.title; // Use the title as alt text
-        img.className = "blog-image";
+        img.src = `data:image/jpeg;base64,${blog.Base64string}`;
+        img.alt = blog.Title; // Use the title as alt text
+        img.style = "width: 100%; height: 100%; object-fit: cover;";
+
+        imgWrapper.appendChild(img);
+        imgWrapper.appendChild(overlay);
 
         // Create a title element
         const title = document.createElement("h3");
-        title.textContent = blog.title; // Assuming the API provides a "title" field
-        title.className = "blog-title";
+        title.textContent = blog.Title; // Assuming the API provides a "title" field
+        title.style = "padding: 10px; margin: 0; font-size: 16px; text-align: center; color: #333; background: #f9f9f9;";
 
-        // Append the image and title to the blog container
-        blogContainer.appendChild(img);
+        // Append the image wrapper and title to the blog container
+        blogContainer.appendChild(imgWrapper);
         blogContainer.appendChild(title);
 
         // Append the blog container to the main div
