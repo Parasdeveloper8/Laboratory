@@ -25,7 +25,7 @@ func GetImages(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get images
-	query := "select id,name,content,uploaded_at,email,title,image_url from laboratory.posts"
+	query := "select base64string,uploaded_at,email,title from laboratory.posts"
 	rows, err := db.Query(query)
 	if err != nil {
 		log.Printf("Failed to get images data %v", err)
@@ -34,7 +34,7 @@ func GetImages(c *gin.Context) {
 
 	for rows.Next() {
 		var blog reusable_structs.BlogsData
-		err := rows.Scan(&blog.Id, &blog.Name, &blog.Content, &blog.Uploaded_at, &blog.Email, &blog.Title, &blog.Image_url)
+		err := rows.Scan(&blog.Base64string, &blog.Uploaded_at, &blog.Email, &blog.Title)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})

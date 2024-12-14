@@ -73,7 +73,7 @@ func HandlePost(c *gin.Context) {
 		return
 	}
 	//insert file into DB
-	query := "insert into laboratory.posts(name,content,email,title,image_url) values(?,?,?,?,?)"
+	query := "insert into laboratory.posts(name,base64string,email,title,image_url) values(?,?,?,?,?)"
 	_, err = db.Exec(query, file.Filename, fileBytes, "ppdev@gmail.com", caption, image_url)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
