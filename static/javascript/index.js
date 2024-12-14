@@ -36,21 +36,15 @@ function renderBlogs(blogs) {
         blogContainer.className = "blog-item";
         blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
 
-        // Create an overlay container for email and uploaded date
-        const overlay = document.createElement("div");
-        overlay.style = "background: rgba(0, 0, 0, 0.7); color: white; padding: 10px; position: absolute; top: 0; width: 100%; display: flex; justify-content: space-between; font-size: 12px;";
+        // Create an email element at the top
+        const emailBar = document.createElement("div");
+        emailBar.style = "color: #333; background: #f9f9f9; padding: 8px; text-align: center; font-size: 14px; font-weight: bold;";
+        emailBar.textContent = blog.Email;
+        blogContainer.appendChild(emailBar);
 
-        const email = document.createElement("span");
-        email.textContent = blog.Email;
-        overlay.appendChild(email);
-
-        const uploadedAt = document.createElement("span");
-        uploadedAt.textContent = blog.Uploaded_at;
-        overlay.appendChild(uploadedAt);
-
-        // Create an image element
+        // Create an image element below the email
         const imgWrapper = document.createElement("div");
-        imgWrapper.style = "position: relative; width: 100%; height: 200px; overflow: hidden;";
+        imgWrapper.style = "width: 100%; height: 200px; overflow: hidden;";
 
         const img = document.createElement("img");
         img.src = `data:image/jpeg;base64,${blog.Base64string}`;
@@ -58,9 +52,8 @@ function renderBlogs(blogs) {
         img.style = "width: 100%; height: 100%; object-fit: cover;";
 
         imgWrapper.appendChild(img);
-        imgWrapper.appendChild(overlay);
 
-        // Create a title element
+        // Create a title element below the image
         const title = document.createElement("h3");
         title.textContent = blog.Title; // Assuming the API provides a "title" field
         title.style = "padding: 10px; margin: 0; font-size: 16px; text-align: center; color: #333; background: #f9f9f9;";
