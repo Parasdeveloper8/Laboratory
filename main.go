@@ -35,5 +35,7 @@ func main() {
 
 	r.GET("login-page", Routes.RenderLoginPage)
 
+	r.POST("/register", postroutes.HandleRegistration)
+
 	r.Run(":4900")
 }
