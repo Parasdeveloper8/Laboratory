@@ -4,7 +4,6 @@ import (
 	"Laboratory/GETAPI"
 	middlewares "Laboratory/Middlewares"
 	postroutes "Laboratory/Routes/POST-routes"
-	putroutes "Laboratory/Routes/PUT-routes"
 	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
 
@@ -63,7 +62,7 @@ func main() {
 
 	r.POST("/add-image", postroutes.HandleAddImage)
 
-	r.PUT("/change-image", putroutes.HandleChangeImage)
+	r.POST("/change-image", postroutes.HandleChangeImage)
 
 	r.Run(":4900")
 }

@@ -43,8 +43,4 @@ function handleFile(file) {
   }
 }
 
-// Handle change button click (implement the change logic)
-changeButton.addEventListener('click', () => {
-  // Implement the change logic here (e.g., send the file to the server)
-  alert('Image changed successfully!');
-});
+
