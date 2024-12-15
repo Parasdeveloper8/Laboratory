@@ -9,3 +9,10 @@ type BlogsData struct {
 	Title string `db:"title"`
 	//Image_url    string  `db:"image_url"`
 }
+
+type ProfileData struct {
+	Name          string `db:"name"`
+	Profile_image []byte `db:"profile_image"`
+	Email         string `db:"email"`
+	Role          string `db:"role"`
+}

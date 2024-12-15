@@ -54,5 +54,7 @@ func main() {
 
 	r.GET("/profile", middlewares.CheckEmail(), Routes.RenderProfilePage)
 
+	r.GET("/profile-data", GETAPI.ProfileDataAPI) //API to get profile data
+
 	r.Run(":4900")
 }
