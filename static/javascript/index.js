@@ -59,7 +59,7 @@ function renderBlogs(blogs) {
         const img = document.createElement("img");
         img.src = `data:image/jpeg;base64,${blog.Base64string}`;
         img.alt = blog.Title; // Use the title as alt text
-        img.style = "width: 100%; height: 100%; object-fit: cover;";
+        img.style = "width: 100%; height: 100%; object-fit: cover;";   
 
         imgWrapper.appendChild(img);
 

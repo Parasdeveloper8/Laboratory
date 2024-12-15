@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,8 +26,13 @@ func ProfileDataAPI(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get images
-	query := "select profile_image,name,email,role from laboratory.users"
-	rows, err := db.Query(query)
+	// Get the session
+	session := sessions.Default(c)
+
+	// Retrieve the email from the session
+	sessionEmail, _ := session.Get("email").(string)
+	query := "select profile_image,name,email,role from laboratory.users where email=?"
+	rows, err := db.Query(query, sessionEmail)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
 	}
