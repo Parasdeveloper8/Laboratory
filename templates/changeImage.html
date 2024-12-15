@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Change Profile Image</title>
+  <link rel="stylesheet" href="static/CSS/add-change-image.css" type="text/css">
+</head>
+<body>
+  <div class="image-upload-container">
+    <h2>Change Profile Image</h2>
+    <div class="image-drop-area" id="drop-area">
+      <p>Drag and drop a new image here, or click to select an image</p>
+      <input type="file" id="file-input" accept="image/*" style="display: none;">
+      <div id="image-preview" class="image-preview"></div>
+    </div>
+    <button id="change-button" class="action-button" style="display: none;">Change Image</button>
+  </div>
+
+  <script src="static/javascript/change-image.js"></script>
+</body>
+</html>
