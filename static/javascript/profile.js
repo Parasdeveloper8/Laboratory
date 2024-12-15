@@ -62,10 +62,10 @@ async function fetchProfileData() {
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');
-            // Add logic to change the image
+            window.location.href = "/change-image-page";
           } else {
             alert('Redirecting to add image page...');
-            // Add logic to add a new image
+            window.location.href="/add-image-page";
           }
         });
         profileContainer.appendChild(actionButton);
