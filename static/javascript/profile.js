@@ -48,7 +48,8 @@ async function fetchProfileData() {
         
         if (profile.Profile_image && profile.Profile_image.trim() !== '') {
           // Show the profile photo using Base64 string if available
-          photoContainer.innerHTML = `<img src="data:image/jpeg;base64,${profile.Profile_image}" alt="Profile Photo" class="profile-photo">`;
+          console.log(profile.Profile_image)
+          photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">`;
         } else {
           // Show a placeholder for missing photo
           photoContainer.innerHTML = `<div class="placeholder-photo">No Image</div>`;

@@ -4,6 +4,7 @@ import (
 	"Laboratory/GETAPI"
 	middlewares "Laboratory/Middlewares"
 	postroutes "Laboratory/Routes/POST-routes"
+	putroutes "Laboratory/Routes/PUT-routes"
 	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
 
@@ -56,9 +57,13 @@ func main() {
 
 	r.GET("/profile-data", GETAPI.ProfileDataAPI) //API to get profile data
 
-	r.GET("add-image-page", Routes.RenderAddImagePage)
+	r.GET("/add-image-page", Routes.RenderAddImagePage)
 
-	r.GET("change-image-page", Routes.RenderChangeImagePage)
+	r.GET("/change-image-page", Routes.RenderChangeImagePage)
+
+	r.POST("/add-image", postroutes.HandleAddImage)
+
+	r.PUT("/change-image", putroutes.HandleChangeImage)
 
 	r.Run(":4900")
 }

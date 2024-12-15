@@ -43,8 +43,4 @@ function handleFile(file) {
   }
 }
 
-// Handle upload button click (implement the upload logic)
-uploadButton.addEventListener('click', () => {
-  // Implement the upload logic here (e.g., send the file to the server)
-  alert('Image uploaded successfully!');
-});
+

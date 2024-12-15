@@ -11,7 +11,9 @@
     <h2>Change Profile Image</h2>
     <div class="image-drop-area" id="drop-area">
       <p>Drag and drop a new image here, or click to select an image</p>
-      <input type="file" id="file-input" accept="image/*" style="display: none;">
+      <form method="put" action="/change-image">
+      <input type="file" id="file-input" accept="image/*" style="display: none;" name="image">
+      </form>
       <div id="image-preview" class="image-preview"></div>
     </div>
     <button id="change-button" class="action-button" style="display: none;">Change Image</button>
