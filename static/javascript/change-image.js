@@ -1,7 +1,7 @@
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('file-input');
-const changeButton = document.getElementById('change-button');
 const imagePreview = document.getElementById('image-preview');
+const changeButton = document.getElementById('change-button'); // Add this line
 
 // Prevent default behavior for drag events
 dropArea.addEventListener('dragover', (event) => {
@@ -10,7 +10,7 @@ dropArea.addEventListener('dragover', (event) => {
 });
 
 dropArea.addEventListener('dragleave', () => {
-  dropArea.style.backgroundColor = '#f4f4f4';
+  dropArea.style.backgroundColor = '#f4f4f4'; // Reset background
 });
 
 dropArea.addEventListener('drop', (event) => {
@@ -19,9 +19,13 @@ dropArea.addEventListener('drop', (event) => {
   handleFile(event.dataTransfer.files[0]);
 });
 
+
 // Open file input dialog on click
 dropArea.addEventListener('click', () => {
-  fileInput.click();
+  // Check if the user wants to upload a new file
+  if (!uploadButton.style.display || uploadButton.style.display === 'none') {
+    fileInput.click();
+  }
 });
 
 // Handle file input change
@@ -33,14 +37,13 @@ function handleFile(file) {
   if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.onload = () => {
+      // Update the preview area with the uploaded image
       imagePreview.style.backgroundImage = `url(${reader.result})`;
       imagePreview.textContent = '';
-      changeButton.style.display = 'inline-block';
+      changeButton.style.display = 'inline-block'; // Show upload button
     };
     reader.readAsDataURL(file);
   } else {
     alert('Please select a valid image file.');
   }
 }
-
-
