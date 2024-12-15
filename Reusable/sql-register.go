@@ -5,10 +5,13 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // name attribute value should be filled
-func SqlBcryptRegister(name, email, password, role string) (bool, error) {
+func SqlBcryptRegister(name, email, password, role string, c *gin.Context) (bool, error) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -31,7 +34,7 @@ func SqlBcryptRegister(name, email, password, role string) (bool, error) {
 	query := "insert into laboratory.users (name,email,password,role) values (?,?,?,?)"
 	result, err := db.Exec(query, name, email, hashedPassword, role)
 	if err != nil {
-		log.Printf("Failed to insert data into database or already registered %v", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Failed to insert data into database or already registered %v", err)})
 		return false, err
 	}
 	fmt.Println(result)
