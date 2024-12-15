@@ -52,5 +52,7 @@ func main() {
 
 	r.POST("/logout", postroutes.HandleLogout)
 
+	r.GET("/profile", middlewares.CheckEmail(), Routes.RenderProfilePage)
+
 	r.Run(":4900")
 }
