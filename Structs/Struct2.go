@@ -7,7 +7,6 @@ type BlogsData struct {
 	/*Uploaded_at  []uint8 `db:"uploaded_at"`*/
 	Email string `db:"email"`
 	Title string `db:"title"`
-	//Image_url    string  `db:"image_url"`
 }
 
 type ProfileData struct {
