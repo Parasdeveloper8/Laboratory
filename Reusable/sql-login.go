@@ -25,14 +25,15 @@ func SqlLogin(email, password string, c *gin.Context) (bool, error) {
 	query := "SELECT email, password ,name FROM laboratory.users WHERE email = ?"
 	err = db.QueryRow(query, email).Scan(&Mail, &Pass, &Name)
 	if err == sql.ErrNoRows {
-		c.JSON(http.StatusBadRequest, gin.H{"error": custom_errors.ErrNotAUser})
+		c.JSON(http.StatusNotFound, gin.H{"info": "Not a User"})
 		return false, err
 	} else if err != nil {
 		log.Printf("%v : %v", custom_errors.ErrDbQuery, err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database query error"})
 		return false, err
 	}
 	if !CheckPassword(Pass, password) {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Password"})
 		fmt.Println(custom_errors.ErrInvalidPass)
 		return false, nil
 	}

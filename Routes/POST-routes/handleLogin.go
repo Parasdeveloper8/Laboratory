@@ -2,6 +2,7 @@ package postroutes
 
 import (
 	reusable "Laboratory/Reusable"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -12,9 +13,7 @@ func HandleLogin(c *gin.Context) {
 	email := c.PostForm("email")
 	pass := c.PostForm("password")
 	_, err := reusable.SqlLogin(email, pass, c)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
-	}
+	fmt.Println(err)
 	session := sessions.Default(c)
 
 	// Set session values
