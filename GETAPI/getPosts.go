@@ -52,12 +52,10 @@ ON
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
-		fmt.Println(blog.Uploaded_at)
-		// Convert []uint8 to time.Time
+
 		decodedTime, _ := reusable.Uint8ToTime(blog.Uploaded_at)
 		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
-		// Format the decoded time into a human-readable format
-		fmt.Println(formattedTime)
+
 		blog.FormattedTime = formattedTime
 
 		blogsData = append(blogsData, blog)

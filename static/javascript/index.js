@@ -34,15 +34,19 @@ function renderBlogs(blogs) {
         // Create a container for each blog
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
-        blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
+        blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative;";
 
-        // Create an email element at the top
+        // Create a container for the email and uploaded time
+        const topBar = document.createElement("div");
+        topBar.style = "display: flex; justify-content: space-between; padding: 8px; background: #f9f9f9; color: #333; font-size: 14px;";
+
+        // Create an email element
         const emailBar = document.createElement("div");
-        emailBar.style = "color: #333; background: #f9f9f9; padding: 8px; text-align: center; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center;";
+        emailBar.style = "display: flex; align-items: center;";
 
         // Create the image icon for the email
         const emailIcon = document.createElement("img");
-        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;// Replace with the actual icon URL
+        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`; // Replace with the actual icon URL
         emailIcon.alt = "Email Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
@@ -50,9 +54,18 @@ function renderBlogs(blogs) {
         emailBar.appendChild(emailIcon);
         emailBar.appendChild(document.createTextNode(blog.Email));
 
-        blogContainer.appendChild(emailBar);
+        // Create a time element for the uploaded time
+        const uploadedTime = document.createElement("div");
+        uploadedTime.textContent = blog.FormattedTime; // Assuming the API provides a "Uploaded_at" field
+        uploadedTime.style = "font-size: 12px; color: #777; text-align: right;";
 
-        // Create an image element below the email
+        // Append the emailBar and uploadedTime to the topBar
+        topBar.appendChild(emailBar);
+        topBar.appendChild(uploadedTime);
+
+        blogContainer.appendChild(topBar);
+
+        // Create an image element below the email and uploaded time
         const imgWrapper = document.createElement("div");
         imgWrapper.style = "width: 100%; height: 200px; overflow: hidden;";
 
