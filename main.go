@@ -58,11 +58,7 @@ func main() {
 
 	r.GET("/add-image-page", Routes.RenderAddImagePage)
 
-	r.GET("/change-image-page", Routes.RenderChangeImagePage)
-
 	r.POST("/add-image", postroutes.HandleAddImage)
-
-	r.POST("/change-image", postroutes.HandleChangeImage)
 
 	r.Run(":4900")
 }

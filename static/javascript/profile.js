@@ -63,7 +63,7 @@ async function fetchProfileData() {
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');
-            window.location.href = "/change-image-page";
+            window.location.href = "/add-image-page";
           } else {
             alert('Redirecting to add image page...');
             window.location.href="/add-image-page";
