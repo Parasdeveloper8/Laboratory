@@ -1,6 +1,7 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
 	"database/sql"
 	"fmt"
@@ -29,7 +30,8 @@ func GetPosts(c *gin.Context) {
     posts.base64string,
     posts.email,
     posts.title,
-    users.profile_image AS user_img
+    users.profile_image AS user_img,
+	uploaded_at
 FROM 
     laboratory.posts
 JOIN 
@@ -44,12 +46,20 @@ ON
 
 	for rows.Next() {
 		var blog reusable_structs.BlogsData
-		err := rows.Scan(&blog.Base64string /*, &blog.Uploaded_at*/, &blog.Email, &blog.Title, &blog.User_Image)
+		err := rows.Scan(&blog.Base64string, &blog.Email, &blog.Title, &blog.User_Image, &blog.Uploaded_at)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
+		fmt.Println(blog.Uploaded_at)
+		// Convert []uint8 to time.Time
+		decodedTime, _ := reusable.Uint8ToTime(blog.Uploaded_at)
+		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
+		// Format the decoded time into a human-readable format
+		fmt.Println(formattedTime)
+		blog.FormattedTime = formattedTime
+
 		blogsData = append(blogsData, blog)
 	}
 	//if any error during iteration
