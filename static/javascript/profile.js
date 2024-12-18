@@ -59,7 +59,7 @@ async function fetchProfileData() {
         // Action button for changing or adding image
         const actionButton = document.createElement('button');
         actionButton.classList.add('image-action-button');
-        actionButton.textContent = profile.Profile_image ? 'Change Image' : 'Add Image';
+        actionButton.innerHTML = "<i>&#9998;</i>"//profile.Profile_image ? 'Change Image' : 'Add Image';
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');

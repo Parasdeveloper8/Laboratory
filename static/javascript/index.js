@@ -42,7 +42,7 @@ function renderBlogs(blogs) {
 
         // Create the image icon for the email
         const emailIcon = document.createElement("img");
-        emailIcon.src = "https://example.com/email-icon.png"; // Replace with the actual icon URL
+        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;// Replace with the actual icon URL
         emailIcon.alt = "Email Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
