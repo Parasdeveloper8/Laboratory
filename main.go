@@ -60,5 +60,9 @@ func main() {
 
 	r.POST("/add-image", postroutes.HandleAddImage)
 
+	r.GET("/tools-page", Routes.RenderToolspage)
+
+	r.GET("/find-metal-page", Routes.RenderMetalOrNotPage)
+
 	r.Run(":4900")
 }
