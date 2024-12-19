@@ -64,5 +64,7 @@ func main() {
 
 	r.GET("/find-metal-page", Routes.RenderMetalOrNotPage)
 
+	r.GET("/metal-or-not", GETAPI.MetalOrNotAPI) //API to get elements which are metals or not
+
 	r.Run(":4900")
 }
