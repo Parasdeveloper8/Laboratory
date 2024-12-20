@@ -24,7 +24,7 @@ func main() {
 	//middleware to use sessions
 	r.Use(sessions.Sessions("login-session", Store))
 
-	r.GET("/", Routes.HomeHandler)
+	r.GET("/", middlewares.CheckSession(), Routes.HomeHandler)
 
 	r.GET("/atomic-mass-page", Routes.RenderAtomicMassPage)
 
@@ -65,6 +65,8 @@ func main() {
 	r.GET("/find-metal-page", Routes.RenderMetalOrNotPage)
 
 	r.GET("/metal-or-not", GETAPI.MetalOrNotAPI) //API to get elements which are metals or not
+
+	r.POST("/post-comments")
 
 	r.Run(":4900")
 }

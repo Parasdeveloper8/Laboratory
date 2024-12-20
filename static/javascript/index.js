@@ -70,7 +70,7 @@ function renderBlogs(blogs) {
             const comment = commentInput.value.trim();
             if (comment) {
                 try {
-                    const response = await fetch(`http://localhost:4900/${blog.id}/post-comments`, {
+                    const response = await fetch(`http://localhost:4900/${blog.}/post-comments`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ comment }),
