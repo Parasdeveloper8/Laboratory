@@ -11,6 +11,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/google/uuid"
 )
 
 func HandlePost(c *gin.Context) {
@@ -47,13 +48,14 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
 		return
 	}
+	post_id := uuid.New().String()
 	// Get the session
 	session := sessions.Default(c)
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
 	//insert file into DB
-	query := "insert into laboratory.posts(name,base64string,email,title) values(?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption)
+	query := "insert into laboratory.posts(name,base64string,email,title,post_id) values(?,?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)

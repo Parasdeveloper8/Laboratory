@@ -3,18 +3,11 @@ const apiUrl = "http://localhost:4900/blogs"; // Replace with the actual API URL
 // Function to fetch data from the API
 async function fetchBlogs() {
     try {
-        // Fetch data from the API
         const response = await fetch(apiUrl);
-
-        // Check if the response is successful
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        // Parse the JSON response
         const data = await response.json();
-
-        // Call the function to render blogs
         renderBlogs(data.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -25,70 +18,103 @@ async function fetchBlogs() {
 // Function to render blogs
 function renderBlogs(blogs) {
     const div = document.getElementById("blogs");
-
-    // Clear any existing content
     div.innerHTML = "";
 
-    // Loop through the blogs and create HTML elements
     blogs.forEach(blog => {
-        // Create a container for each blog
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
         blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative;";
 
-        // Create a container for the email and uploaded time
         const topBar = document.createElement("div");
         topBar.style = "display: flex; justify-content: space-between; padding: 8px; background: #f9f9f9; color: #333; font-size: 14px;";
 
-        // Create an email element
         const emailBar = document.createElement("div");
         emailBar.style = "display: flex; align-items: center;";
 
-        // Create the image icon for the email
         const emailIcon = document.createElement("img");
-        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`; // Replace with the actual icon URL
+        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
         emailIcon.alt = "Email Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
-        // Append the icon and email to the emailBar
         emailBar.appendChild(emailIcon);
         emailBar.appendChild(document.createTextNode(blog.Email));
 
-        // Create a time element for the uploaded time
         const uploadedTime = document.createElement("div");
-        uploadedTime.textContent = blog.FormattedTime; // Assuming the API provides a "Uploaded_at" field
+        uploadedTime.textContent = blog.FormattedTime;
         uploadedTime.style = "font-size: 12px; color: #777; text-align: right;";
 
-        // Append the emailBar and uploadedTime to the topBar
         topBar.appendChild(emailBar);
         topBar.appendChild(uploadedTime);
-
         blogContainer.appendChild(topBar);
 
-        // Create an image element below the email and uploaded time
         const imgWrapper = document.createElement("div");
         imgWrapper.style = "width: 100%; height: 200px; overflow: hidden;";
 
         const img = document.createElement("img");
         img.src = `data:image/jpeg;base64,${blog.Base64string}`;
-        img.alt = blog.Title; // Use the title as alt text
-        img.style = "width: 100%; height: 100%; object-fit: cover;";   
-
+        img.alt = blog.Title;
+        img.style = "width: 100%; height: 100%; object-fit: cover;";
         imgWrapper.appendChild(img);
 
-        // Create a title element below the image
         const title = document.createElement("h3");
-        title.textContent = blog.Title; // Assuming the API provides a "title" field
+        title.textContent = blog.Title;
         title.style = "padding: 10px; margin: 0; font-size: 16px; text-align: center; color: #333; background: #f9f9f9;";
-
-        // Append the image wrapper and title to the blog container
         blogContainer.appendChild(imgWrapper);
         blogContainer.appendChild(title);
 
-        // Append the blog container to the main div
+        // Comment form for backend handling
+        const commentForm = document.createElement("form");
+        commentForm.style = "padding: 10px; background: #fff; border-top: 1px solid #ddd;";
+        commentForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const comment = commentInput.value.trim();
+            if (comment) {
+                try {
+                    const response = await fetch(`http://localhost:4900/${blog.id}/post-comments`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ comment }),
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const newComment = await response.json();
+                    const commentItem = document.createElement("div");
+                    commentItem.textContent = newComment.comment;
+                    commentItem.style = "padding: 5px 0; border-bottom: 1px solid #ddd;";
+                    commentList.appendChild(commentItem);
+                    commentInput.value = "";
+                } catch (error) {
+                    console.error("Error posting comment:", error);
+                }
+            }
+        };
+
+        const commentInput = document.createElement("input");
+        commentInput.type = "text";
+        commentInput.placeholder = "Write a comment...";
+        commentInput.style = "width: calc(100% - 70px); padding: 8px; margin-right: 10px; border: 1px solid #ddd; border-radius: 4px;";
+
+        const commentButton = document.createElement("button");
+        commentButton.type = "submit";
+        commentButton.textContent = "Post";
+        commentButton.style = "padding: 8px 12px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;";
+
+        commentForm.appendChild(commentInput);
+        commentForm.appendChild(commentButton);
+
+        // Comment list container
+        const commentSection = document.createElement("div");
+        commentSection.style = "max-height: 150px; overflow-y: auto; margin-top: 10px; padding: 10px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 4px;";
+        const commentList = document.createElement("div");
+        commentSection.appendChild(commentList);
+
+        blogContainer.appendChild(commentForm);
+        blogContainer.appendChild(commentSection);
+
         div.appendChild(blogContainer);
     });
 }
 
-// Call the fetchBlogs function to load data
+// Call the fetchBlogs function to fetch and display blogs
 fetchBlogs();
