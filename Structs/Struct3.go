@@ -11,3 +11,10 @@ type FindMetal struct {
 	Symbol   string `json:"symbol"`
 	Category string `json:"category"`
 }
+
+// Comments struct
+type Comments struct {
+	Comment_Text string `db:"comment_text"`
+	Email        string `db:"email"`
+	Post_id      string `db:"post_id"`
+}

@@ -68,5 +68,7 @@ func main() {
 
 	r.POST("post-comments/:post_id", postroutes.HandleComments)
 
+	r.GET("/get-comments/:post_id", GETAPI.GetComments) //API to get comments
+
 	r.Run(":4900")
 }
