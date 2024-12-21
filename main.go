@@ -66,7 +66,7 @@ func main() {
 
 	r.GET("/metal-or-not", GETAPI.MetalOrNotAPI) //API to get elements which are metals or not
 
-	r.POST("/post-comments")
+	r.POST("post-comments/:post_id", postroutes.HandleComments)
 
 	r.Run(":4900")
 }

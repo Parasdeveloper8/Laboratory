@@ -21,6 +21,7 @@ function renderBlogs(blogs) {
     div.innerHTML = "";
 
     blogs.forEach(blog => {
+        const post_id = blog.Post_Id; // Ensure Post_Id is correctly mapped from your API response
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
         blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative;";
@@ -33,7 +34,7 @@ function renderBlogs(blogs) {
 
         const emailIcon = document.createElement("img");
         emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
-        emailIcon.alt = "Email Icon";
+        emailIcon.alt = "User Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
         emailBar.appendChild(emailIcon);
@@ -65,12 +66,12 @@ function renderBlogs(blogs) {
         // Comment form for backend handling
         const commentForm = document.createElement("form");
         commentForm.style = "padding: 10px; background: #fff; border-top: 1px solid #ddd;";
-        commentForm.onsubmit = async (e) => {
-            e.preventDefault();
+        commentForm.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevent page reload
             const comment = commentInput.value.trim();
             if (comment) {
                 try {
-                    const response = await fetch(`http://localhost:4900/${blog.}/post-comments`, {
+                    const response = await fetch(`http://localhost:4900/post-comments/${post_id}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ comment }),
@@ -83,12 +84,12 @@ function renderBlogs(blogs) {
                     commentItem.textContent = newComment.comment;
                     commentItem.style = "padding: 5px 0; border-bottom: 1px solid #ddd;";
                     commentList.appendChild(commentItem);
-                    commentInput.value = "";
+                    commentInput.value = ""; // Clear the input field
                 } catch (error) {
                     console.error("Error posting comment:", error);
                 }
             }
-        };
+        });
 
         const commentInput = document.createElement("input");
         commentInput.type = "text";
@@ -118,3 +119,5 @@ function renderBlogs(blogs) {
 
 // Call the fetchBlogs function to fetch and display blogs
 fetchBlogs();
+
+
