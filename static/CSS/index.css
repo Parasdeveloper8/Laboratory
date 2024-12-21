@@ -1,0 +1,42 @@
+body {
+    overflow-x: hidden; /* Disable horizontal scrolling */
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+}
+.sidebar {
+    position: fixed;
+    top: 70px; /* Below the navbar */
+    right: 0;
+    width: 200px;
+    background-color: #f8f9fa;
+    height: calc(100% - 70px);
+    padding: 10px;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+.sidebar .btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+main {
+    margin-top: 70px; /* Ensure content doesn't overlap with navbar */
+    margin-right: 220px; /* Leave space for the sidebar */
+}
+@media (max-width: 768px) {
+    .sidebar {
+        display: block;
+        position: fixed;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    main {
+        margin-right: 0;
+    }
+}
