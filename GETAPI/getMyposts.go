@@ -32,7 +32,7 @@ func GetMyPosts(c *gin.Context) {
 
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
-	query := "select title,base64string from laboratory.posts where email=?"
+	query := "select title,base64string,uploaded_at,post_id from laboratory.posts where email=?"
 	rows, err := db.Query(query, sessionEmail)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
@@ -41,7 +41,7 @@ func GetMyPosts(c *gin.Context) {
 
 	for rows.Next() {
 		var posts reusable_structs.MyPosts
-		err := rows.Scan(&posts.Title, &posts.Base64string)
+		err := rows.Scan(&posts.Title, &posts.Base64string, &posts.Uploaded_at, &posts.Post_id)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
