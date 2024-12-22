@@ -1,11 +1,12 @@
 package reusable_structs
 
 type MyPosts struct {
-	Base64string []byte `db:"base64string"`
-	Title        string `db:"title"`
-	Uploaded_at  string `db:"uploaded_at"`
-	Comment_Text string `db:"comment_text"`
-	Email        string `db:"email"`
+	Base64string  []byte  `db:"base64string"`
+	Title         string  `db:"title"`
+	Uploaded_at   []uint8 `db:"uploaded_at"`
+	Comment_Text  string  `db:"comment_text"`
+	Email         string  `db:"email"`
+	Formattedtime string
 }
 
 // element struct

@@ -1,6 +1,7 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
 	"database/sql"
 	"fmt"
@@ -46,6 +47,10 @@ func GetMyPosts(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
+		decodedTime, _ := reusable.Uint8ToTime(posts.Uploaded_at)
+		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
+
+		posts.Formattedtime = formattedTime
 		MypostsData = append(MypostsData, posts)
 	}
 	//if any error during iteration
