@@ -140,7 +140,6 @@ async function fetchAndShowComments(postId) {
     }
 }
 
-// Function to show comments in a dialog
 function showCommentsDialog(comments) {
     const dialog = document.createElement("div");
     dialog.style = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
@@ -155,8 +154,20 @@ function showCommentsDialog(comments) {
     if (comments.length > 0) {
         comments.forEach(comment => {
             const commentItem = document.createElement("div");
-            commentItem.textContent = `${comment.Email}: ${comment.Comment_Text}`;
             commentItem.style = "padding: 10px 0; border-bottom: 1px solid #ddd;";
+
+            // Comment text
+            const commentText = document.createElement("div");
+            commentText.textContent = `${comment.Email}: ${comment.Comment_Text}`;
+            commentItem.appendChild(commentText);
+
+            // Comment time
+            const commentTime = document.createElement("div");
+            const formattedTime = new Date(comment.FormattedTimeComment).toLocaleString(); // Format the timestamp
+            commentTime.textContent = `Posted on: ${formattedTime}`;
+            commentTime.style = "font-size: 12px; color: #777; margin-top: 5px;";
+            commentItem.appendChild(commentTime);
+
             dialog.appendChild(commentItem);
         });
     } else {

@@ -1,6 +1,7 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
 	"database/sql"
 	"log"
@@ -29,7 +30,7 @@ func GetComments(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get comments from the database
-	query := "select comments.comment_text,comments.email from laboratory.comments where post_id = ?"
+	query := "select comments.comment_text,comments.email ,time from laboratory.comments where post_id = ?"
 	rows, err := db.Query(query, post_id)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
@@ -38,13 +39,15 @@ func GetComments(c *gin.Context) {
 
 	for rows.Next() {
 		var comments reusable_structs.Comments
-		err := rows.Scan(&comments.Comment_Text, &comments.Email)
+		err := rows.Scan(&comments.Comment_Text, &comments.Email, &comments.TimeofComment)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
-
+		decodedTime, _ := reusable.Uint8ToTime(comments.TimeofComment)
+		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
+		comments.FormattedTimeComment = formattedTime
 		comments_struct_slice = append(comments_struct_slice, comments)
 	}
 	//if any error during iteration
