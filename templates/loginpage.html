@@ -29,10 +29,12 @@
           body: JSON.stringify({ email })
         })
         .then(response => {
-          if (response.ok) {
-            alert('Password reset link sent to your email!');
-          } else {
+          if (!response.ok) {
             alert('Error: Unable to send reset link. Please try again.');
+            console.log({email})
+          }
+          else{
+            alert('Password reset link sent to your email!');
           }
         })
         .catch(error => {

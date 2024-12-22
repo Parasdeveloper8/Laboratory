@@ -70,5 +70,11 @@ func main() {
 
 	r.GET("/get-comments/:post_id", GETAPI.GetComments) //API to get comments
 
+	r.POST("/resetlink", postroutes.ResetLink)
+
+	r.GET("/resetpasspage", Routes.RenderPassChangePage)
+
+	r.POST("/resetpassword", postroutes.ResetPassword)
+
 	r.Run(":4900")
 }
