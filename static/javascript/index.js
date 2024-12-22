@@ -48,19 +48,32 @@ function renderBlogs(blogs) {
         topBar.appendChild(uploadedTime);
         blogContainer.appendChild(topBar);
 
-        const imgWrapper = document.createElement("div");
-        imgWrapper.style = "width: 100%; height: 200px; overflow: hidden;";
+        const mediaWrapper = document.createElement("div");
+        mediaWrapper.style = "width: 100%; height: 200px; overflow: hidden;";
 
-        const img = document.createElement("img");
-        img.src = `data:image/jpeg;base64,${blog.Base64string}`;
-        img.alt = blog.Title;
-        img.style = "width: 100%; height: 100%; object-fit: cover;";
-        imgWrapper.appendChild(img);
+        // Check if the content is an image or video
+        const base64String = blog.Base64string;
+        if (base64String.startsWith("/9j") || base64String.startsWith("iVBORw")) {
+            // Render as an image
+            const img = document.createElement("img");
+            img.src = `data:image/jpeg;base64,${base64String}`;
+            img.alt = blog.Title;
+            img.style = "width: 100%; height: 100%; object-fit: cover;";
+            mediaWrapper.appendChild(img);
+        } else {
+            // Render as a video
+            const video = document.createElement("video");
+            video.src = `data:video/mp4;base64,${base64String}`;
+            video.controls = true;
+            video.style = "width: 100%; height: 100%; object-fit: cover;";
+            mediaWrapper.appendChild(video);
+        }
 
         const title = document.createElement("h3");
         title.textContent = blog.Title;
         title.style = "padding: 10px; margin: 0; font-size: 16px; text-align: center; color: #333; background: #f9f9f9;";
-        blogContainer.appendChild(imgWrapper);
+
+        blogContainer.appendChild(mediaWrapper);
         blogContainer.appendChild(title);
 
         // Add "View Comments" link
