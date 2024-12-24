@@ -1,61 +1,153 @@
-/* Add some basic styling to the profile page */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+/* Container for profiles */
+#profiles-container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
-
-.profile-container {
-  background-color: white;
-  border-radius: 8px;
+  gap: 20px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile container */
+.profile-container {
+  background: #fff;
   width: 300px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  transition: transform 0.3s ease-in-out;
 }
 
-.profile-photo-container img {
-  border-radius: 50%;
+.profile-container:hover {
+  transform: translateY(-10px);
+}
+
+/* Profile photo */
+.profile-photo-container {
+  margin-bottom: 20px;
+}
+
+.profile-photo {
   width: 100px;
   height: 100px;
+  border-radius: 50%;
   object-fit: cover;
+  border: 2px solid #ddd;
 }
 
-.profile-photo-container .placeholder-photo {
+.placeholder-photo {
   width: 100px;
   height: 100px;
-  background-color: #ddd;
   border-radius: 50%;
+  background-color: #f0f0f0;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: white;
+  justify-content: center;
+  color: #777;
+  font-size: 14px;
+}
+
+/* Profile name and role container */
+.profile-name-container, .profile-role-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-name, .profile-role {
+  font-size: 18px;
+  color: #333;
+}
+
+.edit-icon {
+  cursor: pointer;
+  color: #007bff;
+  font-size: 20px;
+}
+
+/* Profile email */
+.profile-email {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* Action button for image */
+.image-action-button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.image-action-button:hover {
+  background: #0056b3;
+}
+.home-btn{
+  border: none;
+  padding: 5px;
+  background-color:#007bff ;
+  color:white;
+  width:40px;
+  border-radius: 5px;
+  &:hover{
+    background-color:#0056b3;
+  }
+}
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 20px;
+  font-family: system-ui;
+  width: 80%;
+  max-width: 400px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
   font-weight: bold;
 }
 
-.profile-info {
-  margin-top: 20px;
-}
-
-.profile-info div {
-  margin: 5px 0;
-}
-
-.action-button {
-  margin-top: 20px;
-  padding: 8px 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
   cursor: pointer;
 }
 
-.action-button:hover {
-  background-color: #0056b3;
+.submit-button {
+  background-color:#007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
 }
 
+.submit-button:hover {
+  background-color: #0056b3;
+}
