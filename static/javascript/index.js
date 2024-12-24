@@ -1,5 +1,6 @@
 const apiUrl = "http://localhost:4900/blogs"; // Replace with the actual API URL
-
+const loader = document.getElementById('loader');
+loader.style.display = 'block';
 // Function to fetch data from the API
 async function fetchBlogs() {
     try {
@@ -8,6 +9,7 @@ async function fetchBlogs() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        loader.style.display = 'none';
         renderBlogs(data.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
