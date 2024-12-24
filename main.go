@@ -76,5 +76,9 @@ func main() {
 
 	r.POST("/resetpassword", postroutes.ResetPassword)
 
+	r.POST("/update-profile", postroutes.HandleUpdateProfile)
+
+	r.GET("/learn-valency-page", Routes.RenderLearnValencyPage)
+
 	r.Run(":4900")
 }

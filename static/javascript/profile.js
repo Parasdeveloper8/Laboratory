@@ -4,11 +4,11 @@ const apiUrl = 'http://localhost:4900/profile-data';
 const modal = document.getElementById('edit-modal');
 const closeModal = document.getElementsByClassName('close')[0];
 const submitButton = document.getElementById('submit-edit');
-const editInput = document.getElementById('edit-input');
+const editInputName = document.getElementById('edit-input-name');
+const editInputRole = document.getElementById('edit-input-role');
 
 // Variable to store which profile is being edited
 let currentProfile = null;
-let currentField = null;
 
 // Fetch profile data from the API
 async function fetchProfileData() {
@@ -46,22 +46,13 @@ async function fetchProfileData() {
         }
         profileContainer.appendChild(photoContainer);
 
-        // Name with pencil icon for editing
+        // Name
         const nameContainer = document.createElement('div');
         nameContainer.classList.add('profile-name-container');
         const nameElement = document.createElement('div');
         nameElement.classList.add('profile-name');
         nameElement.innerHTML = `<p>${profile.Name || 'No name available'}</p>`;
-        
-        const nameEditIcon = document.createElement('span');
-        nameEditIcon.classList.add('edit-icon');
-        nameEditIcon.innerHTML = '&#9998;'; // Pencil icon
-        nameEditIcon.addEventListener('click', () => {
-          openEditModal(profile, 'name');
-        });
-        
         nameContainer.appendChild(nameElement);
-        nameContainer.appendChild(nameEditIcon);
         profileContainer.appendChild(nameContainer);
 
         // Email
@@ -70,28 +61,19 @@ async function fetchProfileData() {
         emailElement.textContent = profile.Email || 'No email available';
         profileContainer.appendChild(emailElement);
 
-        // Role with pencil icon for editing
+        // Role
         const roleContainer = document.createElement('div');
         roleContainer.classList.add('profile-role-container');
         const roleElement = document.createElement('div');
         roleElement.classList.add('profile-role');
         roleElement.textContent = profile.Role || 'No role available';
-        
-        const roleEditIcon = document.createElement('span');
-        roleEditIcon.classList.add('edit-icon');
-        roleEditIcon.innerHTML = '&#9998;'; // Pencil icon
-        roleEditIcon.addEventListener('click', () => {
-          openEditModal(profile, 'role');
-        });
-        
         roleContainer.appendChild(roleElement);
-        roleContainer.appendChild(roleEditIcon);
         profileContainer.appendChild(roleContainer);
 
         // Action button for changing or adding image
         const actionButton = document.createElement('button');
         actionButton.classList.add('image-action-button');
-        actionButton.innerHTML = "Change Photo";
+        actionButton.innerHTML = "Change Profile Image";
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');
@@ -102,6 +84,15 @@ async function fetchProfileData() {
           }
         });
         profileContainer.appendChild(actionButton);
+
+        // Action button for changing profile name and role
+        const changeProfileButton = document.createElement('button');
+        changeProfileButton.classList.add('change-profile-button');
+        changeProfileButton.innerHTML = "Change Profile";
+        changeProfileButton.addEventListener('click', () => {
+          openEditModal(profile);
+        });
+        profileContainer.appendChild(changeProfileButton);
 
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
@@ -118,16 +109,12 @@ async function fetchProfileData() {
 }
 
 // Open the modal for editing name or role
-function openEditModal(profile, field) {
+function openEditModal(profile) {
   currentProfile = profile;
-  currentField = field;
 
-  // Set input value based on the field
-  if (field === 'name') {
-    editInput.value = profile.Name || '';
-  } else if (field === 'role') {
-    editInput.value = profile.Role || '';
-  }
+  // Set input values based on the profile data
+  editInputName.value = profile.Name || '';
+  editInputRole.value = profile.Role || '';
 
   // Show the modal
   modal.style.display = 'block';
@@ -138,25 +125,23 @@ closeModal.onclick = () => {
   modal.style.display = 'none';
 };
 
-// Submit the new value (name or role)
+// Submit the new values (name and role)
 submitButton.addEventListener('click', async () => {
-  const newValue = editInput.value.trim();
-  if (newValue === '') {
-    alert('Please enter a valid value');
-    return;
-  }
+  const newName = editInputName.value.trim() || 'Default Name';
+  const newRole = editInputRole.value.trim() || 'Default Role';
 
   const updateData = {
-    [currentField]: newValue
+    Name: newName,
+    Role: newRole
   };
 
   try {
-    const response = await fetch(`http://localhost:4900/update-profile/${currentProfile.id}`, {
+    const response = await fetch(`http://localhost:4900/update-profile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updateData)
+      body: JSON.stringify( updateData)
     });
 
     if (response.ok) {
