@@ -3,6 +3,7 @@ package main
 import (
 	"Laboratory/GETAPI"
 	middlewares "Laboratory/Middlewares"
+	deleteroutes "Laboratory/Routes/DELETE-routes"
 	postroutes "Laboratory/Routes/POST-routes"
 	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
@@ -81,6 +82,8 @@ func main() {
 	r.GET("/learn-valency-page", Routes.RenderLearnValencyPage)
 
 	r.GET("change-profile-page", Routes.RenderChangeProfileForm)
+
+	r.DELETE("/delete-post/:post_id", deleteroutes.HandleDeletePost)
 
 	r.Run(":4900")
 }

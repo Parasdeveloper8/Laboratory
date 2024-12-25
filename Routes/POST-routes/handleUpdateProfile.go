@@ -28,25 +28,16 @@ func HandleUpdateProfile(c *gin.Context) {
 	session := sessions.Default(c)
 	sessionEmail, _ := session.Get("email").(string)
 
-	var FrontendData struct {
-		Name string `json:"Name"`
-		Role string `json:"Role"`
-	}
-
-	if err := c.ShouldBindJSON(&FrontendData); err != nil {
-		fmt.Println("Binding Error:", err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
-		return
-	}
+	newName := c.PostForm("new-name")
+	newRole := c.PostForm("new-role")
 
 	query := "UPDATE laboratory.users SET name = ?, role = ? WHERE email = ?"
-	result, err := db.Exec(query, FrontendData.Name, FrontendData.Role, sessionEmail)
+	result, err := db.Exec(query, newName, newRole, sessionEmail)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Failed to update data in database %v", err)})
 		return
 	}
 
 	fmt.Println(result)
-	var profile = &reusable_structs.ProfileData{Name: FrontendData.Name, Role: FrontendData.Role}
-	c.JSON(http.StatusOK, gin.H{"message": "Profile updated successfully", "data": profile})
+	c.Redirect(http.StatusSeeOther, "/profile?profile=updated profile")
 }
