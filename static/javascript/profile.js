@@ -75,6 +75,14 @@ async function fetchProfileData() {
         });
         profileContainer.appendChild(actionButton);
 
+        const changeProfile = document.createElement('button');
+        changeProfile.classList.add('change-profile-button');
+        changeProfile.innerHTML = "Change Profile";
+        changeProfile.addEventListener('click', () => {
+          window.location.href = "/change-profile-page";
+        });
+        profileContainer.appendChild(changeProfile);
+
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
       }

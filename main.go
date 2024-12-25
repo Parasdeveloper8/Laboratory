@@ -80,5 +80,7 @@ func main() {
 
 	r.GET("/learn-valency-page", Routes.RenderLearnValencyPage)
 
+	r.GET("change-profile-page", Routes.RenderChangeProfileForm)
+
 	r.Run(":4900")
 }

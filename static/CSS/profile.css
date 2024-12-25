@@ -69,7 +69,7 @@
 }
 
 /* Action button for image */
-.image-action-button {
+.image-action-button,.change-profile-button {
   background: #007bff;
   color: #fff;
   border: none;
@@ -78,9 +78,10 @@
   cursor: pointer;
   font-size: 14px;
   margin-top: 10px;
+  margin-right:20px;
 }
 
-.image-action-button:hover {
+.image-action-button:hover,.change-profile-button:hover{
   background: #0056b3;
 }
 .home-btn{
