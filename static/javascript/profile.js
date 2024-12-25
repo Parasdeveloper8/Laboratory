@@ -1,15 +1,5 @@
 const apiUrl = 'http://localhost:4900/profile-data';
 
-// Modal elements
-const modal = document.getElementById('edit-modal');
-const closeModal = document.getElementsByClassName('close')[0];
-const submitButton = document.getElementById('submit-edit');
-const editInputName = document.getElementById('edit-input-name');
-const editInputRole = document.getElementById('edit-input-role');
-
-// Variable to store which profile is being edited
-let currentProfile = null;
-
 // Fetch profile data from the API
 async function fetchProfileData() {
   try {
@@ -73,7 +63,7 @@ async function fetchProfileData() {
         // Action button for changing or adding image
         const actionButton = document.createElement('button');
         actionButton.classList.add('image-action-button');
-        actionButton.innerHTML = "Change Profile Image";
+        actionButton.innerHTML = "Change Photo";
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');
@@ -84,15 +74,6 @@ async function fetchProfileData() {
           }
         });
         profileContainer.appendChild(actionButton);
-
-        // Action button for changing profile name and role
-        const changeProfileButton = document.createElement('button');
-        changeProfileButton.classList.add('change-profile-button');
-        changeProfileButton.innerHTML = "Change Profile";
-        changeProfileButton.addEventListener('click', () => {
-          openEditModal(profile);
-        });
-        profileContainer.appendChild(changeProfileButton);
 
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
@@ -107,55 +88,6 @@ async function fetchProfileData() {
     document.getElementById('profiles-container').textContent = 'Error loading profile data';
   }
 }
-
-// Open the modal for editing name or role
-function openEditModal(profile) {
-  currentProfile = profile;
-
-  // Set input values based on the profile data
-  editInputName.value = profile.Name || '';
-  editInputRole.value = profile.Role || '';
-
-  // Show the modal
-  modal.style.display = 'block';
-}
-
-// Close the modal
-closeModal.onclick = () => {
-  modal.style.display = 'none';
-};
-
-// Submit the new values (name and role)
-submitButton.addEventListener('click', async () => {
-  const newName = editInputName.value.trim() || 'Default Name';
-  const newRole = editInputRole.value.trim() || 'Default Role';
-
-  const updateData = {
-    Name: newName,
-    Role: newRole
-  };
-
-  try {
-    const response = await fetch(`http://localhost:4900/update-profile`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify( updateData)
-    });
-
-    if (response.ok) {
-      alert('Profile updated successfully!');
-      modal.style.display = 'none'; // Close the modal
-      fetchProfileData(); // Refresh the profile data
-    } else {
-      alert('Failed to update profile');
-    }
-  } catch (error) {
-    console.error(error);
-    alert('Error updating profile');
-  }
-});
 
 // Call the function to fetch and display profile data
 fetchProfileData();
