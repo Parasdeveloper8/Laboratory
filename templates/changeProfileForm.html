@@ -3,15 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Update Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8; /* Light background */
+            color: #333; /* Dark text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background-color: #ffffff; /* White form background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Darker green on hover */
+        }
+    </style>
 </head>
 <body>
     <form action="/update-profile" method="post">
-       <input type="text" name="new-name" placeholder="New Name" required>
-       <br>
-       <input type="text" name="new-role" placeholder="New Role" required>
-       <br>
-       <input type="submit" value="Update">
+        <input type="text" name="new-name" placeholder="New Name" required>
+        <br>
+        <input type="text" name="new-role" placeholder="New Role" required>
+        <br>
+        <input type="submit" value="Update">
     </form>
 </body>
 </html>

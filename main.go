@@ -77,13 +77,13 @@ func main() {
 
 	r.POST("/resetpassword", postroutes.ResetPassword)
 
-	r.POST("/update-profile", postroutes.HandleUpdateProfile)
+	r.POST("/update-profile", middlewares.CheckEmail(), postroutes.HandleUpdateProfile)
 
 	r.GET("/learn-valency-page", Routes.RenderLearnValencyPage)
 
 	r.GET("change-profile-page", Routes.RenderChangeProfileForm)
 
-	r.DELETE("/delete-post/:post_id", deleteroutes.HandleDeletePost)
+	r.DELETE("/delete-post/:post_id", middlewares.CheckEmail(), deleteroutes.HandleDeletePost)
 
 	r.Run(":4900")
 }
