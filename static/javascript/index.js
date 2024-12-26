@@ -35,7 +35,11 @@ function renderBlogs(blogs) {
         nameBar.style = "display: flex; align-items: center;";
 
         const emailIcon = document.createElement("img");
+        if (blog.User_Image == null){
+            emailIcon.src = "static/Images/avatar_face_only.png";
+        }else{
         emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
+        }
         emailIcon.alt = "User Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 

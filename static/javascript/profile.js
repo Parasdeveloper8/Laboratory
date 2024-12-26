@@ -32,7 +32,7 @@ async function fetchProfileData() {
         if (profile.Profile_image && profile.Profile_image.trim() !== '') {
           photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">`;
         } else {
-          photoContainer.innerHTML = `<div class="placeholder-photo">No Image</div>`;
+          photoContainer.innerHTML = `<div class="placeholder-photo"><img src="static/Images/avatar_face_only.png" alt="default-img" class="profile-photo"></div>`;
         }
         profileContainer.appendChild(photoContainer);
 
@@ -63,7 +63,7 @@ async function fetchProfileData() {
         // Action button for changing or adding image
         const actionButton = document.createElement('button');
         actionButton.classList.add('image-action-button');
-        actionButton.innerHTML = "Change or add Photo";
+        actionButton.innerHTML = "Change Photo";
         
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
