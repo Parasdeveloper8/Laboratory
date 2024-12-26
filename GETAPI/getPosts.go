@@ -27,7 +27,7 @@ func GetPosts(c *gin.Context) {
 	defer db.Close()
 	//query to get images
 	query := `SELECT 
-	posts.username,
+	users.name,
     posts.base64string,
     posts.email,
     posts.title,
