@@ -17,6 +17,7 @@ type FindMetal struct {
 
 // Comments struct
 type Comments struct {
+	UserName             string  `db:"username"`
 	Comment_Text         string  `db:"comment_text"`
 	Email                string  `db:"email"`
 	Post_id              string  `db:"post_id"`

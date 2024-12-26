@@ -160,7 +160,7 @@ function showCommentsDialog(comments) {
 
             // Comment text
             const commentText = document.createElement("div");
-            commentText.textContent = `${comment.Email}: ${comment.Comment_Text}`;
+            commentText.textContent = `${comment.UserName}: ${comment.Comment_Text}`;
             commentItem.appendChild(commentText);
 
             // Comment time

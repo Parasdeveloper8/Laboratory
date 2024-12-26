@@ -30,7 +30,7 @@ func GetComments(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get comments from the database
-	query := "select comments.comment_text,comments.email ,time from laboratory.comments where post_id = ?"
+	query := "select comments.comment_text,comments.username ,time from laboratory.comments where post_id = ?"
 	rows, err := db.Query(query, post_id)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
@@ -39,7 +39,7 @@ func GetComments(c *gin.Context) {
 
 	for rows.Next() {
 		var comments reusable_structs.Comments
-		err := rows.Scan(&comments.Comment_Text, &comments.Email, &comments.TimeofComment)
+		err := rows.Scan(&comments.Comment_Text, &comments.UserName, &comments.TimeofComment)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})

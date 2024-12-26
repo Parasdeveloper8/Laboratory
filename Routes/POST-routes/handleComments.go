@@ -33,6 +33,7 @@ func HandleComments(c *gin.Context) {
 	session := sessions.Default(c)
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
+	sessionUserName, _ := session.Get("username").(string)
 	//Lets insert the comment into the database
 
 	//First load configurations from reusable_structs
@@ -48,8 +49,8 @@ func HandleComments(c *gin.Context) {
 	}
 	defer db.Close()
 
-	query := "insert into laboratory.comments(comment_text,post_id,email) values(?,?,?)"
-	_, err = db.Exec(query, requestBody.Comment, post_id, sessionEmail)
+	query := "insert into laboratory.comments(comment_text,post_id,email,username) values(?,?,?,?)"
+	_, err = db.Exec(query, requestBody.Comment, post_id, sessionEmail, sessionUserName)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
