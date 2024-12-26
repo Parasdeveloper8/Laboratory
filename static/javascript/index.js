@@ -31,22 +31,22 @@ function renderBlogs(blogs) {
         const topBar = document.createElement("div");
         topBar.style = "display: flex; justify-content: space-between; padding: 8px; background: #f9f9f9; color: #333; font-size: 14px;";
 
-        const emailBar = document.createElement("div");
-        emailBar.style = "display: flex; align-items: center;";
+        const nameBar = document.createElement("div");
+        nameBar.style = "display: flex; align-items: center;";
 
         const emailIcon = document.createElement("img");
         emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
         emailIcon.alt = "User Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
-        emailBar.appendChild(emailIcon);
-        emailBar.appendChild(document.createTextNode(blog.Email));
+        nameBar.appendChild(emailIcon);
+        nameBar.appendChild(document.createTextNode(blog.UserName));
 
         const uploadedTime = document.createElement("div");
         uploadedTime.textContent = blog.FormattedTime;
         uploadedTime.style = "font-size: 12px; color: #777; text-align: right;";
 
-        topBar.appendChild(emailBar);
+        topBar.appendChild(nameBar);
         topBar.appendChild(uploadedTime);
         blogContainer.appendChild(topBar);
 

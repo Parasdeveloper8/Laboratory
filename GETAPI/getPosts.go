@@ -27,6 +27,7 @@ func GetPosts(c *gin.Context) {
 	defer db.Close()
 	//query to get images
 	query := `SELECT 
+	posts.username,
     posts.base64string,
     posts.email,
     posts.title,
@@ -47,7 +48,7 @@ ON
 
 	for rows.Next() {
 		var blog reusable_structs.BlogsData
-		err := rows.Scan(&blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at)
+		err := rows.Scan(&blog.UserName, &blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})

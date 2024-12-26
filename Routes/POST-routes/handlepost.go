@@ -53,16 +53,15 @@ func HandlePost(c *gin.Context) {
 	session := sessions.Default(c)
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
+	sessionUserName, _ := session.Get("username").(string)
+
 	//insert file into DB
-	query := "insert into laboratory.posts(name,base64string,email,title,post_id) values(?,?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id)
+	query := "insert into laboratory.posts(name,base64string,email,title,post_id,username) values(?,?,?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
 		return
 	}
-	//on successful submission
-	//fmt.Println("File uploaded successfully")
-	//c.JSON(http.StatusOK, gin.H{"message": "File uploaded successfully", "filename": file.Filename})
 	c.Redirect(http.StatusSeeOther, "/afterlogin?message=file uploaded successfully")
 }

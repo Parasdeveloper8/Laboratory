@@ -1,6 +1,7 @@
 package reusable_structs
 
 type BlogsData struct {
+	UserName      string  `db:"username"`
 	Post_Id       string  `db:"post_id"`
 	Name          string  `db:"name"`
 	User_Image    []byte  `db:"user_img"`
