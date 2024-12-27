@@ -21,7 +21,6 @@ dropArea.addEventListener('drop', (event) => {
 
 // Open file input dialog on click
 dropArea.addEventListener('click', () => {
-  // Check if the user wants to upload a new file
   if (!uploadButton.style.display || uploadButton.style.display === 'none') {
     fileInput.click();
   }
@@ -36,9 +35,14 @@ function handleFile(file) {
   if (file && file.type.startsWith('image/')) {
     const reader = new FileReader();
     reader.onload = () => {
-      // Update the preview area with the uploaded image
-      imagePreview.style.backgroundImage = `url(${reader.result})`;
-      imagePreview.textContent = '';
+      // Clear the preview area and insert an <img> element
+      imagePreview.innerHTML = ''; // Clear previous content
+      const img = document.createElement('img');
+      img.src = reader.result;
+      img.style.maxWidth = '100%';
+      img.style.maxHeight = '100%';
+      img.style.objectFit = 'contain'; // Ensures the image fits inside the container
+      imagePreview.appendChild(img);
       uploadButton.style.display = 'inline-block'; // Show upload button
     };
     reader.readAsDataURL(file);
@@ -46,3 +50,4 @@ function handleFile(file) {
     alert('Please select a valid image file.');
   }
 }
+
