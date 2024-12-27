@@ -85,5 +85,7 @@ func main() {
 
 	r.DELETE("/delete-post/:post_id", middlewares.CheckEmail(), deleteroutes.HandleDeletePost)
 
+	r.DELETE("/delete-image/:email", middlewares.CheckEmail(), deleteroutes.HandleDeleteImage)
+
 	r.Run(":4900")
 }

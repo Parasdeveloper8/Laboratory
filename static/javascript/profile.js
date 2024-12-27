@@ -10,7 +10,7 @@ async function fetchProfileData() {
 
     const responseData = await response.json();
 
-    console.log(responseData);  // Log the response data to see the structure
+    console.log(responseData); // Log the response data to see the structure
 
     // Check if the 'data' array exists and contains profiles
     if (responseData && responseData.data && Array.isArray(responseData.data) && responseData.data.length > 0) {
@@ -24,11 +24,11 @@ async function fetchProfileData() {
         // Create a container for each profile
         const profileContainer = document.createElement('div');
         profileContainer.classList.add('profile-container');
-        
+
         // Profile photo
         const photoContainer = document.createElement('div');
         photoContainer.classList.add('profile-photo-container');
-        
+
         if (profile.Profile_image && profile.Profile_image.trim() !== '') {
           photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">`;
         } else {
@@ -64,7 +64,7 @@ async function fetchProfileData() {
         const actionButton = document.createElement('button');
         actionButton.classList.add('image-action-button');
         actionButton.innerHTML = "Change Photo";
-        
+
         actionButton.addEventListener('click', () => {
           if (profile.Profile_image && profile.Profile_image.trim() !== '') {
             alert('Redirecting to change image page...');
@@ -76,6 +76,7 @@ async function fetchProfileData() {
         });
         profileContainer.appendChild(actionButton);
 
+        // Change Profile button
         const changeProfile = document.createElement('button');
         changeProfile.classList.add('change-profile-button');
         changeProfile.innerHTML = "Change Profile";
@@ -83,6 +84,42 @@ async function fetchProfileData() {
           window.location.href = "/change-profile-page";
         });
         profileContainer.appendChild(changeProfile);
+
+        // Delete Image button
+        const deleteImageButton = document.createElement('button');
+        deleteImageButton.classList.add('delete-image-button');
+        deleteImageButton.innerHTML = "Delete Photo";
+
+        deleteImageButton.addEventListener('click', async () => {
+          if (profile.Email) {
+            const confirmDelete = confirm("Are you sure you want to delete this image?");
+            if (confirmDelete) {
+              try {
+                const deleteImageApiUrl = `http://localhost:4900/delete-image/${profile.Email}`; // API for deleting the image
+
+                const deleteResponse = await fetch(deleteImageApiUrl, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  }
+                });
+
+                if (deleteResponse.ok) {
+                  alert('Image deleted successfully');
+                  fetchProfileData(); // Refresh the profile data
+                } else {
+                  alert('Failed to delete the image');
+                }
+              } catch (error) {
+                console.error('Error deleting the image:', error);
+                alert('An error occurred while deleting the image');
+              }
+            }
+          } else {
+            alert('Email not available for this profile');
+          }
+        });
+        profileContainer.appendChild(deleteImageButton);
 
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
