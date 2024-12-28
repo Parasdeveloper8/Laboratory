@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravitational Force Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Reduced width */
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px; /* Smaller font size */
+        }
+
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-size: 14px; /* Smaller font size */
+            color: #555;
+        }
+
+        input[type="number"] {
+            width: 90%; /* Centering the input */
+            padding: 8px;
+            margin: 5px auto 15px; /* Center horizontally with auto margins */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px; /* Smaller font size */
+            display: block; /* Ensures the input is block level */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px; /* Smaller font size */
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #step-1, #step-2, #result-container {
+            margin-top: 15px;
+            padding: 8px;
+            background-color: #f1f1f1;
+            border-radius: 4px;
+            font-size: 14px; /* Smaller font size */
+            color: #333;
+        }
+
+        p {
+            font-size: 12px; /* Smaller font size */
+            color: #666;
+        }
+
+        .note {
+            font-size: 12px; /* Smaller font size */
+            color: #888;
+            margin-top: 15px;
+        }
+
+        .note b {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gravitational Force Calculator</h1>
+        <form>
+            <label for="m-1">Enter Mass 1 (kg):</label>
+            <input type="number" placeholder="Enter Mass in integer" id="m-1" required>
+
+            <label for="m-2">Enter Mass 2 (kg):</label>
+            <input type="number" placeholder="Enter Mass in integer" id="m-2" required>
+
+            <label for="r">Enter Distance (m):</label>
+            <input type="number" placeholder="Enter Distance in integer" id="r" required>
+
+            <button type="submit" onclick="calcGravitationalForce(event)">Get Answer</button>
+        </form>
+
+        <div id="step-1"></div>
+        <div id="step-2"></div>
+        <div id="result-container"></div>
+
+        <p class="note"><b>Note :</b> use 'e' at place of *10 <b>Example:</b> 6.67*10^-11 = 6.67e-11</p>
+    </div>
+
+    <script src="static/javascript/gravitational.js"></script>
+</body>
+</html>
+

@@ -88,5 +88,11 @@ func main() {
 
 	r.DELETE("/delete-image/:email", middlewares.CheckEmail(), deleteroutes.HandleDeleteImage)
 
+	r.GET("/page-to-pdf", middlewares.CheckEmail(), Routes.RenderPdfPage) //work remaining
+
+	r.POST("/create-pdf", postroutes.HandlePDFCreation) //work remaining
+
+	r.GET("/gravitational-force", Routes.RenderGravitationalPage)
+
 	r.Run(":4900")
 }
