@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            
+            overflow-x: hidden;
         }
 
         .container {
@@ -86,9 +86,25 @@
         .note b {
             color: #333;
         }
+        .home-btn{
+      border: none;
+      padding: 5px;
+      background-color:#007bff ;
+       color:white;
+      width:40px;
+     border-radius: 5px;
+     position: fixed;
+     top:0.5vh;
+     left:0.5vw;
+      &:hover{
+     background-color:#0056b3;
+     }
+}
     </style>
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
     <div class="container">
         <h1>Gravitational Force Calculator</h1>
         <form>

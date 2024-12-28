@@ -40,12 +40,27 @@
             cursor: pointer;
             width: 100%;
         }
+        .home-btn{
+      border: none;
+      padding: 5px;
+      background-color:#007bff ;
+       color:white;
+      width:40px;
+     border-radius: 5px;
+     position: fixed;
+     top:0.5vh;
+     left:0.5vw;
+      &:hover{
+     background-color:#0056b3;
+     }
         input[type="submit"]:hover {
             background-color: #0056b3; /* Darker green on hover */
         }
     </style>
+         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
     <form action="/update-profile" method="post">
         <input type="text" name="new-name" placeholder="New Name" required>
         <br>

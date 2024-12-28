@@ -62,3 +62,16 @@ body {
 .action-button:hover {
   background-color: #0056b3;
 }
+.home-btn{
+  border: none;
+  padding: 5px;
+  background-color:#007bff ;
+   color:white;
+  width:40px;
+ border-radius: 5px;
+ position: fixed;
+ top:0.5vh;
+ left:0.5vw;
+  &:hover{
+ background-color:#0056b3;
+ }
