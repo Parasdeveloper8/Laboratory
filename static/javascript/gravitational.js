@@ -10,8 +10,9 @@ const calcGravitationalForce=(event)=>{
     event.preventDefault();
     const stepFormula1 = (constant * massOne.value * massTwo.value);
     const formula = (constant * massOne.value * massTwo.value) / (distance.value ** 2);
-    step1.innerHTML=`<p>G x M1 x M2 = ${stepFormula1}</p>`;
-    step2.innerHTML=`<p>G x M1 x M2 / r^2 = ${formula}</p>`;
-    resultContainer.innerHTML = `<p>Force = ${formula} Newton</p>`;
+     step1.innerHTML=`<p>G x M1 x M2 = ${stepFormula1}</p>`;
+     step2.innerHTML=`<p>G x M1 x M2 / r^2 = ${formula}</p>`;
+     resultContainer.innerHTML = `<p>Force = ${formula} Newton</p>`;
+    
     return formula
 }
