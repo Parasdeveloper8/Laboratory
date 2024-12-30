@@ -94,5 +94,7 @@ func main() {
 
 	r.GET("/gravitational-force", Routes.RenderGravitationalPage)
 
+	r.GET("/chemical-formulae", Routes.RenderChemicalFormulaePage)
+
 	r.Run(":4900")
 }
