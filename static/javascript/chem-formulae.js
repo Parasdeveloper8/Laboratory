@@ -1,4 +1,4 @@
-const API = "http:localhost:4900/elements";
+const API = "http:localhost:4900/SymbolValency";
 
 const elem1= document.getElementById("elem1");
 const elem2= document.getElementById("elem2");

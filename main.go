@@ -96,5 +96,7 @@ func main() {
 
 	r.GET("/chemical-formulae", Routes.RenderChemicalFormulaePage)
 
+	r.GET("/SymbolValency", GETAPI.GetSymbolValency) //API to get symbols and valencies
+
 	r.Run(":4900")
 }
