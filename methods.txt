@@ -1,0 +1,241 @@
+Go Methods (Golang)
+fmt.Println()
+Prints output to the console with a newline.
+
+fmt.Printf()
+Formats and prints output with placeholders (e.g., %d, %s).
+
+strings.Split()
+Splits a string into a slice based on a delimiter.
+
+strings.Join()
+Joins a slice of strings into a single string with a separator.
+
+len()
+Returns the length of a string, array, slice, or map.
+
+cap()
+Returns the capacity of a slice or array.
+
+append()
+Adds elements to the end of a slice.
+
+make()
+Allocates and initializes slices, maps, or channels.
+
+copy()
+Copies elements from one slice to another.
+
+strconv.Atoi()
+Converts a string to an integer.
+
+strconv.Itoa()
+Converts an integer to a string.
+
+map[]
+Accesses elements in a map using a key.
+
+defer
+Delays the execution of a function until the surrounding function returns.
+
+go keyword
+Starts a new goroutine for concurrent execution.
+
+select
+Allows a goroutine to wait on multiple channel operations.
+
+time.Sleep()
+Pauses execution for a specified duration.
+
+time.Now()
+Returns the current local time.
+
+os.Open()
+Opens a file and returns a file descriptor.
+
+os.Create()
+Creates a new file or opens an existing one for writing.
+
+error()
+Returns an error with a message.
+
+panic()
+Triggers a runtime error and stops the program's execution.
+
+recover()
+Handles panic and allows recovery to resume execution.
+
+range
+Iterates over slices, arrays, maps, and channels.
+
+interface{}
+The empty interface can hold any type, enabling general-purpose functions.
+
+go fmt
+Automatically formats Go source code according to style conventions.
+
+runtime.Gosched()
+Yields the processor, allowing other goroutines to execute.
+
+time.Parse()
+Parses a string into a time.Time object.
+
+time.Format()
+Formats a time.Time object into a string.
+
+sync.Mutex.Lock()
+Acquires a lock on a mutex, ensuring exclusive access to a resource.
+
+sync.Mutex.Unlock()
+Releases the lock on a mutex.
+
+strconv.ParseFloat()
+Converts a string into a floating-point number.
+
+strconv.FormatFloat()
+Converts a float to a string with specified precision and format.
+
+bytes.Buffer()
+Creates a buffer for efficiently working with byte slices.
+
+log.Println()
+Logs a message with a newline.
+
+log.Fatal()
+Logs a message and calls os.Exit(1) to terminate the program.
+
+log.Panic()
+Logs a message and triggers a panic.
+
+strings.Contains()
+Checks if a substring exists in a string.
+
+strings.Replace()
+Replaces occurrences of a substring with another substring.
+
+strings.ToUpper()
+Converts a string to uppercase.
+
+strings.ToLower()
+Converts a string to lowercase.
+
+strings.TrimSpace()
+Removes leading and trailing whitespace from a string.
+
+strings.HasPrefix()
+Checks if a string starts with a specific prefix.
+
+strings.HasSuffix()
+Checks if a string ends with a specific suffix.
+
+strings.Index()
+Returns the index of the first occurrence of a substring.
+
+strings.LastIndex()
+Returns the index of the last occurrence of a substring.
+
+math.Abs()
+Returns the absolute value of a number.
+
+math.Round()
+Rounds a floating-point number to the nearest integer.
+
+math.Sqrt()
+Returns the square root of a number.
+
+math.Pow()
+Returns the result of raising a number to a power.
+
+math.Min()
+Returns the smaller of two numbers.
+
+Gin Framework Methods
+gin.Default()
+Creates a default Gin router with Logger and Recovery middleware enabled.
+
+gin.New()
+Creates a new Gin engine without default middleware.
+
+router.GET()
+Registers a route handler for a GET request.
+
+router.POST()
+Registers a route handler for a POST request.
+
+router.PUT()
+Registers a route handler for a PUT request.
+
+router.DELETE()
+Registers a route handler for a DELETE request.
+
+c.JSON()
+Sends a JSON response with a status code.
+
+c.String()
+Sends a plain-text response with a specified status code.
+
+c.XML()
+Sends an XML response.
+
+c.HTML()
+Renders an HTML template and sends the response.
+
+c.Status()
+Sets the HTTP status code for the response.
+
+c.Bind()
+Binds the incoming request data to the specified struct.
+
+c.Param()
+Retrieves a path parameter from the request URL.
+
+c.Query()
+Retrieves a query parameter from the URL.
+
+c.ShouldBindJSON()
+Binds the request JSON body to the specified struct.
+
+c.Set()
+Sets a key-value pair in the context.
+
+c.Get()
+Retrieves a value by key from the context.
+
+c.Abort()
+Stops the current chain of handlers and prevents further processing.
+
+c.AbortWithStatus()
+Aborts the chain and sets the response status.
+
+c.File()
+Serves a file as a response.
+
+c.Redirect()
+Redirects the request to another URL.
+
+router.Use()
+Registers middleware for the route or group.
+
+gin.Context()
+A struct that holds the context of a request in Gin.
+
+gin.H{}
+A map to define key-value pairs for JSON responses.
+
+c.ShouldBind()
+Binds data from the request (form, JSON, XML, etc.) to the struct and handles validation.
+
+c.Render()
+Renders a custom response (e.g., plain text, JSON, etc.) using a Render interface.
+
+c.Copy()
+Creates a shallow copy of the current context, useful for asynchronous tasks.
+
+router.Group()
+Creates a group of routes that share the same middleware.
+
+router.Static()
+Serves static files from a directory.
+
+router.StaticFile()
+Serves a specific file as a static resource.
