@@ -72,7 +72,7 @@
         "valency": 2
     },
     {
-        "name": "Aluminum",
+        "name": "Aluminium",
         "symbol": "Al",
         "atomic_mass": 26.9815,
         "valency": 3
@@ -111,13 +111,13 @@
         "name": "Potassium",
         "symbol": "K",
         "atomic_mass": 39.098,
-        "valency": 0
+        "valency": 1
     },
     {
         "name": "Calcium",
         "symbol": "Ca",
         "atomic_mass": 40.078,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Scandium",
@@ -177,7 +177,7 @@
         "name": "Zinc",
         "symbol": "Zn",
         "atomic_mass": 65.38,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Gallium",
@@ -279,7 +279,7 @@
         "name": "Silver",
         "symbol": "Ag",
         "atomic_mass": 107.87,
-        "valency": 0
+        "valency": 1
     },
     {
         "name": "Cadmium",
@@ -706,5 +706,95 @@
         "symbol": "Og",
         "atomic_mass": 294,
         "valency": 0
+    },
+    {
+        "name":"Chloride",
+        "symbol":"Cl",
+        "atomic_mass":35.453,
+        "valency":1
+    },
+    {
+        "name":"Hydroxide",
+        "symbol":"OH",
+        "atomic_mass":17.008,
+        "valency":1
+    },
+    {
+        "name":"Oxide",
+        "symbol":"O",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Nitrate",
+        "symbol":"NO3",
+        "atomic_mass":0,
+        "valency":1
+    },
+    {
+        "name":"Ammonium",
+        "symbol":"NH4",
+        "atomic_mass":0,
+        "valency":1
+    },
+    {
+        "name":"Sulphate",
+        "symbol":"SO4",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Carbonate",
+        "symbol":"CO3",
+        "atomic_mass":60,
+        "valency":2
+    },
+    {
+        "name":"Bicarbonate",
+        "symbol":"HCO3",
+        "atomic_mass":61,
+        "valency":1
+    },
+    {
+        "name":"Sulphide",
+        "symbol":"S",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Sulphite",
+        "symbol":"SO3",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Ferrous",
+        "symbol":"Fe",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Ferric",
+        "symbol":"Fe",
+        "atomic_mass":0,
+        "valency":3
+    },
+    {
+        "name":"Cupric",
+        "symbol":"Cu",
+        "atomic_mass":0,
+        "valency":2
+    },
+    {
+        "name":"Cuprous",
+        "symbol":"Cu",
+        "atomic_mass":0,
+        "valency":1
+    },
+    {
+        "name":"Phosphate",
+        "symbol":"PO4",
+        "atomic_mass":0,
+        "valency":3
     }
 ]

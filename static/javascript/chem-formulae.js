@@ -42,29 +42,36 @@ async function createformula() {
         });
 
         // If both elem1 and elem2 have valid valency, display them
-        if (resultsFound) {
-            if(itsValency1 && itsValency2 == 1){
-                resultDiv.innerHTML = `
-                <p>${itsSymbol1}${itsSymbol2}</p>
-            `;
-            }
-            else if (itsValency2 == 1){
-                resultDiv.innerHTML = `
-                <p>${itsSymbol1}${itsSymbol2}${itsValency1}</p>
-            `;
-            } 
-            else if (itsValency1 == 1){
-                resultDiv.innerHTML = `
-                <p>${itsSymbol1}${itsValency2}${itsSymbol2}</p>
-            `;
-            } else{
-            resultDiv.innerHTML = `
-                <p>${itsSymbol1}${itsValency2}${itsSymbol2}${itsValency1}</p>
-            `;
-            }
-        } else {
-            resultDiv.innerHTML = '<p>No matching elements found.</p>';
-        }
+       // If both elem1 and elem2 have valid valency, display them
+if (resultsFound) {
+    let result;
+
+    if (itsValency1 === 1 && itsValency2 === 1) {
+        // Case where both valencies are 1
+        result = `${itsSymbol1}${itsSymbol2}`;
+    } 
+    else if (itsValency1 === itsValency2) {
+        // Case where both valencies are equal
+        result = `${itsSymbol1}${itsSymbol2}`;
+    }
+    else if (itsValency2 === 1) {
+        // Case where valency of elem2 is 1
+        result = `${itsSymbol1}${itsSymbol2} ${itsValency1}`;
+    }
+    else if (itsValency1 === 1) {
+        // Case where valency of elem1 is 1
+        result = `${itsSymbol1} ${itsValency2}${itsSymbol2}`;
+    } 
+    else {
+        // Case where neither valency is 1 and both are different
+        result = `${itsSymbol1} ${itsValency2} ${itsSymbol2} ${itsValency1}`;
+    }
+
+    // Display the result
+    resultDiv.innerHTML = `<p>${result}</p>`;
+   } else {
+    resultDiv.innerHTML = '<p>No matching elements found.</p>';
+   }
 
     } catch (error) {
         console.error('Error fetching elements:', error);
