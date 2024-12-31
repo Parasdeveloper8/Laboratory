@@ -147,31 +147,19 @@
         "name": "Manganese",
         "symbol": "Mn",
         "atomic_mass": 54.938,
-        "valency": 0
-    },
-    {
-        "name": "Iron",
-        "symbol": "Fe",
-        "atomic_mass": 55.845,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Cobalt",
         "symbol": "Co",
         "atomic_mass": 58.933,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Nickel",
         "symbol": "Ni",
         "atomic_mass": 58.693,
-        "valency": 0
-    },
-    {
-        "name": "Copper",
-        "symbol": "Cu",
-        "atomic_mass": 63.546,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Zinc",
@@ -333,7 +321,7 @@
         "name": "Barium",
         "symbol": "Ba",
         "atomic_mass": 137.33,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Lanthanum",
@@ -477,7 +465,7 @@
         "name": "Mercury",
         "symbol": "Hg",
         "atomic_mass": 200.59,
-        "valency": 0
+        "valency": 1
     },
     {
         "name": "Thallium",
@@ -489,7 +477,7 @@
         "name": "Lead",
         "symbol": "Pb",
         "atomic_mass": 207.2,
-        "valency": 0
+        "valency": 2
     },
     {
         "name": "Bismuth",
@@ -794,6 +782,31 @@
     {
         "name":"Phosphate",
         "symbol":"PO4",
+        "atomic_mass":0,
+        "valency":3
+    },{
+        "name":"Fluoride",
+        "symbol":"F",
+        "atomic_mass":0,
+        "valency":1
+    },{
+        "name":"Bromide",
+        "symbol":"Br",
+        "atomic_mass":0,
+        "valency":1
+    },{
+        "name":"Iodide",
+        "symbol":"I",
+        "atomic_mass":0,
+        "valency":1
+    },{
+        "name":"Nitrite",
+        "symbol":"NO2",
+        "atomic_mass":0,
+        "valency":1
+    },{
+        "name":"Nitride",
+        "symbol":"N",
         "atomic_mass":0,
         "valency":3
     }
