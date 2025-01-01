@@ -1,27 +1,34 @@
-const apiUrl = "http://localhost:4900/my-posts"; // Replace with the actual API URL
 const loader = document.getElementById('loader');
 loader.style.display = 'block';
-
+let page = 1;
+let limit = 3;
+let row= 0;
+let isLoading = false; // To prevent multiple fetches at once
 // Function to fetch data from the API
 async function fetchMyBlogs() {
+    if (isLoading) return; // Prevent multiple fetches
+    isLoading = true;
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(`http://localhost:4900/my-posts/${row}/${limit}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         loader.style.display = 'none';
+        row++;
+        page++;
         renderBlogs(data.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
         document.getElementById("blogs").innerText = "Failed to load blogs.";
+    }finally {
+        isLoading = false; // Allow new fetch once the current one finishes
     }
 }
 
 // Function to render blogs
 function renderBlogs(blogs) {
     const div = document.getElementById("blogs");
-    div.innerHTML = "";
 
     blogs.forEach(blog => {
         const post_id = blog.Post_id;
@@ -212,6 +219,13 @@ function showDeleteConfirmation(postId) {
     modal.appendChild(confirmationBox);
     document.body.appendChild(modal);
 }
-
+window.addEventListener('scroll', () => { 
+    const scrollPosition = window.scrollY + window.innerHeight; 
+    const documentHeight = document.documentElement.scrollHeight; 
+    
+    if (scrollPosition >= documentHeight-50) {
+        fetchMyBlogs();
+    } 
+}); 
 // Fetch and render blogs on page load
 fetchMyBlogs();

@@ -13,6 +13,8 @@ import (
 )
 
 func GetMyPosts(c *gin.Context) {
+	rowF := c.Param("row")
+	limits := c.Param("limit")
 	var MypostsData []reusable_structs.MyPosts
 	config, err := reusable_structs.Init()
 	if err != nil {
@@ -32,8 +34,8 @@ func GetMyPosts(c *gin.Context) {
 
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
-	query := "select title,base64string,uploaded_at,post_id from laboratory.posts where email=?"
-	rows, err := db.Query(query, sessionEmail)
+	query := "select title,base64string,uploaded_at,post_id from laboratory.posts where email=? limit ?,?"
+	rows, err := db.Query(query, sessionEmail, rowF, limits)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
 	}

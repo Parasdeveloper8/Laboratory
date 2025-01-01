@@ -40,7 +40,7 @@ func main() {
 
 	r.GET("/own-posts-page", middlewares.CheckEmail(), Routes.RenderOwnPostPage)
 
-	r.GET("/my-posts", GETAPI.GetMyPosts) //API to get own posts
+	r.GET("/my-posts/:row/:limit", GETAPI.GetMyPosts) //API to get own posts
 
 	r.GET("register-page", Routes.RenderRegisterPage)
 
