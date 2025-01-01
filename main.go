@@ -23,6 +23,8 @@ func main() {
 	config, _ := reusable_structs.Init()
 	Store := cookie.NewStore([]byte(config.SECRETKEY))
 
+	r.Use(middlewares.RateLimit())
+
 	//middleware to use sessions
 	r.Use(sessions.Sessions("login-session", Store))
 
