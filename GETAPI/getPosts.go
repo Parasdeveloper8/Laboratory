@@ -12,6 +12,8 @@ import (
 )
 
 func GetPosts(c *gin.Context) {
+	rowF := c.Param("row")
+	limits := c.Param("limit")
 	var blogsData []reusable_structs.BlogsData
 	config, err := reusable_structs.Init()
 	if err != nil {
@@ -39,8 +41,8 @@ FROM
 JOIN 
     laboratory.users 
 ON 
-    posts.email = users.email;`
-	rows, err := db.Query(query)
+    posts.email = users.email LIMIT ?,?`
+	rows, err := db.Query(query, rowF, limits)
 	if err != nil {
 		log.Printf("Failed to get images data %v", err)
 	}

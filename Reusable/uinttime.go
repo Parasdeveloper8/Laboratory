@@ -1,7 +1,6 @@
 package reusable
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -9,7 +8,7 @@ import (
 func Uint8ToTime(uploadedAt []uint8) (time.Time, error) {
 	// Convert []uint8 to string
 	dateStr := string(uploadedAt)
-	fmt.Println("Date String:", dateStr)
+	//fmt.Println("Date String:", dateStr)
 
 	// Parse the string as a time.Time object
 	decodedTime, err := time.Parse("2006-01-02 15:04:05", dateStr)

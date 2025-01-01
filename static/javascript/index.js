@@ -1,10 +1,13 @@
-const apiUrl = "http://localhost:4900/blogs"; // Replace with the actual API URL
 const loader = document.getElementById('loader');
+let page = 1;
+let limit = 3;
+let row= (page-1)*limit;
 loader.style.display = 'block';
+
 // Function to fetch data from the API
 async function fetchBlogs() {
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(`http://localhost:4900/blogs/${row}/${limit}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -20,7 +23,6 @@ async function fetchBlogs() {
 // Function to render blogs
 function renderBlogs(blogs) {
     const div = document.getElementById("blogs");
-    div.innerHTML = "";
 
     blogs.forEach(blog => {
         const post_id = blog.Post_Id;
@@ -205,6 +207,15 @@ async function postComment(postId, commentInput, commentList) {
         }
     }
 }
-
 // Call the fetchBlogs function to fetch and display blogs
 fetchBlogs();
+ 
+window.addEventListener('scroll', () => { 
+        const scrollPosition = window.scrollY + window.innerHeight; 
+        const documentHeight = document.documentElement.scrollHeight; 
+ 
+        if (scrollPosition >= documentHeight) { 
+            page++;
+            fetchBlogs();
+        } 
+    }); 

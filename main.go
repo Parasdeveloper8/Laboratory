@@ -36,7 +36,7 @@ func main() {
 
 	r.POST("/Addpost", middlewares.CheckEmail(), postroutes.HandlePost)
 
-	r.GET("/blogs", GETAPI.GetPosts) //API to get images
+	r.GET("/blogs/:row/:limit", GETAPI.GetPosts) //API to get images
 
 	r.GET("/own-posts-page", middlewares.CheckEmail(), Routes.RenderOwnPostPage)
 
