@@ -1,6 +1,6 @@
 # LABORATORY
+
 ## A complete educational platform
-![Logo](./static/Images/logo-color.png "Logo")
 
 ### Features of Laboratory
 - You can make posts related to science.
@@ -15,3 +15,5 @@
 - It is built is `Go`,`javascript`,`HTML`,`CSS` .
 
 __creator__ : _paras prajapat_
+
+![Logo](./static/Images/logo-color.png "Logo")
