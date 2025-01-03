@@ -1,8 +1,10 @@
-const loader = document.getElementById('loader');
+const loader = document.getElementById('r-loader');
+const failLoader = document.getElementById("fail-loader");
 let page = 1;
 let limit = 3;
 let row= 0;
 loader.style.display = 'block';
+failLoader.style.display = 'none';
 let isLoading = false; // To prevent multiple fetches at once
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch data from the API
 async function fetchBlogs() {
-    if (isLoading) return; // Prevent multiple fetches
+    if (isLoading) return; //If isLoading is true, the return statement immediately exits the current function
     isLoading = true;
     try {
         const response = await fetch(`http://localhost:4900/blogs/${row}/${limit}`);
@@ -27,10 +29,11 @@ async function fetchBlogs() {
         page++;
         renderBlogs(data.data);
     } catch (error) {
-        const div = document.getElementById("blogs");
         console.error("Error fetching blogs:", error);
-        loader.style = "position:fixed;top:25vh;";
-        loader.style.display = 'block';
+        if(error){
+            loader.style.display = 'none';
+           failLoader.style.display='block';
+        }
         //document.getElementById("blogs").innerText = "Failed to load blogs.";
     } finally {//finally keyword,here,is used when promise is fulfilled or rejected
         isLoading = false; // Allow new fetch once the current one finishes
