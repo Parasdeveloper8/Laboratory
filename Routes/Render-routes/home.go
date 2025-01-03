@@ -7,5 +7,5 @@ import (
 )
 
 func HomeHandler(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", nil)
+	c.HTML(http.StatusOK, "index.html", gin.H{"username": "Hello Guest"})
 }

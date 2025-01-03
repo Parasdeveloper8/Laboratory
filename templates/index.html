@@ -17,6 +17,7 @@
                 <a class="navbar-brand" href="#">
                     <img src="" alt="" width="30" height="24" class="d-inline-block align-text-top">Laboratory
                 </a>
+                <p class="fs-4 fst-italic">{{.username}}</p>
                 <form class="d-none d-lg-inline" action="/page-to-post">
                     <button type="submit" class="btn btn-outline-primary">Add post</button>
                 </form>
@@ -30,7 +31,6 @@
         <button class="btn btn-outline-secondary" onclick="location.href='/own-posts-page'">My Post</button>
         <button class="btn btn-outline-secondary" onclick="location.href='/login-page'">Login</button>
         <button class="btn btn-outline-secondary" onclick="location.href='/register-page'">Register</button>
-        <button class="btn btn-outline-secondary" onclick="location.href='/page-to-pdf'">Create PDF</button>
     </div>
 
     <!-- Sidebar for mobile -->
@@ -45,7 +45,6 @@
             <button class="btn btn-outline-secondary" onclick="location.href='/own-posts-page'">My Post</button>
             <button class="btn btn-outline-secondary" onclick="location.href='/login-page'">Login</button>
             <button class="btn btn-outline-secondary" onclick="location.href='/register-page'">Register</button>
-            <button class="btn btn-outline-secondary" onclick="location.href='/page-to-pdf'">Create PDF</button>
         </div>
     </div>
 
@@ -58,15 +57,6 @@
     <footer class="text-center mt-4">
         <p>&copy; Parasdeveloper8 All rights reserved</p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sidebar = document.getElementById('desktopSidebar');
-            if (window.innerWidth > 768) {
-                sidebar.style.display = 'block';
-            }
-        });
-    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="static/javascript/index.js"></script>
