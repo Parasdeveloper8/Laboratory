@@ -14,7 +14,7 @@ import (
 func GetPosts(c *gin.Context) {
 	rowF := c.Param("row")
 	limits := c.Param("limit")
-	var blogsData []reusable_structs.BlogsData
+	var blogsData []reusable_structs.BlogsData //converting struct into slice because we will return multiple posts not a single post details
 	config, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
