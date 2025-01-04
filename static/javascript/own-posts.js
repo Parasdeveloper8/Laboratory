@@ -1,5 +1,7 @@
-const loader = document.getElementById('loader');
+const loader = document.getElementById('r-loader');
+const failLoader = document.getElementById("f-loader");
 loader.style.display = 'block';
+failLoader.style.display = 'none';
 let page = 1;
 let limit = 3;
 let row= 0;
@@ -20,7 +22,8 @@ async function fetchMyBlogs() {
         renderBlogs(data.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
-        document.getElementById("blogs").innerText = "Failed to load blogs.";
+        loader.style.display = 'none';
+        failLoader.style.display='block';
     }finally {
         isLoading = false; // Allow new fetch once the current one finishes
     }

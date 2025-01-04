@@ -30,10 +30,8 @@ async function fetchBlogs() {
         renderBlogs(data.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
-        if(error){
             loader.style.display = 'none';
            failLoader.style.display='block';
-        }
         //document.getElementById("blogs").innerText = "Failed to load blogs.";
     } finally {//finally keyword,here,is used when promise is fulfilled or rejected
         isLoading = false; // Allow new fetch once the current one finishes
