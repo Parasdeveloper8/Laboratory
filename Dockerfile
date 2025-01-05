@@ -1,16 +1,13 @@
-FROM windows
+FROM golang:1.23.2
 
 #Working directory in container
 WORKDIR /laboratory
 
-#Copying go.mod file
-COPY go.mod go.mod
+#Copying everything
+COPY . .
 
 #Install dependencies
 RUN go get 
-
-#Copying main.go file
-COPY main.go .
 
 #Entry point to run the App
 ENTRYPOINT [ "go","main.go" ]
