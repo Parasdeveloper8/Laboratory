@@ -1,16 +1,14 @@
-FROM windows
+FROM golang:1.23.2
 
-#Working directory in container
+# Working directory in container
 WORKDIR /laboratory
 
-#Copying go.mod file
-COPY go.mod go.mod
+# Copy everything into the container
+COPY . .
 
-#Install dependencies
-RUN go get 
+# Install dependencies
+RUN go mod tidy  # It's better to use go mod tidy to fetch dependencies
 
-#Copying main.go file
-COPY main.go .
+# Entry point to run the app
+ENTRYPOINT ["go", "run", "main.go"]
 
-#Entry point to run the App
-ENTRYPOINT [ "go","main.go" ]
