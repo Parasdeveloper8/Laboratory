@@ -7,9 +7,13 @@
 - We have tools related to science ,which can solve your daily life science problem.
 
   1.Gravitational force calculator
+  
   2.Atomic mass getter
+  
   3.Chemical formulae creator
+  
   4.Find Metal or not
+  
 - This platform solves issues programmatically not on the basis of opinions of others.
 
 #### Tools used in it
