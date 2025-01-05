@@ -7,6 +7,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//Description :-
+/*
+This middleware works as a authorization checker which will check authority.
+When it is applied on a route ,it will check user session for email existence.
+If email exists in session then the route will work as defined .
+If email doesn't exist then user will be redirected to login page "/login-page".
+*/
 func CheckEmail() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get the session

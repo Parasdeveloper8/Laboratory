@@ -16,18 +16,26 @@ import (
 func main() {
 	r := gin.Default()
 
+	//Serve static files
 	r.Static("/static", "./static")
 
+	//loads HTML files
 	r.LoadHTMLGlob("templates/*")
 
+	//Initialize reusable structs to use
 	config, _ := reusable_structs.Init()
+	//Define a cookie Store
 	Store := cookie.NewStore([]byte(config.SECRETKEY))
 
+	//Rate limit middleware from Middlewares folder ,it is applied on all routes
 	r.Use(middlewares.RateLimit())
 
-	//middleware to use sessions
+	//Session middleware from Middlewares folder
 	r.Use(sessions.Sessions("login-session", Store))
 
+	//Routes Start from here------------------------------->
+
+	//Check Session middleware from Middlewares folder
 	r.GET("/", middlewares.CheckSession(), Routes.HomeHandler)
 
 	r.GET("/atomic-mass-page", Routes.RenderAtomicMassPage)
@@ -90,15 +98,12 @@ func main() {
 
 	r.DELETE("/delete-image/:email", middlewares.CheckEmail(), deleteroutes.HandleDeleteImage)
 
-	r.GET("/page-to-pdf", middlewares.CheckEmail(), Routes.RenderPdfPage) //work remaining
-
-	r.POST("/create-pdf", postroutes.HandlePDFCreation) //work remaining
-
 	r.GET("/gravitational-force", Routes.RenderGravitationalPage)
 
 	r.GET("/chemical-formulae", Routes.RenderChemicalFormulaePage)
 
 	r.GET("/SymbolValency", GETAPI.GetSymbolValency) //API to get symbols and valencies
 
+	//Start server on port 4900
 	r.Run(":4900")
 }
