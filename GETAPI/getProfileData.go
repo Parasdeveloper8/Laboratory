@@ -11,8 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+Function to fetch profile data of user on the basis of email.
+*/
 func ProfileDataAPI(c *gin.Context) {
-	var ProfileData []reusable_structs.ProfileData
 	config, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -32,27 +34,15 @@ func ProfileDataAPI(c *gin.Context) {
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
 	query := "select profile_image,name,email,role from laboratory.users where email=?"
-	rows, err := db.Query(query, sessionEmail)
-	if err != nil {
-		log.Printf("Failed to get profile data %v", err)
-	}
-	defer rows.Close()
+	rows := db.QueryRow(query, sessionEmail)
 
-	for rows.Next() {
-		var profile reusable_structs.ProfileData
-		err := rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role)
-		if err != nil {
-			log.Printf("Failed to scan row: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-			return
-		}
-		ProfileData = append(ProfileData, profile)
-	}
-	//if any error during iteration
-	if err := rows.Err(); err != nil {
-		log.Printf("Row iteration error: %v", err)
+	var profile reusable_structs.ProfileData
+	//Scanning rows 'values
+	err = rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role)
+	if err != nil {
+		log.Printf("Failed to scan row: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"data": ProfileData})
+	c.JSON(http.StatusOK, gin.H{"data": profile})
 }

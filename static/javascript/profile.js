@@ -13,14 +13,12 @@ async function fetchProfileData() {
     console.log(responseData); // Log the response data to see the structure
 
     // Check if the 'data' array exists and contains profiles
-    if (responseData && responseData.data && Array.isArray(responseData.data) && responseData.data.length > 0) {
+    if (responseData) {
       const profilesContainer = document.getElementById('profiles-container');
       profilesContainer.innerHTML = ''; // Clear any previous content
 
-      // Loop through each profile in the data array
-      for (let i = 0; i < responseData.data.length; i++) {
-        const profile = responseData.data[i];
-
+        const profile = responseData.data;
+        console.log(profile);
         // Create a container for each profile
         const profileContainer = document.createElement('div');
         profileContainer.classList.add('profile-container');
@@ -123,8 +121,7 @@ async function fetchProfileData() {
 
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
-      }
-    } else {
+      }else {
       console.error('No profile data found');
       document.getElementById('profiles-container').textContent = 'No profiles available';
     }
@@ -133,7 +130,7 @@ async function fetchProfileData() {
     console.error(error);
     document.getElementById('profiles-container').textContent = 'Error loading profile data';
   }
-}
 
+}
 // Call the function to fetch and display profile data
 fetchProfileData();

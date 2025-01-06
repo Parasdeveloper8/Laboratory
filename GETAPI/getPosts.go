@@ -11,6 +11,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+Function to get posts from database.
+To reduce latency in response and load on server ,it has two variables rowF and limits.
+rowF and limits are fetched from path parameters row and limit respectively.
+*/
 func GetPosts(c *gin.Context) {
 	rowF := c.Param("row")
 	limits := c.Param("limit")
@@ -28,6 +33,7 @@ func GetPosts(c *gin.Context) {
 	}
 	defer db.Close()
 	//query to get images
+	//query posts from database and send on frontend on the basis of rows and limits.
 	query := `SELECT 
 	users.name,
     posts.base64string,
@@ -48,6 +54,10 @@ ON
 	}
 	defer rows.Close()
 
+	/*
+		Iterate over returned rows and scan all returned rows 'values on each iteration
+		into struct's fields using rows.Next()
+	*/
 	for rows.Next() {
 		var blog reusable_structs.BlogsData
 		err := rows.Scan(&blog.UserName, &blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at)
@@ -56,10 +66,11 @@ ON
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
-
+		//Converting Uint8 to time.Time
 		decodedTime, _ := reusable.Uint8ToTime(blog.Uploaded_at)
+		//Formatting decodedTime variable
 		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
-
+		//Adding formatted time to FormattedTime field
 		blog.FormattedTime = formattedTime
 
 		blogsData = append(blogsData, blog)

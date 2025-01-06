@@ -11,6 +11,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+Function to send non-metal-loids.json as a response
+to frontend for fetching category of elements
+*/
 func MetalOrNotAPI(c *gin.Context) {
 	// Open the elements file
 	file, err := os.Open("D:/laboratory/JSON/non-metal-loids.json") // Path to elements.json

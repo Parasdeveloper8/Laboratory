@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Function to fetch comments from database
 func GetComments(c *gin.Context) {
 	//Get the post id from the URL
 	post_id := c.Param("post_id")
@@ -22,6 +23,7 @@ func GetComments(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Failed to load configurations"})
 		return
 	}
+
 	db, err := sql.Open("mysql", configs.DB_URL)
 	if err != nil {
 		log.Printf("Failed to connect to database: %v", err)
@@ -29,14 +31,19 @@ func GetComments(c *gin.Context) {
 		return
 	}
 	defer db.Close()
+
 	//query to get comments from the database
+	//Fetch comments of specific post on the basis of its post_id
 	query := "select comments.comment_text,comments.username ,time from laboratory.comments where post_id = ?"
 	rows, err := db.Query(query, post_id)
 	if err != nil {
 		log.Printf("Failed to get profile data %v", err)
 	}
 	defer rows.Close()
-
+	/*
+		Iterate over returned rows and scan all returned rows 'values on each iteration
+		into struct's fields using rows.Next()
+	*/
 	for rows.Next() {
 		var comments reusable_structs.Comments
 		err := rows.Scan(&comments.Comment_Text, &comments.UserName, &comments.TimeofComment)
@@ -45,8 +52,11 @@ func GetComments(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 			return
 		}
+		//Converting Uint8 to time.Time
 		decodedTime, _ := reusable.Uint8ToTime(comments.TimeofComment)
+		//Formatting decodedTime variable
 		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
+		//Adding formatted time to FormattedTimeComment field
 		comments.FormattedTimeComment = formattedTime
 		comments_struct_slice = append(comments_struct_slice, comments)
 	}

@@ -11,6 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+Function to send elements.json to frontend for fetching atomic mass of elements
+*/
 func AtomicMassAPI(c *gin.Context) {
 
 	// Open the elements file

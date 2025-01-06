@@ -11,6 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+Function to send elements2.json to frontend for creating chemical formulaes.
+*/
 func GetSymbolValency(c *gin.Context) {
 	// Open the elements2 file
 	file, err := os.Open("D:/laboratory/JSON/elements2.json") // Path to elements.json
