@@ -11,6 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+After reset link sent,this function will handle further process of password reset.
+*/
 func ResetPassword(c *gin.Context) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
@@ -32,7 +35,7 @@ func ResetPassword(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Failed to hash password"})
 		return
 	}
-
+	//update password
 	query := "UPDATE laboratory.users SET password = ? WHERE email = ?"
 	result, err := db.Exec(query, hashedPassword, email)
 	if err != nil {

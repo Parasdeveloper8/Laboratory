@@ -14,6 +14,9 @@ import (
 	"github.com/google/uuid"
 )
 
+/*
+This function adds posts into DataBase
+*/
 func HandlePost(c *gin.Context) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
@@ -48,6 +51,7 @@ func HandlePost(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
 		return
 	}
+	//Generating post id to insert into database
 	post_id := uuid.New().String()
 	// Get the session
 	session := sessions.Default(c)

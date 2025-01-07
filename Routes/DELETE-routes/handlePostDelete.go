@@ -10,6 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function handles own post deletion on the basis of post_id extracted from
+path parameters.
+*/
 func HandleDeletePost(c *gin.Context) {
 	post_id := c.Param("post_id")
 
@@ -26,6 +30,7 @@ func HandleDeletePost(c *gin.Context) {
 		return
 	}
 	defer db.Close()
+	//delete all data of post
 	query := "DELETE FROM laboratory.posts WHERE post_id = ?"
 	_, err = db.Exec(query, post_id)
 	if err != nil {

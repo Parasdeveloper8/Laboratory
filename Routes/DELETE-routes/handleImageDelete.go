@@ -10,6 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function deletes image of user on the basis of email
+which is extracted from path parameters.
+*/
 func HandleDeleteImage(c *gin.Context) {
 	email := c.Param("email")
 	// Delete image from database
@@ -25,6 +29,7 @@ func HandleDeleteImage(c *gin.Context) {
 		return
 	}
 	defer db.Close()
+	//I am using update query to set image's url to null
 	query := "update laboratory.users set profile_image = null where email=?"
 	_, err = db.Exec(query, email)
 	if err != nil {

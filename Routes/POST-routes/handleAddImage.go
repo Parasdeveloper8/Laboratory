@@ -12,6 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function add image to user profile on the basis of email given.
+*/
 func HandleAddImage(c *gin.Context) {
 	// Parse the file from the request
 	file, err := c.FormFile("image")
@@ -46,7 +49,7 @@ func HandleAddImage(c *gin.Context) {
 	session := sessions.Default(c)
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
-
+	//I am using update query to insert image or replace old image by new image.
 	query := "update laboratory.users set profile_image = ? where email = ?"
 	result, err := db.Exec(query, fileBytes, sessionEmail)
 	if err != nil {

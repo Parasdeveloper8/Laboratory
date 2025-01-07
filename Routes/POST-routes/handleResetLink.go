@@ -4,13 +4,13 @@ import (
 	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+// This function sends reset link to user's email to reset password
 func ResetLink(c *gin.Context) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
@@ -50,7 +50,7 @@ func ResetLink(c *gin.Context) {
 	// Success response
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset link generated successfully"})
 	subject := "Password Reset Link"
-	body := fmt.Sprintf("This is your password reset link: http://localhost:4900/resetpasspage")
+	body := "This is your password reset link: http://localhost:4900/resetpasspage"
 	err = reusable.SendMail(passData.Email, subject, body)
 	if err != nil {
 		log.Printf("Failed to send email: %v", err)

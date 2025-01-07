@@ -11,14 +11,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function adds comments to specific post on the basis
+
+	of post_id from path parameters
+*/
 func HandleComments(c *gin.Context) {
 	//Get the post id from the URL
 	post_id := c.Param("post_id")
-
+	//we can't use it as data type
 	var requestBody struct {
-		Comment string `json:"comment"` // Bind the 'comment' field
+		Comment string `json:"comment"` //Comment field will be used as a value to insert in database
 	}
-
+	// Bind JSON data from the request body
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
@@ -48,7 +53,7 @@ func HandleComments(c *gin.Context) {
 		return
 	}
 	defer db.Close()
-
+	//Inserting Comments into Database with their commenters'email and username
 	query := "insert into laboratory.comments(comment_text,post_id,email,username) values(?,?,?,?)"
 	_, err = db.Exec(query, requestBody.Comment, post_id, sessionEmail, sessionUserName)
 	if err != nil {

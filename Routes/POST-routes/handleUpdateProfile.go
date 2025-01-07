@@ -11,6 +11,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function handles profile updation
+*/
 func HandleUpdateProfile(c *gin.Context) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
@@ -30,7 +33,7 @@ func HandleUpdateProfile(c *gin.Context) {
 
 	newName := c.PostForm("new-name")
 	newRole := c.PostForm("new-role")
-
+	//update profile data on the basis of email given
 	query := "UPDATE laboratory.users SET name = ?, role = ? WHERE email = ?"
 	result, err := db.Exec(query, newName, newRole, sessionEmail)
 	if err != nil {

@@ -9,10 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+This function uses reusable login method .
+*/
 func HandleLogin(c *gin.Context) {
 	email := c.PostForm("email")
 	pass := c.PostForm("password")
-	_, err := reusable.SqlLogin(email, pass, c)
+	_, err := reusable.SqlLogin(email, pass, c) //Reusable login method
 	fmt.Println(err)
 	session := sessions.Default(c)
 
