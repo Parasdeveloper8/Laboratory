@@ -13,6 +13,10 @@ import (
 
 var Name, Pass, Mail string
 
+//This function takes email and password from user
+/*
+If any error occurs it will return a bool and a error
+*/
 func SqlLogin(email, password string, c *gin.Context) (bool, error) {
 	config, err := reusable_structs.Init()
 	if err != nil {
@@ -22,6 +26,11 @@ func SqlLogin(email, password string, c *gin.Context) (bool, error) {
 	if err != nil {
 		log.Fatalf("Failed to connect to database %v", err)
 	}
+	//Select email,password and name from database on the basis of given email
+	/*
+		if email matches in users table ,this will return results
+		and scan returned results in variables for further work
+	*/
 	query := "SELECT email, password ,name FROM laboratory.users WHERE email = ?"
 	err = db.QueryRow(query, email).Scan(&Mail, &Pass, &Name)
 	if err == sql.ErrNoRows {

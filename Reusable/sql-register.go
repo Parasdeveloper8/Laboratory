@@ -10,13 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// name attribute value should be filled
+/*
+This function does user registration and hash the password
+This takes name ,email,password,role and if any error occurs ,it will
+return a bool and a error
+*/
 func SqlBcryptRegister(name, email, password, role string, c *gin.Context) (bool, error) {
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
 		return false, err
 	}
+
 	db, err := sql.Open("mysql", configs.DB_URL)
 	if err != nil {
 		log.Printf("Failed to connect to database: %v", err)

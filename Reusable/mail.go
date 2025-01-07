@@ -7,6 +7,8 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
+// Mail Sender function which takes 3 arguments receiver,subject,body
+// This function returns error if any error occurs
 func SendMail(to, subject, body string) error {
 	configs, err := reusable_structs.Init()
 	if err != nil {
