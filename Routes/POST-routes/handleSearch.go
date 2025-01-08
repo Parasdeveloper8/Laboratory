@@ -1,15 +1,93 @@
 package postroutes
 
 import (
+	reusable "Laboratory/Reusable"
+	reusable_structs "Laboratory/Structs"
+	"database/sql"
 	"fmt"
+	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 /*
-This function handles search and return results related to given text in path parameters
+This function handles search and return results related to given text in query string
 */
 func HandleSearch(c *gin.Context) {
-	title := c.Param("title")
-	fmt.Println(title)
+	var blogsData []reusable_structs.BlogsData //converting struct into slice because we will return multiple posts not a single post details
+	//Get the val from query string
+	title := c.Query("val")
+	//Get row from path params
+	row := c.Param("row")
+	//Get limit from path params
+	limit := c.Param("limit")
+
+	//First load configurations from reusable_structs
+	configs, err := reusable_structs.Init()
+	if err != nil {
+		fmt.Println("Failed to load configurations", err)
+	}
+
+	db, err := sql.Open("mysql", configs.DB_URL)
+	if err != nil {
+		log.Printf("Failed to connect to database: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	defer db.Close()
+	//Query to fetch posts related to query strings
+	query := `SELECT 
+    users.name,
+    posts.base64string,
+    posts.email,
+    posts.title,
+    posts.post_id,
+    users.profile_image AS user_img,
+    posts.uploaded_at
+FROM 
+    laboratory.posts
+JOIN 
+    laboratory.users 
+ON 
+    posts.email = users.email
+WHERE 
+    posts.title LIKE CONCAT('%', ?, '%')
+LIMIT 
+    ?, ?`
+
+	rows, err := db.Query(query, title, row, limit)
+	if err != nil {
+		log.Printf("Failed to get data %v", err)
+	}
+	defer rows.Close()
+
+	/*
+		Iterate over returned rows and scan all returned rows 'values on each iteration
+		into struct's fields using rows.Next()
+	*/
+	for rows.Next() {
+		var blog reusable_structs.BlogsData
+		err := rows.Scan(&blog.UserName, &blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at)
+		if err != nil {
+			log.Printf("Failed to scan row: %v", err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+			return
+		}
+		//Converting Uint8 to time.Time
+		decodedTime, _ := reusable.Uint8ToTime(blog.Uploaded_at)
+		//Formatting decodedTime variable
+		formattedTime := decodedTime.Format("2006-01-02 15:04:05")
+		//Adding formatted time to FormattedTime field
+		blog.FormattedTime = formattedTime
+
+		blogsData = append(blogsData, blog)
+	}
+	//if any error during iteration
+	if err := rows.Err(); err != nil {
+		log.Printf("Row iteration error: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": blogsData})
 }
