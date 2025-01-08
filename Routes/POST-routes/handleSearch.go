@@ -18,10 +18,6 @@ func HandleSearch(c *gin.Context) {
 	var blogsData []reusable_structs.BlogsData //converting struct into slice because we will return multiple posts not a single post details
 	//Get the val from query string
 	title := c.Query("val")
-	//Get row from path params
-	row := c.Param("row")
-	//Get limit from path params
-	limit := c.Param("limit")
 
 	//First load configurations from reusable_structs
 	configs, err := reusable_structs.Init()
@@ -52,11 +48,9 @@ JOIN
 ON 
     posts.email = users.email
 WHERE 
-    posts.title LIKE CONCAT('%', ?, '%')
-LIMIT 
-    ?, ?`
+    posts.title LIKE CONCAT('%', ?, '%')`
 
-	rows, err := db.Query(query, title, row, limit)
+	rows, err := db.Query(query, title)
 	if err != nil {
 		log.Printf("Failed to get data %v", err)
 	}

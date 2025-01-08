@@ -104,7 +104,7 @@ func main() {
 
 	r.GET("/SymbolValency", GETAPI.GetSymbolValency) //API to get symbols and valencies
 
-	r.POST("/search/:row/:limit", middlewares.CheckEmail(), postroutes.HandleSearch)
+	r.POST("/search", middlewares.CheckEmail(), postroutes.HandleSearch)
 
 	r.GET("/search-page", Routes.RenderSearchPage)
 
