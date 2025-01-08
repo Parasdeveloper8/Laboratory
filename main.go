@@ -104,6 +104,10 @@ func main() {
 
 	r.GET("/SymbolValency", GETAPI.GetSymbolValency) //API to get symbols and valencies
 
+	r.POST("/search/:title", postroutes.HandleSearch)
+
+	r.GET("/search-page", Routes.RenderSearchPage)
+
 	//Start server on port 4900
 	r.Run(":4900")
 }
