@@ -17,10 +17,11 @@
                 <a class="navbar-brand" href="#">
                     <img src="" alt="" width="30" height="24" class="d-inline-block align-text-top">Laboratory
                 </a>
-                <p class="fs-4 fst-italic">{{.username}}</p>
-                <form class="d-none d-lg-inline" action="/page-to-post">
-                    <button type="submit" class="btn btn-outline-primary">Add post</button>
-                </form>
+                <form class="form-inline d-flex">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                  </form>
+               <!--<p class="fs-4 fst-italic">{{.username}}</p>-->
             </div>
         </nav>
     </header>
@@ -31,6 +32,7 @@
         <button class="btn btn-outline-secondary" onclick="location.href='/own-posts-page'">My Post</button>
         <button class="btn btn-outline-secondary" onclick="location.href='/login-page'">Login</button>
         <button class="btn btn-outline-secondary" onclick="location.href='/register-page'">Register</button>
+        <button class="btn btn-outline-secondary" onclick="location.href='/page-to-post'">Add Post</button>
     </div>
 
     <!-- Sidebar for mobile -->
@@ -45,6 +47,7 @@
             <button class="btn btn-outline-secondary" onclick="location.href='/own-posts-page'">My Post</button>
             <button class="btn btn-outline-secondary" onclick="location.href='/login-page'">Login</button>
             <button class="btn btn-outline-secondary" onclick="location.href='/register-page'">Register</button>
+            <button class="btn btn-outline-secondary" onclick="location.href='/page-to-post'">Add Post</button>
         </div>
     </div>
 
