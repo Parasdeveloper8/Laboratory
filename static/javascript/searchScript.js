@@ -1,11 +1,11 @@
 const searchValue = document.getElementById("search-value");
-const loader = document.getElementById('r-loader');
+//const loader = document.getElementById('r-loader');
 const div = document.getElementById("blogs");
-loader.style.display = 'none';
+//loader.style.display = 'none';
 const search = async (e)=>{
     e.preventDefault();
+    //loader.style.display = 'block';
     div.innerHTML = "";
-    loader.style.display = 'block';
     try{
      const searchAPI = `http://localhost:4900/search?val=${searchValue.value}`;
      const response = await fetch(searchAPI,{
@@ -15,13 +15,13 @@ const search = async (e)=>{
      if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
-    loader.style.display = 'none';
+    //loader.style.display = 'none';
     const data = await response.json();
     renderBlogs(data.data);
     }
     catch(error){
         console.error("Failed to search", error);
-            loader.style.display = 'block';
+            //loader.style.display = 'block';
     }
 }
 // Function to render blogs
