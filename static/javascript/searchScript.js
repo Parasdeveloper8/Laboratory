@@ -1,8 +1,10 @@
 const searchValue = document.getElementById("search-value");
 const loader = document.getElementById('r-loader');
+const div = document.getElementById("blogs");
 loader.style.display = 'none';
 const search = async (e)=>{
     e.preventDefault();
+    div.innerHTML = "";
     loader.style.display = 'block';
     try{
      const searchAPI = `http://localhost:4900/search?val=${searchValue.value}`;
@@ -24,7 +26,6 @@ const search = async (e)=>{
 }
 // Function to render blogs
 function renderBlogs(blogs) {
-    const div = document.getElementById("blogs");
     blogs.forEach(blog => {
         const post_id = blog.Post_Id;
         const blogContainer = document.createElement("div");
