@@ -1,3 +1,6 @@
 New posts should be at top.[Done]
+
 Category based.
+
 Popularity based.
+ ---likes

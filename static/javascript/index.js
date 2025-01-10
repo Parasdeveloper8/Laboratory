@@ -45,7 +45,6 @@ function renderBlogs(blogs) {
         const post_id = blog.Post_Id;
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
-        blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative; top:5vh;";
 
         const topBar = document.createElement("div");
         topBar.style = "display: flex; justify-content: space-between; padding: 8px; background: #f9f9f9; color: #333; font-size: 14px;";
