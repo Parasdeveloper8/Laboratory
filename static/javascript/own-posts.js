@@ -38,7 +38,6 @@ function renderBlogs(blogs) {
         console.log(blog.Formattedtime);
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
-        blogContainer.style = "width: 300px; margin: 15px; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: relative; top:10vh;";
 
         // Create the top bar
         const topBar = document.createElement("div");
