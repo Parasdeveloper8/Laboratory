@@ -32,11 +32,13 @@ func HandlePost(c *gin.Context) {
 	defer db.Close()
 	// Parse the file from the request
 	file, err := c.FormFile("file")
-	caption := c.PostForm("caption")
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
 		return
 	}
+	caption := c.PostForm("caption")
+	category := c.PostForm("category")
 
 	// Read file content
 	fileContent, err := file.Open()
@@ -60,12 +62,13 @@ func HandlePost(c *gin.Context) {
 	sessionUserName, _ := session.Get("username").(string)
 
 	//insert file into DB
-	query := "insert into laboratory.posts(name,base64string,email,title,post_id,username) values(?,?,?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName)
+	query := "insert into laboratory.posts(name,base64string,email,title,post_id,username,category) values(?,?,?,?,?,?,?)"
+	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName, category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
 		return
 	}
-	c.Redirect(http.StatusSeeOther, "/afterlogin?message=file uploaded successfully")
+
+	c.Redirect(http.StatusSeeOther, "/afterlogin")
 }
