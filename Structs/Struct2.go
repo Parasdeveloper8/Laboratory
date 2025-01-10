@@ -10,6 +10,7 @@ type BlogsData struct {
 	Email         string  `db:"email"`
 	Title         string  `db:"title"`
 	FormattedTime string
+	Category      string `db:"category"`
 }
 
 type ProfileData struct {

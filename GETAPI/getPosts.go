@@ -41,7 +41,8 @@ func GetPosts(c *gin.Context) {
     posts.title,
 	posts.post_id,
     users.profile_image AS user_img,
-	posts.uploaded_at
+	posts.uploaded_at,
+	posts.category
 FROM 
     laboratory.posts
 JOIN 
@@ -61,7 +62,7 @@ ON
 	*/
 	for rows.Next() {
 		var blog reusable_structs.BlogsData
-		err := rows.Scan(&blog.UserName, &blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at)
+		err := rows.Scan(&blog.UserName, &blog.Base64string, &blog.Email, &blog.Title, &blog.Post_Id, &blog.User_Image, &blog.Uploaded_at, &blog.Category)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
