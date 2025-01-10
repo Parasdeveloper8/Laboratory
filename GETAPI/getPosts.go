@@ -41,13 +41,14 @@ func GetPosts(c *gin.Context) {
     posts.title,
 	posts.post_id,
     users.profile_image AS user_img,
-	uploaded_at
+	posts.uploaded_at
 FROM 
     laboratory.posts
 JOIN 
     laboratory.users 
 ON 
-    posts.email = users.email LIMIT ?,?`
+    posts.email = users.email ORDER BY posts.uploaded_at DESC LIMIT ?,? 
+`
 	rows, err := db.Query(query, rowF, limits)
 	if err != nil {
 		log.Printf("Failed to get images data %v", err)

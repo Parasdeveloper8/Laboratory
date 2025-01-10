@@ -90,8 +90,6 @@ func main() {
 
 	r.POST("/update-profile", middlewares.CheckEmail(), postroutes.HandleUpdateProfile)
 
-	r.GET("/learn-valency-page", Routes.RenderLearnValencyPage)
-
 	r.GET("change-profile-page", Routes.RenderChangeProfileForm)
 
 	r.DELETE("/delete-post/:post_id", middlewares.CheckEmail(), deleteroutes.HandleDeletePost)
