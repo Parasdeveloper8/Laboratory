@@ -1,0 +1,121 @@
+.loader{
+    width:100px;
+    height:100px;
+    border-top:8px dotted silver;
+    border-right:8px dotted silver;
+    border-left:8px dotted silver;
+    border-bottom:8px dotted white;
+    animation:rotate 2s ease-in-out infinite;
+    border-radius: 100%;
+    display: none;
+    margin-top: 30vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+@keyframes rotate{
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform:rotate(360deg);
+    }
+}
+.home-btn{
+    border: none;
+    padding: 5px;
+    background-color:#007bff ;
+     color:white;
+    width:40px;
+   border-radius: 5px;
+   position: fixed;
+   margin-top:auto;
+   margin-bottom: auto;
+   left:0.5vw;
+    &:hover{
+   background-color:#0056b3;
+   }
+}
+#pen{
+    position: fixed;
+    top:85vh;
+    left:90vw;
+    border:none;
+    width:40px;
+    height:40px;
+    border-radius: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#007bff;
+    box-shadow:0 0 10px #007bff;
+    & >i{
+      color:white;
+      font-size: 30px;
+    }
+    &:hover{
+        background-color:#0056b3;
+    }
+}
+#dialog {
+        display:none;
+        box-sizing: border-box;
+        position:fixed;
+        top:20vh;
+        margin-left:25vw ;
+        margin-right: 25vw;
+        background: #ffffff;
+        width:50vw;
+        padding: 2rem;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        & > form > input{
+            width:40vw;
+            height: 10vh;
+        }
+    }
+
+#sub-btn{
+    border: none;
+    padding: 5px;
+    background-color:#007bff ;
+     color:white;
+     border-radius: 5px;
+     float: right;
+     margin-right: 10px;
+     margin-bottom:3px;
+     &:hover{
+        background-color:#0056b3;
+    }
+}
+#close{
+    border: none;
+    font-size: 20px;
+    background-color: white;
+     color:black;
+     border-radius: 5px;
+     &:hover{
+        color:#0056b3;
+    }
+}
+select{
+     position: relative;
+     top:5vh;
+}
+
+@media(max-width:968px){
+    #pen{
+        width:70px;
+        height:70px;
+        & > i{
+            font-size: 40px;
+        }
+    }
+    #dialog{
+        width:80vw;
+        margin-left: 10vw;
+        margin-right: 10vw;
+        & > form > input{
+            width:60vw;
+        }
+    }
+}
