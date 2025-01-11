@@ -82,7 +82,7 @@ function renderBlogs(blogs) {
             const img = document.createElement("img");
             img.src = `data:image/jpeg;base64,${base64String}`;
             img.alt = blog.Title;
-            img.style = "width: 100%; height: 100%; object-fit: cover;";
+            img.style = "width: 100%; height:100%; object-fit: cover;";
             mediaWrapper.appendChild(img);
         } else {
             // Render as a video
