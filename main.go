@@ -106,6 +106,8 @@ func main() {
 
 	r.GET("/search-page", Routes.RenderSearchPage)
 
+	r.GET("/Qna", Routes.RenderQNAPage)
+
 	//Start server on port 4900
 	r.Run(":4900")
 }
