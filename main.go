@@ -108,7 +108,7 @@ func main() {
 
 	r.GET("/Qna", Routes.RenderQNAPage)
 
-	r.POST("/post-ques/:text", middlewares.CheckEmail(), postroutes.HandlePostQues)
+	r.POST("/post-ques/:text/:category", middlewares.CheckEmail(), postroutes.HandlePostQues)
 
 	//Start server on port 4900
 	r.Run(":4900")
