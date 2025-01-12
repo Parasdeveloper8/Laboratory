@@ -7,3 +7,15 @@ type ElementsValAnCation struct {
 	Symbol      string  `json:"symbol"`
 	Valency     int     `json:"valency"`
 }
+
+//Struct of Questions
+type Questions struct {
+	Text          string  `db:"text"`
+	Username      string  `db:"username"`
+	Email         string  `db:"email"`
+	Id            string  `db:"id"`
+	Category      string  `db:"category"`
+	Time          []uint8 `db:"time"`
+	FormattedTime string
+	Profile_Image []byte `db:"profile_image"`
+}
