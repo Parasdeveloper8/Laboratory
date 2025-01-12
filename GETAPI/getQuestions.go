@@ -14,8 +14,12 @@ import (
 /*
 This function extracts questions data from database along with other data.
 This works as API.
+To reduce latency in response and load on server ,it has two variables rowF and limits.
+rowF and limits are fetched from path parameters row and limit respectively.
 */
 func GetQuestions(c *gin.Context) {
+	rowF := c.Param("row")
+	limits := c.Param("limit")
 	var questions []reusable_structs.Questions
 	config, err := reusable_structs.Init()
 	if err != nil {
@@ -33,7 +37,6 @@ func GetQuestions(c *gin.Context) {
 	query := `
 	  select 
 	  questions.text,
-	  questions.email,
 	  questions.username,
 	  questions.id,
 	  questions.time,
@@ -42,9 +45,9 @@ func GetQuestions(c *gin.Context) {
 	  from laboratory.questions
 	  join laboratory.users
 	  on questions.email = users.email
-	  order by questions.time desc
+	  order by questions.time desc limit ?,?
 	`
-	rows, err := db.Query(query)
+	rows, err := db.Query(query, rowF, limits)
 	if err != nil {
 		log.Printf("Failed to get images data %v", err)
 	}
@@ -55,7 +58,7 @@ func GetQuestions(c *gin.Context) {
 	*/
 	for rows.Next() {
 		var ques reusable_structs.Questions
-		err := rows.Scan(&ques.Text, &ques.Email, &ques.Username, &ques.Id, &ques.Time, &ques.Category, &ques.Profile_Image)
+		err := rows.Scan(&ques.Text, &ques.Username, &ques.Id, &ques.Time, &ques.Category, &ques.Profile_Image)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
