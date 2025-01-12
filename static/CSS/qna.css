@@ -34,7 +34,7 @@
         background-color:#0056b3;
     }
 }
-#dialog {
+.dialog {
         display:none;
         box-sizing: border-box;
         position:fixed;
@@ -52,7 +52,7 @@
         }
     }
 
-#sub-btn{
+.sub-btn{
     border: none;
     padding: 5px;
     background-color:#007bff ;
@@ -65,7 +65,7 @@
         background-color:#0056b3;
     }
 }
-#close{
+.close{
     border: none;
     font-size: 20px;
     background-color: white;
@@ -88,7 +88,7 @@ select{
             font-size: 40px;
         }
     }
-    #dialog{
+    .dialog{
         width:80vw;
         margin-left: 10vw;
         margin-right: 10vw;
@@ -99,4 +99,17 @@ select{
 }
 #questions-list{
     margin-top:20vh;
+}
+#ans-btn{
+    border:none;
+    padding: 5px;
+    background-color:#007bff ;
+     color:white;
+     border-radius: 5px;
+     margin-bottom:5px;
+     margin-left: 10px;
+     margin-right: 10px;
+     &:hover{
+        background-color:#0056b3;
+    }
 }

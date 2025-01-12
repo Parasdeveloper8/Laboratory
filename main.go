@@ -112,6 +112,8 @@ func main() {
 
 	r.GET("/ques-data/:row/:limit", GETAPI.GetQuestions) //API to get questions
 
+	r.POST("/post-ans/:id/:answer", middlewares.CheckEmail(), postroutes.HandlePostAns)
+
 	//Start server on port 4900
 	r.Run(":4900")
 }

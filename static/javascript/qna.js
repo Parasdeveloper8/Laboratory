@@ -1,19 +1,17 @@
-const dialogBox = document.getElementById('dialog');
-const text = document.getElementById("text");
-const category = document.getElementById("select");
+const dialogBox = document.getElementById('dialogueBox');
+
 const quesList = document.getElementById("questions-list");
-const header = document.getElementById("header");
-const UserNameText = document.getElementById("username");
-const timeText = document.getElementById("time");
-const categoryText = document.getElementById("category");
-const quesText = document.getElementById("text");
+
 const loader = document.getElementById("r-loader");
-const floader = document.getElementById("fail-loader");
-floader.style.display = 'none';
+
 loader.style.display = 'block';
+
 let page = 1;
+
 let limit = 5;
+
 let row= 0;
+
 let isLoading = false; // To prevent multiple fetches at once
 
 // Open dialog box to put question
@@ -56,7 +54,6 @@ const fetchQuestions = async () => {
         // Check if there are no more questions to fetch
         if (data.data.length === 0) {
             // If no more questions, stop fetching and show a message or indication
-            floader.style.display = 'none'; // Hide the fail loader if there is no more data
             loader.style.display = 'none';  // Hide the loader
             return;  // No more data, stop fetching
         }
@@ -67,7 +64,6 @@ const fetchQuestions = async () => {
         renderQues(data.data);  // Render new questions
     } catch (error) {
         console.error("Error on fetching questions", error);
-        floader.style.display = 'block';  // Show fail loader if there is an error
     } finally {
         isLoading = false; // Allow new fetch once the current one finishes
     }
@@ -75,11 +71,12 @@ const fetchQuestions = async () => {
 
 
 // Render questions dynamically
+let id;
 const renderQues = (questionsToDisplay) => {
 
     questionsToDisplay.forEach(quest => {
-        const { Text, Username, Id, Category, FormattedTime, Profile_Image } = quest;
-
+        const { Text, Username, Category, FormattedTime, Profile_Image } = quest;
+        id = quest.Id;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
 
@@ -98,6 +95,7 @@ const renderQues = (questionsToDisplay) => {
                     <h5 class="card-title">${Category}</h5>
                     <p class="card-text">${Text}</p>
                 </div>
+                <button id="ans-btn" onclick="openPostAnsBox()">Add Answer</button>
             </div>
         `;
         quesList.appendChild(questionCard); // Append the newly created card
@@ -112,3 +110,34 @@ window.addEventListener('scroll', () => {
     } 
 }); 
  fetchQuestions();
+
+
+ const postAnsDialogueBox = document.getElementById("postAnsDialogue");
+  //open post answer dialogue box
+ const openPostAnsBox = () =>{
+       postAnsDialogueBox.style.display = 'block';
+ }
+
+ //close post answer dialogue box
+ const closePostAnsBox = () =>{
+       postAnsDialogueBox.style.display = 'none';
+ }
+
+ const subAns = async(event) =>{
+    event.preventDefault();
+    try{
+    const answerText = document.getElementById("answerText");
+    const api = `http://localhost:4900/post-ans/${id}/${answerText.value}`;
+    const response = await fetch(api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    });
+    if (response.ok) {
+        closePostAnsBox();
+        
+    }
+}
+catch(error){
+    console.error("Error on posting Answers", error);
+}
+ }

@@ -20,13 +20,12 @@
         <div id="questions-list" class="row">
             <p class="fs-1 text-center" id="r-loader">Loading....</p>
         </div>
-        <p class="fs-3 text-center" id="fail-loader">Loading....</p>
     </main>
 
-    <div id="dialog">
-        <button onclick="closeDialog()" id="close">X</button>
+    <div class="dialog" id="dialogueBox">
+        <button onclick="closeDialog()" class="close">X</button>
 
-        <form action="/que" onsubmit="addQue(event)">
+        <form onsubmit="addQue(event)">
             <input type="text" name="que" id="text" placeholder="Write question here ..." required>
             <br>
             <select name="category" id="select">
@@ -36,12 +35,21 @@
                 <option value="other" class="dropdown-item">Other</option>
             </select>
             <br>
-            <button type="submit" id="sub-btn">Submit</button>
+            <button type="submit" class="sub-btn">Submit</button>
         </form>
     </div>
 
     <button id="pen" onclick="openDialog()"><i class="fa fa-plus" aria-hidden="true" id="pen"></i></button>
     
+    <div class="dialog" id="postAnsDialogue">
+        <button onclick="closePostAnsBox()" class="close">X</button>
+        <form onsubmit="subAns(event)">
+        <input type="text" placeholder="Your Answer here" name="ans" id="answerText">
+        <br>
+        <br>
+        <button type="submit" class="sub-btn">Post Answer</button>
+        </form>
+    </div>
     <script src="static/javascript/qna.js"></script>
 </body>
 </html>
