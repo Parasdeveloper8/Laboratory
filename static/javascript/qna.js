@@ -26,6 +26,8 @@ const closeDialog = () => {
 
 // Add question
 const addQue = async (event) => {
+    const category = document.getElementById("select");
+    const text = document.getElementById("text");
     event.preventDefault();
     try {
         const api = `http://localhost:4900/post-ques/${text.value}/${category.value}`;
@@ -72,6 +74,7 @@ const fetchQuestions = async () => {
 
 // Render questions dynamically
 let id;
+//let TotalAns = 1;
 const renderQues = (questionsToDisplay) => {
 
     questionsToDisplay.forEach(quest => {
@@ -96,6 +99,7 @@ const renderQues = (questionsToDisplay) => {
                     <p class="card-text">${Text}</p>
                 </div>
                 <button id="ans-btn" onclick="openPostAnsBox()">Add Answer</button>
+                <button id="show-ans-btn" onclick="openShowAnsBox()">show Answers</button>
             </div>
         `;
         quesList.appendChild(questionCard); // Append the newly created card
@@ -134,7 +138,6 @@ window.addEventListener('scroll', () => {
     });
     if (response.ok) {
         closePostAnsBox();
-        
     }
 }
 catch(error){

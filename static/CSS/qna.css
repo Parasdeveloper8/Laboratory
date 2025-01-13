@@ -113,3 +113,12 @@ select{
         background-color:#0056b3;
     }
 }
+#show-ans-btn{
+    border:none;
+    padding: 5px;
+    border-radius: 5px;
+    color:black;
+    margin-bottom:5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}

@@ -26,7 +26,7 @@
         <button onclick="closeDialog()" class="close">X</button>
 
         <form onsubmit="addQue(event)">
-            <input type="text" name="que" id="text" placeholder="Write question here ..." required>
+            <input type="text" name="que" id="text" placeholder="Write question here ..." required style="border:2px solid black;">
             <br>
             <select name="category" id="select">
                 <option value="physics" class="dropdown-item">Physics</option>
@@ -44,7 +44,7 @@
     <div class="dialog" id="postAnsDialogue">
         <button onclick="closePostAnsBox()" class="close">X</button>
         <form onsubmit="subAns(event)">
-        <input type="text" placeholder="Your Answer here" name="ans" id="answerText">
+        <input type="text" placeholder="Your Answer here" name="ans" id="answerText" style="border:2px solid black;">
         <br>
         <br>
         <button type="submit" class="sub-btn">Post Answer</button>
