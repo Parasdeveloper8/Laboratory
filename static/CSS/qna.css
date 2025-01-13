@@ -38,6 +38,7 @@
         display:none;
         box-sizing: border-box;
         position:fixed;
+        z-index:1;
         top:20vh;
         margin-left:25vw ;
         margin-right: 25vw;

@@ -73,13 +73,11 @@ const fetchQuestions = async () => {
 
 
 // Render questions dynamically
-let id;
 //let TotalAns = 1;
 const renderQues = (questionsToDisplay) => {
 
     questionsToDisplay.forEach(quest => {
-        const { Text, Username, Category, FormattedTime, Profile_Image } = quest;
-        id = quest.Id;
+        const { Text, Username, Category, FormattedTime, Profile_Image ,Id} = quest;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
 
@@ -101,33 +99,37 @@ const renderQues = (questionsToDisplay) => {
                 <button id="ans-btn" onclick="openPostAnsBox()">Add Answer</button>
                 <button id="show-ans-btn" onclick="openShowAnsBox()">show Answers</button>
             </div>
+
+            <div class="dialog" id="postAnsDialogue">
+        <button onclick="closePostAnsBox()" class="close">X</button>
+        <form id="ans-form">
+        <input type="text" placeholder="Your Answer here" name="ans" id="answerText" style="border:2px solid black;">
+        <br>
+        <br>
+        <button type="submit" class="sub-btn">Post Answer</button>
+        </form>
+    </div>
         `;
         quesList.appendChild(questionCard); // Append the newly created card
+       const ansForm = document.getElementById("ans-form");
+        ansForm.addEventListener("submit",(event)=>subAns(event,Id));
     });
 }
-window.addEventListener('scroll', () => { 
-    const scrollPosition = window.scrollY + window.innerHeight; 
-    const documentHeight = document.documentElement.scrollHeight; 
-    
-    if (scrollPosition >= documentHeight -10) {
-        fetchQuestions();
-    } 
-}); 
- fetchQuestions();
 
 
- const postAnsDialogueBox = document.getElementById("postAnsDialogue");
   //open post answer dialogue box
  const openPostAnsBox = () =>{
+    const postAnsDialogueBox = document.getElementById("postAnsDialogue");
        postAnsDialogueBox.style.display = 'block';
  }
 
  //close post answer dialogue box
  const closePostAnsBox = () =>{
+    const postAnsDialogueBox = document.getElementById("postAnsDialogue");
        postAnsDialogueBox.style.display = 'none';
  }
 
- const subAns = async(event) =>{
+ const subAns = async(event,id) =>{
     event.preventDefault();
     try{
     const answerText = document.getElementById("answerText");
@@ -138,9 +140,21 @@ window.addEventListener('scroll', () => {
     });
     if (response.ok) {
         closePostAnsBox();
+        fetchQuestions();
     }
 }
 catch(error){
     console.error("Error on posting Answers", error);
 }
  }
+
+ window.addEventListener('scroll', () => { 
+    const scrollPosition = window.scrollY + window.innerHeight; 
+    const documentHeight = document.documentElement.scrollHeight; 
+    
+    if (scrollPosition >= documentHeight -10) {
+        fetchQuestions();
+    } 
+}); 
+
+fetchQuestions();
