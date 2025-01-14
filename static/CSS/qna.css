@@ -101,7 +101,7 @@ select{
 #questions-list{
     margin-top:20vh;
 }
-#ans-btn{
+.ans-btn{
     border:none;
     padding: 5px;
     background-color:#007bff ;
@@ -114,7 +114,7 @@ select{
         background-color:#0056b3;
     }
 }
-#show-ans-btn{
+.show-ans-btn{
     border:none;
     padding: 5px;
     border-radius: 5px;

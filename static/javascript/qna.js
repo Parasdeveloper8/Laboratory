@@ -1,17 +1,12 @@
 const dialogBox = document.getElementById('dialogueBox');
-
 const quesList = document.getElementById("questions-list");
-
 const loader = document.getElementById("r-loader");
 
 loader.style.display = 'block';
 
 let page = 1;
-
 let limit = 5;
-
-let row= 0;
-
+let row = 0;
 let isLoading = false; // To prevent multiple fetches at once
 
 // Open dialog box to put question
@@ -71,15 +66,15 @@ const fetchQuestions = async () => {
     }
 }
 
-
 // Render questions dynamically
-//let TotalAns = 1;
 const renderQues = (questionsToDisplay) => {
 
     questionsToDisplay.forEach(quest => {
         const { Text, Username, Category, FormattedTime, Profile_Image ,Id} = quest;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
+
+        const shortenedUuid = Id.replace(/-/g, ''); // Remove hyphens
 
         questionCard.innerHTML = `
             <div class="card">
@@ -96,62 +91,75 @@ const renderQues = (questionsToDisplay) => {
                     <h5 class="card-title">${Category}</h5>
                     <p class="card-text">${Text}</p>
                 </div>
-                <button id="ans-btn" onclick="openPostAnsBox()">Add Answer</button>
-                <button id="show-ans-btn" onclick="openShowAnsBox()">show Answers</button>
+                <button class="ans-btn" id="ans-btn-${shortenedUuid}">Add Answer</button>
+                <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}" onclick="openShowAnsBox()">Show Answers</button>
             </div>
 
-            <div class="dialog" id="postAnsDialogue">
-        <button onclick="closePostAnsBox()" class="close">X</button>
-        <form id="ans-form-${Id}">
-        <input type="text" placeholder="Your Answer here" name="ans" id="answerText" style="border:2px solid black;">
-        <br>
-        <br>
-        <button type="submit" class="sub-btn">Post Answer</button>
-        </form>
-    </div>
+            <div class="dialog" id="postAnsDia-${shortenedUuid}">
+                <button class="close" id="close-ans-${shortenedUuid}">X</button>
+                <form id="ans-form-${shortenedUuid}">
+                    <p>${Id}</p>
+                    <input type="text" placeholder="Your Answer here" name="ans" id="answerText-${shortenedUuid}" style="border:2px solid black;">
+                    <br>
+                    <br>
+                    <button type="submit" class="sub-btn">Post Answer</button>
+                </form>
+            </div>
         `;
+
         quesList.appendChild(questionCard); // Append the newly created card
-       const ansForm = document.getElementById(`ans-form-${Id}`);
-        ansForm.addEventListener("submit",(event)=>subAns(event,Id));
+
+        // Bind event listeners for the dynamically created buttons
+        const ansBtn = document.getElementById(`ans-btn-${shortenedUuid}`);
+        ansBtn.addEventListener("click", () => openPostAnsBox(shortenedUuid));
+
+        const closeAnsBtn = document.getElementById(`close-ans-${shortenedUuid}`);
+        closeAnsBtn.addEventListener("click", () => closePostAnsBox(shortenedUuid));
+
+        const ansForm = document.getElementById(`ans-form-${shortenedUuid}`);
+        ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
     });
 }
 
 fetchQuestions();
-  //open post answer dialogue box
- const openPostAnsBox = () =>{
-    const postAnsDialogueBox = document.getElementById("postAnsDialogue");
-       postAnsDialogueBox.style.display = 'block';
- }
 
- //close post answer dialogue box
- const closePostAnsBox = () =>{
-    const postAnsDialogueBox = document.getElementById("postAnsDialogue");
-       postAnsDialogueBox.style.display = 'none';
- }
+// Open post answer dialogue box
+const openPostAnsBox = (id) => {
+    const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
+    postAnsDialogueBox.style.display = 'block';
+}
 
- const subAns = async(event,id) =>{
+// Close post answer dialogue box
+const closePostAnsBox = (id) => {
+    const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
+    postAnsDialogueBox.style.display = 'none';
+}
+
+// Submit Answer
+const subAns = async (event, id) => {
     event.preventDefault();
-    try{
-    const answerText = document.getElementById("answerText");
-    const api = `http://localhost:4900/post-ans/${id}/${answerText.value}`;
-    const response = await fetch(api, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-    });
-    if (response.ok) {
-        closePostAnsBox();
+    try {
+        const answerText = document.getElementById(`answerText-${id}`);
+        const api = `http://localhost:4900/post-ans/${id}/${answerText.value}`;
+        const response = await fetch(api, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+        if (response.ok) {
+            closePostAnsBox(id);
+        }
+    } catch (error) {
+        console.error("Error on posting Answers", error);
     }
 }
-catch(error){
-    console.error("Error on posting Answers", error);
-}
- }
- window.addEventListener('scroll', () => { 
+
+// Scroll to load more questions
+window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 
     const documentHeight = document.documentElement.scrollHeight; 
     
-    if (scrollPosition >= documentHeight -10) {
+    if (scrollPosition >= documentHeight - 10) {
         fetchQuestions();
     } 
-}); 
+});
 
