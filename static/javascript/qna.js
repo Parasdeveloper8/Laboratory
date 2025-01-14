@@ -98,7 +98,6 @@ const renderQues = (questionsToDisplay) => {
             <div class="dialog" id="postAnsDia-${shortenedUuid}">
                 <button class="close" id="close-ans-${shortenedUuid}">X</button>
                 <form id="ans-form-${shortenedUuid}">
-                    <p>${Id}</p>
                     <input type="text" placeholder="Your Answer here" name="ans" id="answerText-${shortenedUuid}" style="border:2px solid black;">
                     <br>
                     <br>
