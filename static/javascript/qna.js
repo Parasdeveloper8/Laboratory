@@ -102,7 +102,7 @@ const renderQues = (questionsToDisplay) => {
 
             <div class="dialog" id="postAnsDialogue">
         <button onclick="closePostAnsBox()" class="close">X</button>
-        <form id="ans-form">
+        <form id="ans-form-${Id}">
         <input type="text" placeholder="Your Answer here" name="ans" id="answerText" style="border:2px solid black;">
         <br>
         <br>
@@ -111,12 +111,12 @@ const renderQues = (questionsToDisplay) => {
     </div>
         `;
         quesList.appendChild(questionCard); // Append the newly created card
-       const ansForm = document.getElementById("ans-form");
+       const ansForm = document.getElementById(`ans-form-${Id}`);
         ansForm.addEventListener("submit",(event)=>subAns(event,Id));
     });
 }
 
-
+fetchQuestions();
   //open post answer dialogue box
  const openPostAnsBox = () =>{
     const postAnsDialogueBox = document.getElementById("postAnsDialogue");
@@ -140,14 +140,12 @@ const renderQues = (questionsToDisplay) => {
     });
     if (response.ok) {
         closePostAnsBox();
-        fetchQuestions();
     }
 }
 catch(error){
     console.error("Error on posting Answers", error);
 }
  }
-
  window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 
     const documentHeight = document.documentElement.scrollHeight; 
@@ -157,4 +155,3 @@ catch(error){
     } 
 }); 
 
-fetchQuestions();
