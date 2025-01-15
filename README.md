@@ -15,7 +15,9 @@
   3.Chemical formulae creator
   
   4.Find Metal or not
-  
+
+  5.You can post qustions and get answers.
+
 - This platform solves issues programmatically not on the basis of opinions of others.
 
 #### Tools used in it
