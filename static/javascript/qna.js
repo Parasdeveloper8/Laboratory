@@ -92,8 +92,13 @@ const renderQues = (questionsToDisplay) => {
                     <p class="card-text">${Text}</p>
                 </div>
                 <button class="ans-btn" id="ans-btn-${shortenedUuid}">Add Answer</button>
-                <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}" onclick="openShowAnsBox()">Show Answers</button>
+                <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}">Show Answers</button>
             </div>
+
+             <div id="ansBox-${shortenedUuid}" style="display:none;" class="ans-dialog">
+             <button class="close" id="closeAnsBox-${shortenedUuid}">X</button>
+             <div id="ans-loader-${shortenedUuid}" class="loader"></div>
+             </div>
 
             <div class="dialog" id="postAnsDia-${shortenedUuid}">
                 <button class="close" id="close-ans-${shortenedUuid}">X</button>
@@ -117,6 +122,12 @@ const renderQues = (questionsToDisplay) => {
 
         const ansForm = document.getElementById(`ans-form-${shortenedUuid}`);
         ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
+
+        const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
+        ansBox.addEventListener("click",()=>openShowAnsBox(shortenedUuid));
+
+        const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
+        closeAnsBtn2.addEventListener('click',()=>closeAnsBox(shortenedUuid));
     });
 }
 
@@ -152,6 +163,38 @@ const subAns = async (event, id) => {
     }
 }
 
+//close Answers Box
+const closeAnsBox=(id)=>{
+    const ansBox = document.getElementById(`ansBox-${id}`);
+    ansBox.style.display='none';
+}
+ //open Answers box
+const openShowAnsBox= async(id)=>{
+    const ansLoader = document.getElementById(`ans-loader-${id}`);
+    ansLoader.style.display = 'block';
+    try{
+    const ansBox = document.getElementById(`ansBox-${id}`);
+    ansBox.style.display = 'block';
+    const response = await fetch(`http://localhost:4900/answers/${id}`);
+    const data = await response.json();
+    if(data.data.length === 0){
+        ansLoader.style.display = 'block';
+    }
+    ansBox.style.overflowY = 'scroll';
+    renderAnswers(data.data);
+    }
+    catch(error){
+        console.error("Error fetching answers",error);
+        ansLoader.style.display = 'block';
+    }
+}
+
+//render answers
+const renderAnswers=(data)=>{
+    data.forEach((ans)=>{
+       
+    });
+}
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 

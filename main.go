@@ -114,6 +114,8 @@ func main() {
 
 	r.POST("/post-ans/:id/:answer", middlewares.CheckEmail(), postroutes.HandlePostAns)
 
+	r.GET("/answers/:queId", GETAPI.GetAnswers) //API to get answers on the basis of question Id
+
 	//Start server on port 4900
 	r.Run(":4900")
 }

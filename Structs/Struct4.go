@@ -19,3 +19,10 @@ type Questions struct {
 	FormattedTime string
 	Profile_Image []byte `db:"profile_image"`
 }
+
+//Struct of Answers
+type Answers struct {
+	Answer   string `db:"text"`
+	Username string `db:"username"`
+	Que_id   string `db:"id"`
+}
