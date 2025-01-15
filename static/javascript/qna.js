@@ -180,8 +180,9 @@ const openShowAnsBox= async(id)=>{
     if(data.data.length === 0){
         ansLoader.style.display = 'block';
     }
-    ansBox.style.overflowY = 'scroll';
-    renderAnswers(data.data);
+    //ansBox.style.overflowY = 'scroll';
+    ansLoader.style.display = 'none';
+    renderAnswers(data.data,id);
     }
     catch(error){
         console.error("Error fetching answers",error);
@@ -190,9 +191,27 @@ const openShowAnsBox= async(id)=>{
 }
 
 //render answers
-const renderAnswers=(data)=>{
+const renderAnswers=(data,id)=>{
     data.forEach((ans)=>{
-       
+        const ansBox = document.getElementById(`ansBox-${id}`);
+        const anss = document.createElement("div");
+        const {Answer,Username} = ans;
+        ansBox.appendChild(anss);
+        anss.innerHTML = `
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <strong>${Username}</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Answer</h5>
+                    <p class="card-text">${Answer}</p>
+                </div>
+            </div>
+        `;
     });
 }
 // Scroll to load more questions

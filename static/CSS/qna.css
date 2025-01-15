@@ -111,8 +111,10 @@ select{
 .ans-dialog{
         box-sizing: border-box;
         position:fixed;
+        right:5vw;
         z-index:1;
-        height:80vh;
+        height:50vh;
+        overflow-y: scroll;
         top:10vh;
         background: #ffffff;
         width:50vw;
