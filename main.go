@@ -7,6 +7,9 @@ import (
 	postroutes "Laboratory/Routes/POST-routes"
 	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
+	"flag"
+
+	"github.com/gin-contrib/expvar"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -15,6 +18,11 @@ import (
 
 func main() {
 	r := gin.Default()
+
+	//flag
+	addr := flag.String("port", " ", "Runs server")
+	//Parse flag
+	flag.Parse()
 
 	//Serve static files
 	r.Static("/static", "./static")
@@ -116,6 +124,9 @@ func main() {
 
 	r.GET("/answers/:queId", GETAPI.GetAnswers) //API to get answers on the basis of question Id
 
-	//Start server on port 4900
-	r.Run(":4900")
+	//Route to get metrics information
+	r.GET("/debug/vars", expvar.Handler())
+
+	//Start server on port defined in flag
+	r.Run(":" + *addr)
 }
