@@ -24,6 +24,9 @@ func main() {
 	//Parse flag
 	flag.Parse()
 
+	// Set up CORS
+	SetupCORS(r)
+
 	//Serve static files
 	r.Static("/static", "./static")
 
