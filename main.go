@@ -124,9 +124,13 @@ func main() {
 
 	r.GET("/answers/:queId", GETAPI.GetAnswers) //API to get answers on the basis of question Id
 
+	r.GET("/notifications", GETAPI.GetNotifications) //Work Remaining
+
+	r.GET("/notify-page", Routes.RenderNotifyPage) //work Remaining
+
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
 	//Start server on port defined in flag
-	r.Run(":" + *addr)
+	r.Run(":" + *addr) //use port 4900 to call API
 }

@@ -62,6 +62,10 @@ function renderBlogs(blogs) {
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
         nameBar.appendChild(emailIcon);
+       // const name = document.createElement("a");
+       // name.href = `http://localhost:4900/profile/:email`;
+        //name.textContent = blog.UserName;
+        //nameBar.appendChild(name);
         nameBar.appendChild(document.createTextNode(blog.UserName));
 
         const uploadedTime = document.createElement("div");
@@ -130,7 +134,7 @@ function renderBlogs(blogs) {
         const commentButton = document.createElement("button");
         commentButton.type = "submit";
         commentButton.textContent = "Post";
-        commentButton.style = "padding: 8px 12px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;";
+        commentButton.style = "padding: 8px 12px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor:pointer;";
 
         commentForm.appendChild(commentInput);
         commentForm.appendChild(commentButton);
