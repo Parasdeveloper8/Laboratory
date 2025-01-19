@@ -7,8 +7,10 @@ import (
 	postroutes "Laboratory/Routes/POST-routes"
 	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
+	"Laboratory/cors"
 	"flag"
 
+	"github.com/Parasdeveloper8/gowebguard/v2/webguard"
 	"github.com/gin-contrib/expvar"
 
 	"github.com/gin-contrib/sessions"
@@ -25,13 +27,19 @@ func main() {
 	flag.Parse()
 
 	// Set up CORS
-	SetupCORS(r)
+	cors.SetupCORS(r)
 
 	//Serve static files
 	r.Static("/static", "./static")
 
 	//loads HTML files
 	r.LoadHTMLGlob("templates/*")
+
+	//csp struct
+	header := webguard.Csp{ContentSecurityPolicy: "style-src:'self' https://getbootstrap.com/"}
+	//Using webguard to secure application
+	r.Use(webguard.WebGuard())
+	r.Use(webguard.CSP(&header))
 
 	//Initialize reusable structs to use
 	config, _ := reusable_structs.Init()
