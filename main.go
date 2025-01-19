@@ -36,7 +36,16 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 
 	//csp struct
-	header := webguard.Csp{ContentSecurityPolicy: "style-src:'self' https://getbootstrap.com/"}
+	header := webguard.Csp{
+		ContentSecurityPolicy: "default-src 'self'; " +
+			"script-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com/ https://cdn.jsdelivr.net/ https://kit.fontawesome.com/ 'unsafe-eval';" +
+			"style-src 'self' 'unsafe-inline'  https://stackpath.bootstrapcdn.com/ https://cdn.jsdelivr.net/ https://cdnjs.cloudflare.com/ https://kit.fontawesome.com/;" +
+			"font-src https://cdnjs.cloudflare.com/ https://kit.fontawesome.com/; " +
+			"img-src 'self' data:;" +
+			"media-src 'self' data:;" +
+			"object-src 'none';",
+	}
+
 	//Using webguard to secure application
 	r.Use(webguard.WebGuard())
 	r.Use(webguard.CSP(&header))
