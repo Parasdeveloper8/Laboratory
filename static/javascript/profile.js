@@ -23,17 +23,35 @@ async function fetchProfileData() {
         const profileContainer = document.createElement('div');
         profileContainer.classList.add('profile-container');
 
+        const imgfunc = function cimg(){
+          if (profile.Profile_image && profile.Profile_image.trim() !== " ") {
+            alert('Redirecting to change image page...');
+            window.location.href = "/add-image-page";
+          } else {
+            alert('Redirecting to add image page...');
+            window.location.href = "/add-image-page";
+          }
+      }
         // Profile photo
         const photoContainer = document.createElement('div');
         photoContainer.classList.add('profile-photo-container');
-
         if (profile.Profile_image && profile.Profile_image.trim() !== '') {
-          photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">`;
+          photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">
+          <button class='fa fa-pencil pencil' aria-hdden='true'></button>
+          `;
         } else {
-          photoContainer.innerHTML = `<div class="placeholder-photo"><img src="static/Images/avatar_face_only.png" alt="default-img" class="profile-photo"></div>`;
+          photoContainer.innerHTML = `<img src="static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
+          <button class='fa fa-pencil pencil' aria-hdden='true'></button>
+          `;
         }
+        // Attach event listener for the pencil button
+      const pencilButton = photoContainer.querySelector('.pencil');
+      pencilButton.addEventListener('click', imgfunc);
         profileContainer.appendChild(photoContainer);
 
+        //function to redirect to add image page
+       
+        
         // Name
         const nameContainer = document.createElement('div');
         nameContainer.classList.add('profile-name-container');
@@ -58,21 +76,9 @@ async function fetchProfileData() {
         roleContainer.appendChild(roleElement);
         profileContainer.appendChild(roleContainer);
 
-        // Action button for changing or adding image
-        const actionButton = document.createElement('button');
-        actionButton.classList.add('image-action-button');
-        actionButton.innerHTML = "Change Photo";
-
-        actionButton.addEventListener('click', () => {
-          if (profile.Profile_image && profile.Profile_image.trim() !== '') {
-            alert('Redirecting to change image page...');
-            window.location.href = "/add-image-page";
-          } else {
-            alert('Redirecting to add image page...');
-            window.location.href = "/add-image-page";
-          }
-        });
-        profileContainer.appendChild(actionButton);
+       
+       
+        //profileContainer.appendChild(actionButton);
 
         // Change Profile button
         const changeProfile = document.createElement('button');
@@ -118,6 +124,13 @@ async function fetchProfileData() {
           }
         });
         profileContainer.appendChild(deleteImageButton);
+        
+        const mpost = document.createElement("a");
+        mpost.href="/own-posts-page";
+        mpost.className = 'text-decoration-none';
+        mpost.innerHTML = `<p class='text-center fs-4 text-body-emphasis'>My Posts <i class="fa-solid fa-arrow-right"></i></p>`;
+
+        profileContainer.appendChild(mpost);
 
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
