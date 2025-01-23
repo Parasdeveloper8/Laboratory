@@ -10,5 +10,5 @@ COPY . .
 RUN go mod tidy  # It's better to use go mod tidy to fetch dependencies
 
 # Entry point to run the app
-ENTRYPOINT ["go", "run", "main.go"]
+ENTRYPOINT ["go", "run", "main.go","--port","4900"]
 
