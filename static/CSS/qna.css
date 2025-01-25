@@ -13,6 +13,17 @@
    background-color:#0056b3;
    }
 }
+.like-btn{
+    border:none;
+    background-color: inherit;
+    
+    & > i{
+        color:red;
+    }
+    & > i:hover{
+        color:blue;
+    }
+}
 #pen{
     position: fixed;
     top:85vh;

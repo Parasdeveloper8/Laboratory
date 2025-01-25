@@ -124,7 +124,7 @@ const renderQues = (questionsToDisplay) => {
         ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
 
         const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
-        ansBox.addEventListener("click",()=>openShowAnsBox(shortenedUuid));
+        ansBox.addEventListener("click",()=>openShowAnsBox(shortenedUuid,Text));
 
         const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
         closeAnsBtn2.addEventListener('click',()=>closeAnsBox(shortenedUuid));
@@ -165,11 +165,12 @@ const subAns = async (event, id) => {
 
 //close Answers Box
 const closeAnsBox=(id)=>{
+    document.title = "Ques & Ans";
     const ansBox = document.getElementById(`ansBox-${id}`);
     ansBox.style.display='none';
 }
  //open Answers box
-const openShowAnsBox= async(id)=>{
+const openShowAnsBox= async(id,ques)=>{
     const ansLoader = document.getElementById(`ans-loader-${id}`);
     ansLoader.style.display = 'block';
     try{
@@ -182,7 +183,7 @@ const openShowAnsBox= async(id)=>{
     }
     //ansBox.style.overflowY = 'scroll';
     ansLoader.style.display = 'none';
-    renderAnswers(data.data,id);
+    renderAnswers(data.data,id,ques);
     }
     catch(error){
         console.error("Error fetching answers",error);
@@ -191,12 +192,16 @@ const openShowAnsBox= async(id)=>{
 }
 
 //render answers
-const renderAnswers=(data,id)=>{
+const renderAnswers=(data,id,ques)=>{
     data.forEach((ans)=>{
         const ansBox = document.getElementById(`ansBox-${id}`);
         const anss = document.createElement("div");
+
         const {Answer,Username} = ans;
+        
         ansBox.appendChild(anss);
+        document.title =ques;
+
         anss.innerHTML = `
             <div class="card">
                 <div class="card-header">
@@ -209,6 +214,7 @@ const renderAnswers=(data,id)=>{
                 <div class="card-body">
                     <h5 class="card-title">Answer</h5>
                     <p class="card-text">${Answer}</p>
+                    <button class="like-btn"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                 </div>
             </div>
         `;
