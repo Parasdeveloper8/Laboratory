@@ -110,14 +110,16 @@ select{
 }
 .ans-dialog{
         box-sizing: border-box;
-        position:fixed;
-        right:5vw;
-        z-index:1;
-        height:50vh;
+        position: fixed;
+        height:90vh;
+        z-index: 1;
         overflow-y: scroll;
         top:10vh;
+        bottom:0;
         background: #ffffff;
-        width:50vw;
+        left:0;
+        right:0;
+        width:100vw;
         padding: 2rem;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
@@ -154,9 +156,5 @@ select{
         & > form > input{
             width:60vw;
         }
-    }
-    .ans-dialog{
-        top:10vh;
-        width:90vw;
     }
 }
