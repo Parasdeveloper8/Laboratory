@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 /*
@@ -40,9 +41,12 @@ func HandlePostAns(c *gin.Context) {
 	//Retrieve the username from the session
 	sessionUserName, _ := session.Get("username").(string)
 
+	//generate answerId
+	ans_id := uuid.New().String()
+
 	//query to insert answer in database
-	query := "insert into laboratory.answers(text,email,id,username) values(?,?,?,?)"
-	_, err = db.Exec(query, answer, sessionEmail, que_id, sessionUserName)
+	query := "insert into laboratory.answers(text,email,id,username,ans_id ) values(?,?,?,?,?)"
+	_, err = db.Exec(query, answer, sessionEmail, que_id, sessionUserName, ans_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save answer in database"})
 		fmt.Println(err)

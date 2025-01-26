@@ -231,6 +231,10 @@ const renderAnswers = (data, id, ques) => {
     });
 }
 
+//function to add answers
+const addAnswers = ()=>{
+
+}
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 
