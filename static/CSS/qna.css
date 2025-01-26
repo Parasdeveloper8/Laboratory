@@ -124,7 +124,6 @@ select{
         position: fixed;
         height:90vh;
         z-index: 1;
-        overflow-y: scroll;
         top:10vh;
         bottom:0;
         background: #ffffff;

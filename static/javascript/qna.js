@@ -50,7 +50,6 @@ const fetchQuestions = async () => {
 
         // Check if there are no more questions to fetch
         if (data.data.length === 0) {
-            // If no more questions, stop fetching and show a message or indication
             loader.style.display = 'none';  // Hide the loader
             return;  // No more data, stop fetching
         }
@@ -68,9 +67,8 @@ const fetchQuestions = async () => {
 
 // Render questions dynamically
 const renderQues = (questionsToDisplay) => {
-
     questionsToDisplay.forEach(quest => {
-        const { Text, Username, Category, FormattedTime, Profile_Image ,Id} = quest;
+        const { Text, Username, Category, FormattedTime, Profile_Image, Id } = quest;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
 
@@ -95,10 +93,12 @@ const renderQues = (questionsToDisplay) => {
                 <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}">Show Answers</button>
             </div>
 
-             <div id="ansBox-${shortenedUuid}" style="display:none;" class="ans-dialog">
-             <button class="close" id="closeAnsBox-${shortenedUuid}">X</button>
-             <div id="ans-loader-${shortenedUuid}" class="loader"></div>
-             </div>
+            <div id="ansBox-${shortenedUuid}" style="display:none;" class="ans-dialog">
+                <button class="close" id="closeAnsBox-${shortenedUuid}">X</button>
+                <div id="ans-loader-${shortenedUuid}" class="loader"></div>
+                <!-- Container for dynamically rendered answers -->
+                <div id="answers-container-${shortenedUuid}" class="answers-container"></div>
+            </div>
 
             <div class="dialog" id="postAnsDia-${shortenedUuid}">
                 <button class="close" id="close-ans-${shortenedUuid}">X</button>
@@ -124,10 +124,10 @@ const renderQues = (questionsToDisplay) => {
         ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
 
         const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
-        ansBox.addEventListener("click",()=>openShowAnsBox(shortenedUuid,Text));
+        ansBox.addEventListener("click", () => openShowAnsBox(shortenedUuid, Text));
 
         const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
-        closeAnsBtn2.addEventListener('click',()=>closeAnsBox(shortenedUuid));
+        closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));
     });
 }
 
@@ -163,45 +163,55 @@ const subAns = async (event, id) => {
     }
 }
 
-//close Answers Box
-const closeAnsBox=(id)=>{
+// Close Answers Box
+const closeAnsBox = (id) => {
     document.title = "Ques & Ans";
     const ansBox = document.getElementById(`ansBox-${id}`);
-    ansBox.style.display='none';
+    ansBox.style.display = 'none';
 }
- //open Answers box
-const openShowAnsBox= async(id,ques)=>{
+
+// Open Answers box
+const openShowAnsBox = async (id, ques) => {
     const ansLoader = document.getElementById(`ans-loader-${id}`);
     ansLoader.style.display = 'block';
-    try{
-    const ansBox = document.getElementById(`ansBox-${id}`);
-    ansBox.style.display = 'block';
-    const response = await fetch(`http://localhost:4900/answers/${id}`);
-    const data = await response.json();
-    if(data.data.length === 0){
-        ansLoader.style.display = 'block';
-    }
-    //ansBox.style.overflowY = 'scroll';
-    ansLoader.style.display = 'none';
-    renderAnswers(data.data,id,ques);
-    }
-    catch(error){
-        console.error("Error fetching answers",error);
+    try {
+        const ansBox = document.getElementById(`ansBox-${id}`);
+        
+        // Clear only the dynamically added answers, leaving the close button and loader intact
+        const answersContainer = document.getElementById(`answers-container-${id}`);
+        if (answersContainer) {
+            answersContainer.innerHTML = '';  // Clear previous answers
+        }
+
+        ansBox.style.display = 'block';
+
+        const response = await fetch(`http://localhost:4900/answers/${id}`);
+        const data = await response.json();
+
+        if (data.data.length === 0) {
+            ansLoader.style.display = 'block';
+        }
+
+        ansLoader.style.display = 'none';
+        renderAnswers(data.data, id, ques); // Render new answers
+    } catch (error) {
+        console.error("Error fetching answers", error);
         ansLoader.style.display = 'block';
     }
 }
 
-//render answers
-const renderAnswers=(data,id,ques)=>{
-    data.forEach((ans)=>{
-        const ansBox = document.getElementById(`ansBox-${id}`);
+// Render answers
+const renderAnswers = (data, id, ques) => {
+    const answersContainer = document.getElementById(`answers-container-${id}`);
+    answersContainer.style.maxHeight = '380px';
+    answersContainer.style.overflowY = 'auto';
+    data.forEach((ans) => {
         const anss = document.createElement("div");
 
-        const {Answer,Username} = ans;
-        
-        ansBox.appendChild(anss);
-        document.title =ques;
+        const { Answer, Username } = ans;
 
+        answersContainer.appendChild(anss);  // Append to the answers container
+        document.title = ques;
         anss.innerHTML = `
             <div class="card">
                 <div class="card-header">
@@ -220,13 +230,13 @@ const renderAnswers=(data,id,ques)=>{
         `;
     });
 }
+
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 
     const documentHeight = document.documentElement.scrollHeight; 
-    
+
     if (scrollPosition >= documentHeight - 10) {
         fetchQuestions();
     } 
 });
-
