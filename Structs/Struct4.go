@@ -25,4 +25,5 @@ type Answers struct {
 	Answer   string `db:"text"`
 	Username string `db:"username"`
 	Que_id   string `db:"id"`
+	Ans_id   string `db:"ans_id"`
 }
