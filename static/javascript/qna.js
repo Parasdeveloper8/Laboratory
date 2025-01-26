@@ -208,7 +208,7 @@ const renderAnswers = (data, id, ques) => {
     data.forEach((ans) => {
         const anss = document.createElement("div");
 
-        const { Answer, Username } = ans;
+        const { Answer, Username ,Ans_id} = ans;
 
         answersContainer.appendChild(anss);  // Append to the answers container
         document.title = ques;
@@ -224,17 +224,34 @@ const renderAnswers = (data, id, ques) => {
                 <div class="card-body">
                     <h5 class="card-title">Answer</h5>
                     <p class="card-text">${Answer}</p>
-                    <button class="like-btn"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
+                    <button class="like-btn" id="ans-id-${Ans_id}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
                 </div>
             </div>
         `;
+        const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
+         likeBtn.addEventListener("click",()=>addLikes(Ans_id));
     });
 }
 
 //function to add answers
-const addAnswers = ()=>{
-
+let likes = 0;
+const addLikes=async(ans_id)=>{
+      try{
+       let inclikes = likes++;
+       const api = `http://localhost:4900/${ans_id}/${inclikes}`;
+       const response = await fetch(api, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+    });
+    if (response.ok) {
+        const likeBtn = document.getElementById(`ans-id-${ans_id}`);
+        likeBtn.disabled = true;
+    }
+}catch(error){
+       console.error("Error on adding Likes to answer",error)
 }
+}
+
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 

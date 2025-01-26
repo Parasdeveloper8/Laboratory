@@ -148,6 +148,8 @@ func main() {
 
 	r.GET("/notify-page", Routes.RenderNotifyPage) //work Remaining
 
+	r.POST("/:ansId/:likes", middlewares.CheckEmail(), postroutes.HandleLikes)
+
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
