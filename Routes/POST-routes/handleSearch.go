@@ -3,8 +3,6 @@ package postroutes
 import (
 	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -19,18 +17,7 @@ func HandleSearch(c *gin.Context) {
 	//Get the val from query string
 	title := c.Query("val")
 
-	//First load configurations from reusable_structs
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 	//Query to fetch posts related to query strings
 	query := `SELECT 

@@ -1,11 +1,9 @@
 package postroutes
 
 import (
-	reusable_structs "Laboratory/Structs"
-	"database/sql"
+	reusable "Laboratory/Reusable"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -36,14 +34,7 @@ func HandleAddImage(c *gin.Context) {
 		return
 	}
 
-	config, err := reusable_structs.Init()
-	if err != nil {
-		log.Fatalf("Failed to load configurations %v", err)
-	}
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Fatalf("Failed to connect to database %v", err)
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 
 	// Get the session
 	session := sessions.Default(c)

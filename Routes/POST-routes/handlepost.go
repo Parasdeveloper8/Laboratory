@@ -1,11 +1,9 @@
 package postroutes
 
 import (
-	reusable_structs "Laboratory/Structs"
-	"database/sql"
+	reusable "Laboratory/Reusable"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -18,18 +16,7 @@ import (
 This function adds posts into DataBase
 */
 func HandlePost(c *gin.Context) {
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-	//fmt.Println(configs)
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
-	defer db.Close()
+	db := reusable.LoadSQLStructConfigs(c)
 	// Parse the file from the request
 	file, err := c.FormFile("file")
 

@@ -1,10 +1,8 @@
 package postroutes
 
 import (
-	reusable_structs "Laboratory/Structs"
-	"database/sql"
+	reusable "Laboratory/Reusable"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -41,21 +39,11 @@ func HandleComments(c *gin.Context) {
 	sessionUserName, _ := session.Get("username").(string)
 	//Lets insert the comment into the database
 
-	//First load configurations from reusable_structs
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 	//Inserting Comments into Database with their commenters'email and username
 	query := "insert into laboratory.comments(comment_text,post_id,email,username) values(?,?,?,?)"
-	_, err = db.Exec(query, requestBody.Comment, post_id, sessionEmail, sessionUserName)
+	_, err := db.Exec(query, requestBody.Comment, post_id, sessionEmail, sessionUserName)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 		return

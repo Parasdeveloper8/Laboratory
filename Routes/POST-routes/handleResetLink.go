@@ -2,7 +2,6 @@ package postroutes
 
 import (
 	reusable "Laboratory/Reusable"
-	reusable_structs "Laboratory/Structs"
 	"database/sql"
 	"log"
 	"net/http"
@@ -12,11 +11,7 @@ import (
 
 // This function sends reset link to user's email to reset password
 func ResetLink(c *gin.Context) {
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		log.Printf("Failesd to load configurations: %v", err)
-	}
-
+	db := reusable.LoadSQLStructConfigs(c)
 	var passData struct {
 		Email string `json:"email" binding:"required,email"`
 	}
@@ -26,19 +21,12 @@ func ResetLink(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input. Please provide a valid email."})
 		return
 	}
-
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database connection error"})
-		return
-	}
 	defer db.Close()
 
 	// Check if the email exists
 	var emailExists string
 	query := "SELECT email FROM laboratory.users WHERE email = ?"
-	err = db.QueryRow(query, passData.Email).Scan(&emailExists)
+	err := db.QueryRow(query, passData.Email).Scan(&emailExists)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Email not found"})
 		return

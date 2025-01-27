@@ -1,10 +1,8 @@
 package postroutes
 
 import (
-	reusable_structs "Laboratory/Structs"
-	"database/sql"
+	reusable "Laboratory/Reusable"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -15,17 +13,7 @@ import (
 This function handles profile updation
 */
 func HandleUpdateProfile(c *gin.Context) {
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		log.Printf("Failed to load configurations: %v", err)
-	}
-
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 
 	session := sessions.Default(c)
