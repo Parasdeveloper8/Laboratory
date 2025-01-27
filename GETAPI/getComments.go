@@ -3,7 +3,6 @@ package GETAPI
 import (
 	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
-	"database/sql"
 	"log"
 	"net/http"
 
@@ -18,18 +17,7 @@ func GetComments(c *gin.Context) {
 	//Lets create a api to get comments
 	var comments_struct_slice []reusable_structs.Comments //struct in struct3.go
 	//Get the comments from the database
-	configs, err := reusable_structs.Init()
-	if err != nil {
-		c.JSON(500, gin.H{"error": "Failed to load configurations"})
-		return
-	}
-
-	db, err := sql.Open("mysql", configs.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 
 	//query to get comments from the database

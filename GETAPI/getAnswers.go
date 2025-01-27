@@ -1,9 +1,8 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -19,17 +18,8 @@ func GetAnswers(c *gin.Context) {
 	var answers []reusable_structs.Answers
 	//get question id from path parameters
 	que_id := c.Param("queId")
-	config, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
 	defer db.Close()
 
 	//query

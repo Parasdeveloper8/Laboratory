@@ -3,8 +3,6 @@ package GETAPI
 import (
 	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -20,17 +18,7 @@ func GetPosts(c *gin.Context) {
 	rowF := c.Param("row")
 	limits := c.Param("limit")
 	var blogsData []reusable_structs.BlogsData //converting struct into slice because we will return multiple posts not a single post details
-	config, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 	//query to get images
 	//query posts from database and send on frontend on the basis of rows and limits.

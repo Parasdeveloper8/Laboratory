@@ -1,9 +1,8 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
-	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -15,17 +14,7 @@ import (
 Function to fetch profile data of user on the basis of email.
 */
 func ProfileDataAPI(c *gin.Context) {
-	config, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
+	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 	//query to get images
 	// Get the session
@@ -38,7 +27,7 @@ func ProfileDataAPI(c *gin.Context) {
 
 	var profile reusable_structs.ProfileData
 	//Scanning rows 'values
-	err = rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role)
+	err := rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role)
 	if err != nil {
 		log.Printf("Failed to scan row: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
