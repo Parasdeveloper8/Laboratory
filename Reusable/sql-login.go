@@ -2,7 +2,6 @@ package reusable
 
 import (
 	custom_errors "Laboratory/Errors"
-	reusable_structs "Laboratory/Structs"
 	"database/sql"
 	"fmt"
 	"log"
@@ -18,21 +17,14 @@ var Name, Pass, Mail string
 If any error occurs it will return a bool and a error
 */
 func SqlLogin(email, password string, c *gin.Context) (bool, error) {
-	config, err := reusable_structs.Init()
-	if err != nil {
-		log.Fatalf("Failed to load configurations %v", err)
-	}
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Fatalf("Failed to connect to database %v", err)
-	}
+	db := LoadSQLStructConfigs(c)
 	//Select email,password and name from database on the basis of given email
 	/*
 		if email matches in users table ,this will return results
 		and scan returned results in variables for further work
 	*/
 	query := "SELECT email, password ,name FROM laboratory.users WHERE email = ?"
-	err = db.QueryRow(query, email).Scan(&Mail, &Pass, &Name)
+	err := db.QueryRow(query, email).Scan(&Mail, &Pass, &Name)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusNotFound, gin.H{"info": "Not a User"})
 		return false, err
