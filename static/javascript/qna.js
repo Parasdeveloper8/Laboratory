@@ -208,7 +208,7 @@ const renderAnswers = (data, id, ques) => {
     data.forEach((ans) => {
         const anss = document.createElement("div");
 
-        const { Answer, Username ,Ans_id} = ans;
+        const { Answer, Username ,Ans_id,Likes} = ans;
 
         answersContainer.appendChild(anss);  // Append to the answers container
         document.title = ques;
@@ -224,21 +224,27 @@ const renderAnswers = (data, id, ques) => {
                 <div class="card-body">
                     <h5 class="card-title">Answer</h5>
                     <p class="card-text">${Answer}</p>
+                    <div class="lk-div">
                     <button class="like-btn" id="ans-id-${Ans_id}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                </div>
+                     <p>${Likes}</p>
+                    </div>
+                    </div>
             </div>
         `;
         const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
-         likeBtn.addEventListener("click",()=>addLikes(Ans_id));
+         likeBtn.addEventListener("click",()=>addLikes(Ans_id,Likes));
     });
 }
 
-//function to add answers
-let likes = 0;
-const addLikes=async(ans_id)=>{
+
+const addLikes=async(ans_id,arglike)=>{
       try{
-       let inclikes = likes++;
-       const api = `http://localhost:4900/${ans_id}/${inclikes}`;
+        let dataAr = {
+            "likes":arglike,
+            "ans_id":ans_id
+        }
+        dataAr.likes++;
+       const api = `http://localhost:4900/${dataAr.ans_id}/${dataAr.likes}`;
        const response = await fetch(api, {
         method: "POST",
         headers: { "Content-Type": "application/json" }

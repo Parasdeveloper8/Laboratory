@@ -26,4 +26,5 @@ type Answers struct {
 	Username string `db:"username"`
 	Que_id   string `db:"id"`
 	Ans_id   string `db:"ans_id"`
+	Likes    string `db:"likes"`
 }

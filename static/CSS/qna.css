@@ -13,10 +13,15 @@
    background-color:#0056b3;
    }
 }
+.lk-div{
+    display: flex;
+    width:30px;
+    flex-direction: column;
+    align-items: center;
+}
 .like-btn{
     border:none;
     background-color: inherit;
-    
     & > i{
         color:red;
     }
