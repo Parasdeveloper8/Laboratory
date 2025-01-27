@@ -208,7 +208,7 @@ const renderAnswers = (data, id, ques) => {
     data.forEach((ans) => {
         const anss = document.createElement("div");
 
-        const { Answer, Username ,Ans_id,Likes} = ans;
+        const { Answer, Username ,Ans_id} = ans;
 
         answersContainer.appendChild(anss);  // Append to the answers container
         document.title = ques;
@@ -226,25 +226,20 @@ const renderAnswers = (data, id, ques) => {
                     <p class="card-text">${Answer}</p>
                     <div class="lk-div">
                     <button class="like-btn" id="ans-id-${Ans_id}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                     <p>${Likes}</p>
+                     <p></p>
                     </div>
                     </div>
             </div>
         `;
         const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
-         likeBtn.addEventListener("click",()=>addLikes(Ans_id,Likes));
+         likeBtn.addEventListener("click",()=>addLikes(Ans_id));
     });
 }
 
 
-const addLikes=async(ans_id,arglike)=>{
+const addLikes=async(ans_id)=>{
       try{
-        let dataAr = {
-            "likes":arglike,
-            "ans_id":ans_id
-        }
-        dataAr.likes++;
-       const api = `http://localhost:4900/${dataAr.ans_id}/${dataAr.likes}`;
+       const api = `http://localhost:4900/likes/${ans_id}`;
        const response = await fetch(api, {
         method: "POST",
         headers: { "Content-Type": "application/json" }

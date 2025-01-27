@@ -1,42 +1,35 @@
 package postroutes
 
 import (
-	reusable_structs "Laboratory/Structs"
-	"database/sql"
-	"fmt"
+	reusable "Laboratory/Reusable"
 	"log"
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
-// This function adds likes in database to given answer id
-// This takes answer id and likes from path parameters
+// This function adds email in database to given answer id
+// Then we will count email to get number of likes
+// This takes answer id from path parameters
 func HandleLikes(c *gin.Context) {
+	// Get the session
+	session := sessions.Default(c)
+	// Retrieve the email from the session
+	sessionEmail, _ := session.Get("email").(string)
+
+	db := reusable.LoadSQLStructConfigs(c)
+
 	//get answer id from path parameters
 	ans_id := c.Param("ansId")
-	//get likes from path parameters
-	likes := c.Param("likes")
-
-	config, err := reusable_structs.Init()
-	if err != nil {
-		fmt.Println("Failed to load configurations", err)
-	}
-
-	db, err := sql.Open("mysql", config.DB_URL)
-	if err != nil {
-		log.Printf("Failed to connect to database: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
-		return
-	}
-	defer db.Close()
 
 	//query
-	query := "update laboratory.answers set likes = ? where ans_id = ?"
-	_, err = db.Exec(query, likes, ans_id)
+	query := "insert into laboratory.likes(email,ans_id) values(?,?)"
+	_, err := db.Exec(query, sessionEmail, ans_id)
 	if err != nil {
-		log.Printf("Error on sending likes %v", err)
+		log.Printf("Error on sending email and ansId %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 	}
-	//send Json response for now
-	c.JSON(http.StatusOK, gin.H{"success": likes, "ess": ans_id})
+	defer db.Close()
+	c.JSON(http.StatusOK, gin.H{"info": "Successfully added your like"})
 }
