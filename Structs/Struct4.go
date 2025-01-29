@@ -26,5 +26,10 @@ type Answers struct {
 	Username string `db:"username"`
 	Que_id   string `db:"id"`
 	Ans_id   string `db:"ans_id"`
-	Likes    string `db:"likes"`
+}
+
+//struct of likes
+type Likes struct {
+	Ans_id       string `db:"ans_id"`
+	Likes_Number int64  `db:"likes_number"`
 }
