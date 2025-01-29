@@ -177,41 +177,57 @@ const openShowAnsBox = async (id, ques) => {
     try {
         const ansBox = document.getElementById(`ansBox-${id}`);
         
-        // Clear only the dynamically added answers, leaving the close button and loader intact
+        // Clear the previous answers container before rendering
         const answersContainer = document.getElementById(`answers-container-${id}`);
-        if (answersContainer) {
-            answersContainer.innerHTML = '';  // Clear previous answers
-        }
+        answersContainer.innerHTML = '';  // Clear any previous content
 
         ansBox.style.display = 'block';
 
         const response = await fetch(`http://localhost:4900/answers/${id}`);
         const data = await response.json();
 
-        if (data.data.length === 0) {
-            ansLoader.style.display = 'block';
-        }
+        const response2 = await fetch(`http://localhost:4900/likenums`);
+        const data2 = await response2.json();
 
         ansLoader.style.display = 'none';
-        renderAnswers(data.data, id, ques); // Render new answers
+        renderAnswers(data.data, id, ques, data2.data); // Render new answers
+
+        // Ensure layout and scrollbar behavior is correct after rendering answers
+        setTimeout(() => {
+            // Force a reflow to reset the overflow and ensure scrollbar visibility
+            document.body.style.overflowY = 'auto';
+        }, 100);
     } catch (error) {
         console.error("Error fetching answers", error);
         ansLoader.style.display = 'block';
     }
 }
 
-// Render answers
-const renderAnswers = (data, id, ques) => {
+
+//render answers
+const renderAnswers = (data1, id, ques, data2) => {
     const answersContainer = document.getElementById(`answers-container-${id}`);
     answersContainer.style.maxHeight = '380px';
     answersContainer.style.overflowY = 'auto';
-    data.forEach((ans) => {
+
+    // Map the likes data by Ans_id for easier access
+    const likesMap = data2.reduce((acc, item) => {
+        acc[item.Ans_id] = item.Likes_Number; // Store likes by Ans_id
+        return acc;
+    }, {});
+
+    // Iterate over answers and render them
+    data1.forEach((ans) => {
+        const { Answer, Username, Ans_id } = ans;
+
+        // Create a new div for the answer
         const anss = document.createElement("div");
 
-        const { Answer, Username ,Ans_id} = ans;
-
-        answersContainer.appendChild(anss);  // Append to the answers container
+        // Get the like count for the current answer, default to 0 if not found
+        const likeCount = likesMap[Ans_id] || 0;
+        
         document.title = ques;
+        // Insert the answer and like information into the HTML
         anss.innerHTML = `
             <div class="card">
                 <div class="card-header">
@@ -225,32 +241,47 @@ const renderAnswers = (data, id, ques) => {
                     <h5 class="card-title">Answer</h5>
                     <p class="card-text">${Answer}</p>
                     <div class="lk-div">
-                    <button class="like-btn" id="ans-id-${Ans_id}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button>
-                     <p></p>
+                        <button class="like-btn" id="ans-id-${Ans_id}">
+                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                        </button>
+                        <p class="like-count" id="like-count-${Ans_id}">${likeCount}</p>
                     </div>
-                    </div>
+                </div>
             </div>
         `;
+
+        // Append the answer card to the answers container
+        answersContainer.appendChild(anss);
+
+        // Add event listener for the like button
         const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
-         likeBtn.addEventListener("click",()=>addLikes(Ans_id));
+        likeBtn.addEventListener("click", () => addLikes(Ans_id));
     });
 }
 
+// Like the answer and update the likes count
+const addLikes = async (ans_id) => {
+    try {
+        // Send the like to the backend
+        const api = `http://localhost:4900/likes/${ans_id}`;
+        const response = await fetch(api, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
 
-const addLikes=async(ans_id)=>{
-      try{
-       const api = `http://localhost:4900/likes/${ans_id}`;
-       const response = await fetch(api, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" }
-    });
-    if (response.ok) {
-        const likeBtn = document.getElementById(`ans-id-${ans_id}`);
-        likeBtn.disabled = true;
+        // If the like was successfully posted, update the like button and count
+        if (response.ok) {
+            const likeBtn = document.getElementById(`ans-id-${ans_id}`);
+            likeBtn.disabled = true; // Disable the like button after clicking it
+
+            // Increment the likes count on the page
+            const likeCountElement = document.getElementById(`like-count-${ans_id}`);
+            let currentLikes = parseInt(likeCountElement.innerText) || 0;
+            likeCountElement.innerText = currentLikes + 1;
+        }
+    } catch (error) {
+        console.error("Error on adding Likes to answer", error);
     }
-}catch(error){
-       console.error("Error on adding Likes to answer",error)
-}
 }
 
 // Scroll to load more questions
