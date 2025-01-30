@@ -17,6 +17,9 @@ const search = async (e)=>{
     }
     //loader.style.display = 'none';
     const data = await response.json();
+    if(data.data == null){
+        div.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No post found</p>";
+    }
     renderBlogs(data.data);
     }
     catch(error){
