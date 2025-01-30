@@ -33,3 +33,9 @@ type Likes struct {
 	Ans_id       string `db:"ans_id"`
 	Likes_Number int64  `db:"likes_number"`
 }
+
+//struct of post likes
+type PostLikes struct {
+	PostId       string `db:"post_id"`
+	Likes_Number int64  `db:"likes_number"`
+}

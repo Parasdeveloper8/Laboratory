@@ -154,6 +154,8 @@ func main() {
 
 	r.POST("/postlikes/:postId", middlewares.CheckEmail(), postroutes.HandlePostLikes)
 
+	r.GET("/postlikenums", GETAPI.GetPostLikes) //API to get likes of post
+
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
