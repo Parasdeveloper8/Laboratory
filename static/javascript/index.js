@@ -114,13 +114,21 @@ function renderBlogs(blogs) {
             fetchAndShowComments(post_id);
         });
         blogContainer.appendChild(viewCommentsLink);
+
+        //like button
         const button = document.createElement("button");
+        button.id = `postlike${blog.Post_Id}`;
          button.className = "like-btn";
         button.innerHTML= `
                <i class="fa fa-thumbs-up" aria-hidden="true"></i>
         `;
-
+       // <p class="like-count" id="like-count-${Ans_id}"></p>
         blogContainer.appendChild(button);
+
+         // Add event listener for the like button
+         
+         button.addEventListener("click", () => addLikes(blog.Post_Id));
+
         // Comment form for backend handling
         const commentForm = document.createElement("form");
         commentForm.style = "padding: 10px; background: #fff; border-top: 1px solid #ddd;";
@@ -230,6 +238,32 @@ function showCommentsDialog(comments) {
 
     document.body.appendChild(dialog);
 }
+
+// Like the answer and update the likes count
+const addLikes = async (post_id) => {
+    try {
+        // Send the like to the backend
+        const api = `http://localhost:4900/postlikes/${post_id}`;
+        const response = await fetch(api, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        });
+
+        // If the like was successfully posted, update the like button and count
+        if (response.ok) {
+            const likeBtn = document.getElementById(`postlike${post_id}`);
+            likeBtn.disabled = true; // Disable the like button after clicking it
+
+           /* // Increment the likes count on the page
+            const likeCountElement = document.getElementById(`like-count-${ans_id}`);
+            let currentLikes = parseInt(likeCountElement.innerText) || 0;
+            likeCountElement.innerText = currentLikes + 1;*/
+        }
+    } catch (error) {
+        console.error("Error on adding Likes to answer", error);
+    }
+}
+
 // Call the fetchBlogs function to fetch and display blogs
  //Adding scroll event to window object 
 window.addEventListener('scroll', () => { 

@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// This function adds email in database to given answer id
+// This function adds email in database to given post id
 // Then we will count email to get number of likes
-// This takes answer id from path parameters
-func HandleLikes(c *gin.Context) {
+// This takes post id from path parameters
+func HandlePostLikes(c *gin.Context) {
 	// Get the session
 	session := sessions.Default(c)
 	// Retrieve the email from the session
@@ -21,24 +21,24 @@ func HandleLikes(c *gin.Context) {
 
 	db := reusable.LoadSQLStructConfigs(c)
 
-	//get answer id from path parameters
-	ans_id := c.Param("ansId")
+	//get post id from path parameters
+	post_id := c.Param("postId")
 
 	//lets check if like by sessionEmail in database is already present
-	query := "select likes.ans_id , likes.email from laboratory.likes where ans_id = ?"
-	rows, err := db.Query(query, ans_id)
+	query := "select postlikes.post_id , postlikes.email from laboratory.postlikes where post_id = ?"
+	rows, err := db.Query(query, post_id)
 	if err != nil {
 		fmt.Println("Failed to query row", err)
 	}
 
 	//let's bind returned rows
 	type returnedRows struct {
-		Email string `db:"email"`
-		AnsId string `db:"ans_id"`
+		Email  string `db:"email"`
+		PostId string `db:"post_id"`
 	}
 	for rows.Next() {
 		var r returnedRows
-		err := rows.Scan(&r.AnsId, &r.Email)
+		err := rows.Scan(&r.PostId, &r.Email)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})
@@ -46,15 +46,16 @@ func HandleLikes(c *gin.Context) {
 		}
 		if r.Email == sessionEmail {
 			log.Println("You have already liked post")
-			c.JSON(http.StatusBadRequest, gin.H{"info": "You have already liked answer"})
+			c.JSON(http.StatusBadRequest, gin.H{"info": "You have already liked post"})
 			return //Stop function executing further
 		}
 	}
+
 	//query
-	query = "insert into laboratory.likes(email,ans_id) values(?,?)"
-	_, err = db.Exec(query, sessionEmail, ans_id)
+	query = "insert into laboratory.postlikes(email,post_id) values(?,?)"
+	_, err = db.Exec(query, sessionEmail, post_id)
 	if err != nil {
-		log.Printf("Error on sending email and ansId %v", err)
+		log.Printf("Error on sending email and postId %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})
 	}
 	defer db.Close()
