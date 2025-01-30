@@ -114,7 +114,13 @@ function renderBlogs(blogs) {
             fetchAndShowComments(post_id);
         });
         blogContainer.appendChild(viewCommentsLink);
+        const button = document.createElement("button");
+         button.className = "like-btn";
+        button.innerHTML= `
+               <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+        `;
 
+        blogContainer.appendChild(button);
         // Comment form for backend handling
         const commentForm = document.createElement("form");
         commentForm.style = "padding: 10px; background: #fff; border-top: 1px solid #ddd;";

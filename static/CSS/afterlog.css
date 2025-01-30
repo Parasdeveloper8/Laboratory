@@ -25,7 +25,21 @@ main {
     margin-top: 70px; /* Ensure content doesn't overlap with navbar */
     margin-right: 220px; /* Leave space for the sidebar */
 }
-
+.like-btn{
+    border:none;
+    font-size: 20px;
+    background-color: inherit;
+    position: relative;
+    bottom:35px;
+    left:20px;
+    filter: drop-shadow(2px 1px black);
+    & > i{
+        color:#007bff ;
+    }
+    & > i:hover{
+        color:#0056b3;
+    }
+}
 .loader{
     width:100px;
     height:100px;
