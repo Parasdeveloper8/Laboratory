@@ -4,6 +4,7 @@
 
 ### Features of Laboratory
 - You can make posts related to science.
+- You can like posts and answers.
 - We have tools related to science ,which can solve your daily life science problem.
 - You can post questions.
 - You can search for videos.
@@ -17,6 +18,8 @@
   4.Find Metal or not
 
   5.You can post qustions and get answers.
+
+  6.You can give answers.
 
 - This platform solves issues programmatically not on the basis of opinions of others.
 
