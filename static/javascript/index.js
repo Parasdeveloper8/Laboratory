@@ -2,7 +2,7 @@ const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("fail-loader");
 let page = 1;
 let limit = 3;
-let row= 0;
+let row = 0;
 loader.style.display = 'block';
 failLoader.style.display = 'none';
 let isLoading = false; // To prevent multiple fetches at once
@@ -16,32 +16,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to fetch data from the API
 async function fetchBlogs() {
-    if (isLoading) return; //If isLoading is true, the return statement immediately exits the current function
+    if (isLoading) return; // If isLoading is true, return early to prevent multiple fetches at once
     isLoading = true;
     try {
+        // API 1 - Fetch blogs
         const response = await fetch(`http://localhost:4900/blogs/${row}/${limit}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+
+        // API 2 - Fetch likes count
+        const response2 = await fetch("http://localhost:4900/postlikenums");
+        const data2 = await response2.json();
+
         loader.style.display = 'none';
         row++;
         page++;
-        renderBlogs(data.data);
+        renderBlogs(data.data, data2.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
-            loader.style.display = 'none';
-           failLoader.style.display='block';
-        //document.getElementById("blogs").innerText = "Failed to load blogs.";
-    } finally {//finally keyword,here,is used when promise is fulfilled or rejected
+        loader.style.display = 'none';
+        failLoader.style.display = 'block';
+    } finally {
         isLoading = false; // Allow new fetch once the current one finishes
     }
 }
+
 // Function to render blogs
-function renderBlogs(blogs) {
+function renderBlogs(blogs, data2) {
     const div = document.getElementById("blogs");
 
+    // Map the likes data by PostId for easier access
+    const likesMap = data2.reduce((acc, item) => {
+        acc[item.PostId] = item.Likes_Number; // Store likes by PostId
+        return acc;
+    }, {});
+
     blogs.forEach(blog => {
+        const likeCount = likesMap[blog.Post_Id] || 0; // Use blog.Post_Id for the correct like count
+
         const post_id = blog.Post_Id;
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
@@ -53,19 +67,15 @@ function renderBlogs(blogs) {
         nameBar.style = "display: flex; align-items: center;";
 
         const emailIcon = document.createElement("img");
-        if (blog.User_Image == null){
+        if (blog.User_Image == null) {
             emailIcon.src = "static/Images/avatar_face_only.png";
-        }else{
-        emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
+        } else {
+            emailIcon.src = `data:image/jpeg;base64,${blog.User_Image}`;
         }
         emailIcon.alt = "User Icon";
         emailIcon.style = "width: 20px; height: 20px; margin-right: 8px;";
 
         nameBar.appendChild(emailIcon);
-       // const name = document.createElement("a");
-       // name.href = `http://localhost:4900/profile/:email`;
-        //name.textContent = blog.UserName;
-        //nameBar.appendChild(name);
         nameBar.appendChild(document.createTextNode(blog.UserName));
 
         const uploadedTime = document.createElement("div");
@@ -115,19 +125,30 @@ function renderBlogs(blogs) {
         });
         blogContainer.appendChild(viewCommentsLink);
 
-        //like button
+        // DIV to containing button and count of likes
+        const divfBtn = document.createElement("div");
+
+        // Like button
         const button = document.createElement("button");
         button.id = `postlike${blog.Post_Id}`;
-         button.className = "like-btn";
-        button.innerHTML= `
-               <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+        button.className = "like-btn";
+        button.innerHTML = `
+            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
         `;
-       // <p class="like-count" id="like-count-${Ans_id}"></p>
-        blogContainer.appendChild(button);
+        
+        // Like count
+        const countp = document.createElement("p");
+        countp.innerText = likeCount; // Set the correct like count here
+        divfBtn.className = "lk-div";
 
-         // Add event listener for the like button
-         
-         button.addEventListener("click", () => addLikes(blog.Post_Id));
+        // Append both button and count to div
+        divfBtn.appendChild(button);
+        divfBtn.appendChild(countp); // Correctly append the count
+
+        blogContainer.appendChild(divfBtn);
+
+        // Add event listener for the like button
+        button.addEventListener("click", () => addLikes(blog.Post_Id));
 
         // Comment form for backend handling
         const commentForm = document.createElement("form");
@@ -165,6 +186,7 @@ function renderBlogs(blogs) {
         div.appendChild(blogContainer);
     });
 }
+
 // Function to fetch comments and show dialog
 async function fetchAndShowComments(postId) {
     try {
@@ -180,6 +202,7 @@ async function fetchAndShowComments(postId) {
         console.error("Error fetching comments:", error);
     }
 }
+
 // Function to post a comment
 async function postComment(postId, commentInput, commentList) {
     const comment = commentInput.value.trim();
@@ -199,6 +222,7 @@ async function postComment(postId, commentInput, commentList) {
         }
     }
 }
+
 function showCommentsDialog(comments) {
     const dialog = document.createElement("div");
     dialog.style = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
@@ -254,24 +278,25 @@ const addLikes = async (post_id) => {
             const likeBtn = document.getElementById(`postlike${post_id}`);
             likeBtn.disabled = true; // Disable the like button after clicking it
 
-           /* // Increment the likes count on the page
-            const likeCountElement = document.getElementById(`like-count-${ans_id}`);
-            let currentLikes = parseInt(likeCountElement.innerText) || 0;
-            likeCountElement.innerText = currentLikes + 1;*/
+            // Increment the likes count on the page
+            const countElement = likeBtn.nextElementSibling; // Get the like count paragraph
+            let currentLikes = parseInt(countElement.innerText) || 0;
+            countElement.innerText = currentLikes + 1; // Increment the like count
         }
     } catch (error) {
         console.error("Error on adding Likes to answer", error);
     }
 }
 
-// Call the fetchBlogs function to fetch and display blogs
- //Adding scroll event to window object 
-window.addEventListener('scroll', () => { 
-        const scrollPosition = window.scrollY + window.innerHeight; 
-        const documentHeight = document.documentElement.scrollHeight; 
-        
-        if (scrollPosition >= documentHeight -10) {
-            fetchBlogs();
-        } 
-    }); 
-    fetchBlogs();
+// Adding scroll event to load more blogs when scrolled to the bottom
+window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+
+    if (scrollPosition >= documentHeight - 10) {
+        fetchBlogs();
+    }
+});
+
+// Initial fetch
+fetchBlogs();

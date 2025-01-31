@@ -68,6 +68,10 @@ main {
     margin-left: auto;
     margin-right: auto;
 }
+.lk-div{
+    display: flex;
+    width:30px;
+}
 .like-btn{
     border:none;
     font-size: 20px;

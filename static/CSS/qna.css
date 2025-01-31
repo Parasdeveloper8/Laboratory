@@ -16,14 +16,17 @@
 .lk-div{
     display: flex;
     width:30px;
-    flex-direction: column;
-    align-items: center;
 }
 .like-btn{
     border:none;
+    font-size: 20px;
     background-color: inherit;
+    position: relative;
+    bottom:35px;
+    left:20px;
+    filter: drop-shadow(2px 1px black);
     & > i{
-        color:red;
+        color:#007bff ;
     }
     & > i:hover{
         color:#0056b3;

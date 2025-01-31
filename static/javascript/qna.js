@@ -240,6 +240,7 @@ const renderAnswers = (data1, id, ques, data2) => {
                 <div class="card-body">
                     <h5 class="card-title">Answer</h5>
                     <p class="card-text">${Answer}</p>
+                    <br>
                     <div class="lk-div">
                         <button class="like-btn" id="ans-id-${Ans_id}">
                             <i class="fa fa-thumbs-up" aria-hidden="true"></i>

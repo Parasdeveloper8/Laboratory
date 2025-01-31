@@ -25,6 +25,10 @@ main {
     margin-top: 70px; /* Ensure content doesn't overlap with navbar */
     margin-right: 220px; /* Leave space for the sidebar */
 }
+.lk-div{
+    display: flex;
+    width:30px;
+}
 .like-btn{
     border:none;
     font-size: 20px;
