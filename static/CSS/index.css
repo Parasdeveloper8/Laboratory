@@ -79,12 +79,15 @@ main {
     position: relative;
     bottom:35px;
     left:20px;
-    filter: drop-shadow(2px 1px black);
+    filter: drop-shadow(3px 1.5px black);
     & > i{
         color:#007bff ;
     }
     & > i:hover{
         color:#0056b3;
+    }
+    &:hover{
+        filter: drop-shadow(2px 1px black);
     }
 }
 @keyframes rotate{

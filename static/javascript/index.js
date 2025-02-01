@@ -133,7 +133,7 @@ function renderBlogs(blogs, data2) {
         button.id = `postlike${blog.Post_Id}`;
         button.className = "like-btn";
         button.innerHTML = `
-            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+            <i class="fa fa-heart" aria-hidden="true"></i>
         `;
         
         // Like count
