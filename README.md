@@ -22,51 +22,46 @@
   6.You can give answers.
 
 - This platform solves issues programmatically not on the basis of opinions of others.
-
-#### Structure 
---- /cors //Cors configuration
+  
+#### Structure
+``` js
+/cors                         // Cors configuration
 |
---- /Errors //custom errors
+/Errors                       // Custom errors
 |
---- /GETAPI //All APIs to get data
+/GETAPI                       // All APIs to get data
 |
---- /JSON //json files
+/JSON                         // JSON files
 |
---- /Middlewares //middleware files
+/Middlewares                  // Middleware files
 |
---- /Reusable //reusable functions'file
+/Reusable                     // Reusable functions' files
 |
---- /Routes --- /DELETE-routes //all functions related to delete method
-|          |--- /POST-routes   //all functions related to post method
-|          |--- /Render-routes //all functions related to render html pages
+/Routes                       
+|   /DELETE-routes            // All functions related to DELETE method
+|   /POST-routes              // All functions related to POST method
+|   /Render-routes            // All functions related to rendering HTML pages
 |
---- /static --- /CSS          //all css files
-|          |--- /Images       //all images
-|          |--- /javascript   //all js files
+/static
+|   /CSS                      // All CSS files
+|   /Images                   // All images
+|   /javascript               // All JS files
 |
---- /Structs //All structs' files
+/Structs                      // All structs' files
 |
---- /templates //All html files
+/templates                    // All HTML files
 |
---- .dockerignore 
-|
---- .env
-|
---- .env.sample
-|
---- .gitignore
-|
---- Algorithm.txt
-|
---- Dockerfile
-|
---- go.mod
-|
---- go.sum
-|
---- main.go  //main file to start application
-|
---- README.md
+/.dockerignore
+/.env
+/.env.sample
+/.gitignore
+/Algorithm.txt
+/Dockerfile
+/go.mod
+/go.sum
+/main.go                      // Main file to start application
+/README.md                    // Project README
+```
     
 
 ##### Tools used in it
