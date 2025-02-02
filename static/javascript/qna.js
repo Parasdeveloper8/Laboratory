@@ -86,8 +86,8 @@ const renderQues = (questionsToDisplay) => {
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">${Category}</h5>
-                    <p class="card-text">${Text}</p>
+                    <h5 class="card-title">${Text}</h5>
+                    <p class="card-text">category: ${Category}</p>
                 </div>
                 <button class="ans-btn" id="ans-btn-${shortenedUuid}">Add Answer</button>
                 <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}">Show Answers</button>

@@ -141,6 +141,15 @@ function renderBlogs(blogs, data2) {
         countp.innerText = likeCount; // Set the correct like count here
         divfBtn.className = "lk-div";
 
+        //share button
+       /* const shareBtn = document.createElement("button");
+        shareBtn.id = `share${blog.Post_Id}`;
+         shareBtn.className = 'like-btn';
+         shareBtn.innerHTML = `
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          `;
+         divfBtn.appendChild(shareBtn);*/
+
         // Append both button and count to div
         divfBtn.appendChild(button);
         divfBtn.appendChild(countp); // Correctly append the count
