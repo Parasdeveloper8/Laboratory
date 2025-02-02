@@ -63,11 +63,24 @@
 /README.md                    // Project README
 ```
     
-
 ##### Tools used in it
 - It is built is `Go`,`javascript`,`HTML`,`CSS` .
+- Database : `MySQL`
 - For containerization we use docker.
 - You can find image of this project on dockerhub.
+
+- Run `Docker` image :-
+  
+  `docker run -it parasdeveloper8/laboratory-paras`
+  
+__Just Start this project__
+
+- You can do port mapping :-
+
+  `docker run -it -p 2000:4900 parasdeveloper8/laboratory-paras`
+
+  __Warning__ : If you use port except of 4900,then apis in frontend will fail to fetch data.
+  
 __creator__ : _paras prajapat_
 
 ![Logo](./static/Images/logo-color.png "Logo")
