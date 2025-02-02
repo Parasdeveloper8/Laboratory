@@ -23,7 +23,53 @@
 
 - This platform solves issues programmatically not on the basis of opinions of others.
 
-#### Tools used in it
+#### Structure 
+--- /cors //Cors configuration
+|
+--- /Errors //custom errors
+|
+--- /GETAPI //All APIs to get data
+|
+--- /JSON //json files
+|
+--- /Middlewares //middleware files
+|
+--- /Reusable //reusable functions'file
+|
+--- /Routes --- /DELETE-routes //all functions related to delete method
+|          |--- /POST-routes   //all functions related to post method
+|          |--- /Render-routes //all functions related to render html pages
+|
+--- /static --- /CSS          //all css files
+|          |--- /Images       //all images
+|          |--- /javascript   //all js files
+|
+--- /Structs //All structs' files
+|
+--- /templates //All html files
+|
+--- .dockerignore 
+|
+--- .env
+|
+--- .env.sample
+|
+--- .gitignore
+|
+--- Algorithm.txt
+|
+--- Dockerfile
+|
+--- go.mod
+|
+--- go.sum
+|
+--- main.go  //main file to start application
+|
+--- README.md
+    
+
+##### Tools used in it
 - It is built is `Go`,`javascript`,`HTML`,`CSS` .
 - For containerization we use docker.
 - You can find image of this project on dockerhub.
