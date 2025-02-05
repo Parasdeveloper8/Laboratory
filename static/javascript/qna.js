@@ -305,7 +305,7 @@ const search = async (e)=>{
     if(data.data == null){
         div.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
     }
-    renderBlogs(data.data);
+    renderQues(data.data);
     }
     catch(error){
         console.error("Failed to search", error);
