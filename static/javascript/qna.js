@@ -303,7 +303,7 @@ const search = async (e)=>{
     //loader.style.display = 'none';
     const data = await response.json();
     if(data.data == null){
-        div.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
+        quesList.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
     }
     renderQues(data.data);
     }
