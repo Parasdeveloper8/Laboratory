@@ -285,6 +285,34 @@ const addLikes = async (ans_id) => {
     }
 }
 
+const searchValue = document.getElementById("search-value");
+//function to search question
+const search = async (e)=>{
+    e.preventDefault();
+    //loader.style.display = 'block';
+    quesList.innerHTML = "";
+    try{
+     const searchAPI = `http://localhost:4900/searchQues?val=${searchValue.value}`;
+     const response = await fetch(searchAPI,{
+        method:"POST",
+        headers:{ "Content-Type": "application/json" }
+     });
+     if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    //loader.style.display = 'none';
+    const data = await response.json();
+    if(data.data == null){
+        div.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
+    }
+    renderBlogs(data.data);
+    }
+    catch(error){
+        console.error("Failed to search", error);
+            //loader.style.display = 'block';
+    }
+}
+
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
     const scrollPosition = window.scrollY + window.innerHeight; 

@@ -11,10 +11,17 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header class="navbar-expand-lg bg-body-tertiary position-fixed navbar text-center">
-        <h1 class="mx-auto">Ques & Ans</h1>
-        <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
-      <!--<button onclick="window.location.href = '/'" class="">My Answers</button>-->
+    <header>
+        <nav class="navbar-expand-lg bg-body-tertiary position-fixed navbar">
+            <div class="container-fluid">
+                <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
+                <form class="form-inline d-flex mx-auto" id="search-bar" onsubmit="search(event)">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search Que" aria-label="Search" id="search-value">
+                    <button type="submit" style="border:none;" class="bg-body-tertiary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                  </form>
+               <!--<p class="fs-4 fst-italic">{{.username}}</p>-->
+            </div>
+        </nav>
     </header>
 
     <main class="container mt-4">
