@@ -164,7 +164,8 @@ func main() {
 
 	//Route to show route not found page
 	r.NoRoute(func(c *gin.Context) {
-		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"mess": "Page Not Found", "code": "404"})
+		// Send the requested path
+		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"path": c.Request.URL.Path})
 	})
 
 	//Start server on port defined in flag
