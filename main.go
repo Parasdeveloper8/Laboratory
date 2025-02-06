@@ -9,6 +9,7 @@ import (
 	reusable_structs "Laboratory/Structs"
 	"Laboratory/cors"
 	"flag"
+	"net/http"
 
 	"github.com/Parasdeveloper8/gowebguard/v2/webguard"
 	"github.com/gin-contrib/expvar"
@@ -160,6 +161,11 @@ func main() {
 
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
+
+	//Route to show route not found page
+	r.NoRoute(func(c *gin.Context) {
+		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"mess": "Page Not Found", "code": "404"})
+	})
 
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
