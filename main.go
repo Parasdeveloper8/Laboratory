@@ -162,7 +162,7 @@ func main() {
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
-	//Route to show route not found page
+	//Route to show 'route not found' page
 	r.NoRoute(func(c *gin.Context) {
 		// Send the requested path
 		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"path": c.Request.URL.Path})
