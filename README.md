@@ -65,7 +65,7 @@
 ```
     
 ##### Tools used in it
-- It is built is `Go`,`javascript`,`HTML`,`CSS` .
+- It is built in `Go`,`javascript`,`HTML`,`CSS` .
 - Database : `MySQL`
 - For containerization we use docker.
 - You can find image of this project on dockerhub.
