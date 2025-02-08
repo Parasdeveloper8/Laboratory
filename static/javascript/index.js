@@ -49,18 +49,17 @@ function formatLike(num,countpara){
         let divide = num / 1000;
         let result = divide + "K";
         countpara.innerText = result;
-    }
-    if(num >= 1000000 && num < 1000000000 ){
+    }else if(num >= 1000000 && num < 1000000000 ){
         let divide = num / 1000000;
         let result = divide + "M";
         countpara.innerText = result;
-    }
-    if(num >= 1000000000){
+    }else if(num >= 1000000000){
         let divide = num / 1000000000;
         let result = divide + "B";
         countpara.innerText = result;
+    }else{
+        countpara.innerText = num;
     }
-    countpara.innerText = num;
 }
 
 // Function to render blogs
