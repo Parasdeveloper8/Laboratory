@@ -43,6 +43,26 @@ async function fetchBlogs() {
     }
 }
 
+//Add K ,M,B in likes
+function formatLike(num,countpara){
+    if (num >= 1000 && num < 1000000 ){
+        let divide = num / 1000;
+        let result = divide + "K";
+        countpara.innerText = result;
+    }
+    if(num >= 1000000 && num < 1000000000 ){
+        let divide = num / 1000000;
+        let result = divide + "M";
+        countpara.innerText = result;
+    }
+    if(num >= 1000000000){
+        let divide = num / 1000000000;
+        let result = divide + "B";
+        countpara.innerText = result;
+    }
+    countpara.innerText = num;
+}
+
 // Function to render blogs
 function renderBlogs(blogs, data2) {
     const div = document.getElementById("blogs");
@@ -138,7 +158,7 @@ function renderBlogs(blogs, data2) {
         
         // Like count
         const countp = document.createElement("p");
-        countp.innerText = likeCount; // Set the correct like count here
+        formatLike(likeCount,countp);
         divfBtn.className = "lk-div";
 
         //share button
@@ -231,6 +251,7 @@ async function postComment(postId, commentInput, commentList) {
         }
     }
 }
+
 
 function showCommentsDialog(comments) {
     const dialog = document.createElement("div");
