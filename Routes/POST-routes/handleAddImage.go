@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"fmt"
 	"io"
-	"mime/multipart"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -13,19 +12,6 @@ import (
 )
 
 // We will use data processing pipeline ahead
-
-// Read file content
-func readFileContent(file *multipart.FileHeader, c *gin.Context) multipart.File {
-	// Read file content
-	fileContent, err := file.Open()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
-		fmt.Println(err)
-		fmt.Println("Stage II error")
-		return nil
-	}
-	return fileContent
-}
 
 // Read file content by converting multipart.File into []byte
 func readFileContentByte(fileContent io.Reader, c *gin.Context) []byte {
@@ -59,7 +45,7 @@ func HandleAddImage(c *gin.Context) {
 	file := reusable.ParseReqFile("image", c)
 
 	//Stage II
-	fileContent := readFileContent(file, c)
+	fileContent := reusable.ReadFileContent(file, c)
 	defer fileContent.Close() //avoiding memory leaks
 
 	//Stage III

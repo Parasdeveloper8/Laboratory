@@ -24,12 +24,8 @@ func HandlePost(c *gin.Context) {
 	caption := c.PostForm("caption")
 	category := c.PostForm("category")
 
-	// Read file content
-	fileContent, err := file.Open()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
-		return
-	}
+	//Stage II
+	fileContent := reusable.ReadFileContent(file, c)
 	defer fileContent.Close()
 	//Read file content
 	fileBytes, err := io.ReadAll(fileContent) //Reading from multipart.File variable and serving []byte variable to use with database
