@@ -4,7 +4,6 @@ import (
 	reusable "Laboratory/Reusable"
 	"database/sql"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -12,18 +11,6 @@ import (
 )
 
 // We will use data processing pipeline ahead
-
-// Read file content by converting multipart.File into []byte
-func readFileContentByte(fileContent io.Reader, c *gin.Context) []byte {
-	fileBytes, err := io.ReadAll(fileContent) //Reading from multipart.File variable and serving []byte variable to use with database
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
-		fmt.Println(err)
-		fmt.Println("Stage III error")
-		return nil
-	}
-	return fileBytes
-}
 
 // Insert Image
 func insertImage(c *gin.Context, db *sql.DB, query string, fileBytes []byte, sessionEmail string) sql.Result {
@@ -49,7 +36,7 @@ func HandleAddImage(c *gin.Context) {
 	defer fileContent.Close() //avoiding memory leaks
 
 	//Stage III
-	fileBytes := readFileContentByte(fileContent, c)
+	fileBytes := reusable.ReadFileContentByte(fileContent, c)
 
 	db := reusable.LoadSQLStructConfigs(c)
 

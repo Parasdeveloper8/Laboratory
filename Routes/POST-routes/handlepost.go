@@ -3,7 +3,6 @@ package postroutes
 import (
 	reusable "Laboratory/Reusable"
 	"fmt"
-	"io"
 	"net/http"
 
 	"github.com/gin-contrib/sessions"
@@ -27,12 +26,10 @@ func HandlePost(c *gin.Context) {
 	//Stage II
 	fileContent := reusable.ReadFileContent(file, c)
 	defer fileContent.Close()
-	//Read file content
-	fileBytes, err := io.ReadAll(fileContent) //Reading from multipart.File variable and serving []byte variable to use with database
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to read file content"})
-		return
-	}
+
+	//Stage III
+	fileBytes := reusable.ReadFileContentByte(fileContent, c)
+
 	//Generating post id to insert into database
 	post_id := uuid.New().String()
 	// Get the session
@@ -43,7 +40,7 @@ func HandlePost(c *gin.Context) {
 
 	//insert file into DB
 	query := "insert into laboratory.posts(name,base64string,email,title,post_id,username,category) values(?,?,?,?,?,?,?)"
-	_, err = db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName, category)
+	_, err := db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName, category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)
