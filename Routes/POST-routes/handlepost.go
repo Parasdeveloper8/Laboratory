@@ -2,6 +2,7 @@ package postroutes
 
 import (
 	reusable "Laboratory/Reusable"
+	"database/sql"
 	"fmt"
 	"net/http"
 
@@ -10,6 +11,18 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
 )
+
+// Insert Post
+func insertPost(c *gin.Context, db *sql.DB, query string, filename string, fileBytes []byte, caption string, postId string, username string, sessionEmail string, category string) error {
+	_, err := db.Exec(query, filename, fileBytes, sessionEmail, caption, postId, username, category)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
+		fmt.Println(err)
+		fmt.Println("Stage IV error")
+		return err
+	}
+	return nil
+}
 
 /*
 This function adds posts into DataBase
@@ -40,12 +53,14 @@ func HandlePost(c *gin.Context) {
 
 	//insert file into DB
 	query := "insert into laboratory.posts(name,base64string,email,title,post_id,username,category) values(?,?,?,?,?,?,?)"
-	_, err := db.Exec(query, file.Filename, fileBytes, sessionEmail, caption, post_id, sessionUserName, category)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
-		fmt.Println(err)
-		return
-	}
+
+	//Stage IV
+	go func() {
+		err := insertPost(c, db, query, file.Filename, fileBytes, caption, post_id, sessionUserName, sessionEmail, category)
+		if err != nil {
+			return
+		}
+	}()
 
 	c.Redirect(http.StatusSeeOther, "/afterlogin")
 }
