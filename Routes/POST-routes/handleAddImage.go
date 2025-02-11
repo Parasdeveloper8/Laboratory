@@ -14,18 +14,6 @@ import (
 
 // We will use data processing pipeline ahead
 
-// Parse the file from the request
-func parseReqFile(name string, c *gin.Context) *multipart.FileHeader {
-	file, err := c.FormFile(name)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
-		fmt.Println(err)
-		fmt.Println("Stage I error")
-		return nil
-	}
-	return file
-}
-
 // Read file content
 func readFileContent(file *multipart.FileHeader, c *gin.Context) multipart.File {
 	// Read file content
@@ -68,7 +56,7 @@ This function add image to user profile on the basis of email given.
 */
 func HandleAddImage(c *gin.Context) {
 	//Stage I
-	file := parseReqFile("image", c)
+	file := reusable.ParseReqFile("image", c)
 
 	//Stage II
 	fileContent := readFileContent(file, c)

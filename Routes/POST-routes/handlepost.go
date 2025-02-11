@@ -17,13 +17,10 @@ This function adds posts into DataBase
 */
 func HandlePost(c *gin.Context) {
 	db := reusable.LoadSQLStructConfigs(c)
-	// Parse the file from the request
-	file, err := c.FormFile("file")
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to get file"})
-		return
-	}
+	//Stage I
+	file := reusable.ParseReqFile("file", c)
+
 	caption := c.PostForm("caption")
 	category := c.PostForm("category")
 
