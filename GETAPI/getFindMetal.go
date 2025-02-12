@@ -1,42 +1,15 @@
 package GETAPI
 
 import (
+	reusable "Laboratory/Reusable"
 	reusable_structs "Laboratory/Structs"
 	"encoding/json"
-	"fmt"
-	"io"
-	"io/ioutil"
 	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
 
 //Pipelines ahead
-
-// Open file and read content in byte
-func OpenJSONFile(path string) *os.File {
-	// Open the file
-	file, err := os.Open(path) // Path to elements.json
-	if err != nil {
-		fmt.Printf("Could not open file: %v\n", err) //Could not open file
-		fmt.Println("Stage I error")
-	}
-	fmt.Println("Successfully opened file")
-	return file
-}
-
-// Read file contents in bytes
-func ReadJSONfileByte(r io.Reader) []byte {
-	// Read file contents
-	bytes, err := ioutil.ReadAll(r)
-	if err != nil {
-		fmt.Printf("Could not read file: %v\n", err) //Could not read file contents
-		fmt.Println("Stage II error")
-	}
-	fmt.Println("Successfully read file in []bytes")
-	return bytes
-}
 
 /*
 Function to send non-metal-loids.json as a response
@@ -44,11 +17,11 @@ to frontend for fetching category of elements
 */
 func MetalOrNotAPI(c *gin.Context) {
 	//Stage I
-	file := OpenJSONFile("D:/laboratory/JSON/non-metal-loids.json")
+	file := reusable.OpenJSONFile("D:/laboratory/JSON/non-metal-loids.json")
 	defer file.Close()
 
 	//Stage II
-	bytes := ReadJSONfileByte(file)
+	bytes := reusable.ReadJSONfileByte(file)
 
 	//channel
 	findmtls := make(chan []reusable_structs.FindMetal)
