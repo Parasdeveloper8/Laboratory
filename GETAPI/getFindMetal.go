@@ -66,7 +66,7 @@ func MetalOrNotAPI(c *gin.Context) {
 	}()
 
 	//receiver
-	receiverFindMtls := findmtls
+	receiverFindMtls := <-findmtls
 
 	c.JSON(200, gin.H{"data": receiverFindMtls})
 }

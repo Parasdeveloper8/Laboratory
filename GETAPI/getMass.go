@@ -22,6 +22,7 @@ func AtomicMassAPI(c *gin.Context) {
 		fmt.Printf("Could not open file: %v\n", err) //Could not open file
 
 	}
+	//Stage I
 	defer file.Close()
 
 	// Read file contents
