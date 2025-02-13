@@ -132,6 +132,13 @@ async function fetchProfileData() {
 
         profileContainer.appendChild(mpost);
 
+        const mques = document.createElement("a");
+        mques.href="#";
+        mques.className = 'text-decoration-none';
+        mques.innerHTML = `<p class='text-center fs-4 text-body-emphasis'>My Ques <i class="fa-solid fa-arrow-right"></i></p>`;
+      
+        profileContainer.appendChild(mques);
+
         // Append the profile container to the profiles container in HTML
         profilesContainer.appendChild(profileContainer);
       }else {
