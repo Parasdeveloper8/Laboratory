@@ -162,6 +162,8 @@ func main() {
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
+	r.GET("/myques", middlewares.CheckEmail(), Routes.RenderMyQuesPage)
+
 	//Route to show 'route not found' page
 	r.NoRoute(func(c *gin.Context) {
 		// Send the requested path
