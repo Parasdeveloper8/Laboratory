@@ -8,7 +8,6 @@ let limit = 5;
 let row = 0;
 let isLoading = false; // To prevent multiple fetches at once
 
-
 const fetchQuestions = async () => {
     if (isLoading) return; // If the current fetch is still in progress, don't fetch again
     isLoading = true;
@@ -59,7 +58,6 @@ const renderQues = (questionsToDisplay) => {
                     <h5 class="card-title">${Text}</h5>
                     <p class="card-text">category: ${Category}</p>
                 </div>
-                <button class="ans-btn" id="ans-btn-${shortenedUuid}">Add Answer</button>
                 <button class="show-ans-btn" id="show-ans-btn-${shortenedUuid}">Show Answers</button>
             </div>
 
@@ -70,29 +68,11 @@ const renderQues = (questionsToDisplay) => {
                 <div id="answers-container-${shortenedUuid}" class="answers-container"></div>
             </div>
 
-            <div class="dialog" id="postAnsDia-${shortenedUuid}">
-                <button class="close" id="close-ans-${shortenedUuid}">X</button>
-                <form id="ans-form-${shortenedUuid}">
-                    <input type="text" placeholder="Your Answer here" name="ans" id="answerText-${shortenedUuid}" style="border:2px solid black;">
-                    <br>
-                    <br>
-                    <button type="submit" class="sub-btn">Post Answer</button>
-                </form>
-            </div>
         `;
 
         quesList.appendChild(questionCard); // Append the newly created card
 
         // Bind event listeners for the dynamically created buttons
-        const ansBtn = document.getElementById(`ans-btn-${shortenedUuid}`);
-        ansBtn.addEventListener("click", () => openPostAnsBox(shortenedUuid));
-
-        const closeAnsBtn = document.getElementById(`close-ans-${shortenedUuid}`);
-        closeAnsBtn.addEventListener("click", () => closePostAnsBox(shortenedUuid));
-
-        const ansForm = document.getElementById(`ans-form-${shortenedUuid}`);
-        ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
-
         const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
         ansBox.addEventListener("click", () => openShowAnsBox(shortenedUuid, Text));
 
@@ -102,6 +82,48 @@ const renderQues = (questionsToDisplay) => {
 }
 
 fetchQuestions();
+
+
+// Close Answers Box
+const closeAnsBox = (id) => {
+    document.title = "Ques & Ans";
+    const ansBox = document.getElementById(`ansBox-${id}`);
+    ansBox.style.display = 'none';
+}
+
+// Open Answers box
+const openShowAnsBox = async (id, ques) => {
+    const ansLoader = document.getElementById(`ans-loader-${id}`);
+    ansLoader.style.display = 'block';
+    try {
+        const ansBox = document.getElementById(`ansBox-${id}`);
+        
+        // Clear the previous answers container before rendering
+        const answersContainer = document.getElementById(`answers-container-${id}`);
+        answersContainer.innerHTML = '';  // Clear any previous content
+
+        ansBox.style.display = 'block';
+
+        const response = await fetch(`http://localhost:4900/answers/${id}`);
+        const data = await response.json();
+
+        const response2 = await fetch(`http://localhost:4900/likenums`);
+        const data2 = await response2.json();
+
+        ansLoader.style.display = 'none';
+        renderAnswers(data.data, id, ques, data2.data); // Render new answers
+
+        // Ensure layout and scrollbar behavior is correct after rendering answers
+        setTimeout(() => {
+            // Force a reflow to reset the overflow and ensure scrollbar visibility
+            document.body.style.overflowY = 'auto';
+        }, 100);
+    } catch (error) {
+        console.error("Error fetching answers", error);
+        ansLoader.style.display = 'block';
+    }
+}
+
 
 //render answers
 const renderAnswers = (data1, id, ques, data2) => {
@@ -152,12 +174,10 @@ const renderAnswers = (data1, id, ques, data2) => {
 
         // Append the answer card to the answers container
         answersContainer.appendChild(anss);
-
-        // Add event listener for the like button
-        const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
-        likeBtn.addEventListener("click", () => addLikes(Ans_id));
     });
 }
+
+
 
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
