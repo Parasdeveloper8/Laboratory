@@ -164,6 +164,8 @@ func main() {
 
 	r.GET("/myques", middlewares.CheckEmail(), Routes.RenderMyQuesPage)
 
+	r.GET("/mques", middlewares.CheckEmail(), GETAPI.GetOwnQuestions) //API to get own questions
+
 	//Route to show 'route not found' page
 	r.NoRoute(func(c *gin.Context) {
 		// Send the requested path
