@@ -1,4 +1,3 @@
-const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
 
@@ -9,42 +8,13 @@ let limit = 5;
 let row = 0;
 let isLoading = false; // To prevent multiple fetches at once
 
-// Open dialog box to put question
-const openDialog = () => {
-    dialogBox.style.display = 'block';
-}
-
-// Close dialog box to put question
-const closeDialog = () => {
-    dialogBox.style.display = 'none';
-}
-
-// Add question
-const addQue = async (event) => {
-    const category = document.getElementById("select");
-    const text = document.getElementById("text");
-    event.preventDefault();
-    try {
-        const api = `http://localhost:4900/post-ques/${text.value}/${category.value}`;
-        const response = await fetch(api, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        });
-        if (response.ok) {
-            closeDialog();
-            fetchQuestions(); // Refresh the questions after submitting
-        }
-    } catch (error) {
-        console.error("Error on posting question", error);
-    }
-}
 
 const fetchQuestions = async () => {
     if (isLoading) return; // If the current fetch is still in progress, don't fetch again
     isLoading = true;
 
     try {
-        const api = `http://localhost:4900/ques-data/${row}/${limit}`;
+        const api = `http://localhost:4900/myques-data/${row}/${limit}`;
         const response = await fetch(api);
         const data = await response.json();
 
@@ -133,77 +103,6 @@ const renderQues = (questionsToDisplay) => {
 
 fetchQuestions();
 
-// Open post answer dialogue box
-const openPostAnsBox = (id) => {
-    const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
-    postAnsDialogueBox.style.display = 'block';
-}
-
-// Close post answer dialogue box
-const closePostAnsBox = (id) => {
-    const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
-    postAnsDialogueBox.style.display = 'none';
-}
-
-// Submit Answer
-const subAns = async (event, id) => {
-    event.preventDefault();
-    try {
-        const answerText = document.getElementById(`answerText-${id}`);
-        const api = `http://localhost:4900/post-ans/${id}/${answerText.value}`;
-        const response = await fetch(api, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        });
-        if (response.ok) {
-            closePostAnsBox(id);
-        }
-    } catch (error) {
-        console.error("Error on posting Answers", error);
-    }
-}
-
-// Close Answers Box
-const closeAnsBox = (id) => {
-    document.title = "Ques & Ans";
-    const ansBox = document.getElementById(`ansBox-${id}`);
-    ansBox.style.display = 'none';
-}
-
-// Open Answers box
-const openShowAnsBox = async (id, ques) => {
-    const ansLoader = document.getElementById(`ans-loader-${id}`);
-    ansLoader.style.display = 'block';
-    try {
-        const ansBox = document.getElementById(`ansBox-${id}`);
-        
-        // Clear the previous answers container before rendering
-        const answersContainer = document.getElementById(`answers-container-${id}`);
-        answersContainer.innerHTML = '';  // Clear any previous content
-
-        ansBox.style.display = 'block';
-
-        const response = await fetch(`http://localhost:4900/answers/${id}`);
-        const data = await response.json();
-
-        const response2 = await fetch(`http://localhost:4900/likenums`);
-        const data2 = await response2.json();
-
-        ansLoader.style.display = 'none';
-        renderAnswers(data.data, id, ques, data2.data); // Render new answers
-
-        // Ensure layout and scrollbar behavior is correct after rendering answers
-        setTimeout(() => {
-            // Force a reflow to reset the overflow and ensure scrollbar visibility
-            document.body.style.overflowY = 'auto';
-        }, 100);
-    } catch (error) {
-        console.error("Error fetching answers", error);
-        ansLoader.style.display = 'block';
-    }
-}
-
-
 //render answers
 const renderAnswers = (data1, id, ques, data2) => {
     const answersContainer = document.getElementById(`answers-container-${id}`);
@@ -258,59 +157,6 @@ const renderAnswers = (data1, id, ques, data2) => {
         const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
         likeBtn.addEventListener("click", () => addLikes(Ans_id));
     });
-}
-
-// Like the answer and update the likes count
-const addLikes = async (ans_id) => {
-    try {
-        // Send the like to the backend
-        const api = `http://localhost:4900/likes/${ans_id}`;
-        const response = await fetch(api, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" }
-        });
-
-        // If the like was successfully posted, update the like button and count
-        if (response.ok) {
-            const likeBtn = document.getElementById(`ans-id-${ans_id}`);
-            likeBtn.disabled = true; // Disable the like button after clicking it
-
-            // Increment the likes count on the page
-            const likeCountElement = document.getElementById(`like-count-${ans_id}`);
-            let currentLikes = parseInt(likeCountElement.innerText) || 0;
-            likeCountElement.innerText = currentLikes + 1;
-        }
-    } catch (error) {
-        console.error("Error on adding Likes to answer", error);
-    }
-}
-
-const searchValue = document.getElementById("search-value");
-//function to search question
-const search = async (e)=>{
-    e.preventDefault();
-    //loader.style.display = 'block';
-    quesList.innerHTML = "";
-    try{
-     const searchAPI = `http://localhost:4900/searchQues?val=${searchValue.value}`;
-     const response = await fetch(searchAPI,{
-        method:"POST",
-        headers:{ "Content-Type": "application/json" }
-     });
-     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    //loader.style.display = 'none';
-    const data = await response.json();
-    if(data.data == null){
-        quesList.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
-    }
-    renderQues(data.data);
-    }
-    catch(error){
-        console.error("Failed to search", error);
-            //loader.style.display = 'block';
-    }
 }
 
 // Scroll to load more questions
