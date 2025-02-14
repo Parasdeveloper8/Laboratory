@@ -52,6 +52,7 @@ const renderQues = (questionsToDisplay) => {
                             <strong>${Username}</strong>
                         </div>
                         <p class="text-muted">${FormattedTime}</p>
+                        <div id="delete-btn-${shortenedUuid}">🗑️</div>
                     </div>
                 </div>
                 <div class="card-body">
