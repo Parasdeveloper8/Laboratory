@@ -52,7 +52,7 @@ const renderQues = (questionsToDisplay) => {
                             <strong>${Username}</strong>
                         </div>
                         <p class="text-muted">${FormattedTime}</p>
-                        <div id="delete-btn-${shortenedUuid}">🗑️</div>
+                        <div id="delete-${Id}" style="cursor:pointer;">🗑️</div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -79,6 +79,13 @@ const renderQues = (questionsToDisplay) => {
 
         const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
         closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));
+
+        const deleteBtn = document.getElementById(`delete-${Id}`);
+         // Delete button click event
+         deleteBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent click event from bubbling up
+            showDeleteConfirmation(Id); // Show the confirmation dialog
+        });
     });
 }
 
@@ -178,7 +185,61 @@ const renderAnswers = (data1, id, ques, data2) => {
     });
 }
 
+// Function to delete the blog post
+async function deleteQuestion(uuid) {
+    try {
+        console.log(uuid);
+        const response = await fetch(`http://localhost:4900/delete-que/${uuid}`, {
+            method: 'DELETE',
+        });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Reload questions after successful deletion
+        fetchQuestions();
+    } catch (error) {
+        console.error("Error deleting question:", error);
+    }
+}
+
+// Function to show delete confirmation modal
+function showDeleteConfirmation(uuid) {
+    const modal = document.createElement("div");
+    modal.style = "position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;";
+
+    const confirmationBox = document.createElement("div");
+    confirmationBox.style = "background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; width: 300px;";
+
+    const message = document.createElement("p");
+    message.textContent = "Are you sure you want to delete this Question?";
+    message.style = "font-size: 16px; color: #333; margin-bottom: 20px;";
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.style = "display: flex; justify-content: space-around;";
+
+    const cancelButton = document.createElement("button");
+    cancelButton.textContent = "Cancel";
+    cancelButton.style = "background-color: #ccc; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;";
+    cancelButton.addEventListener("click", () => modal.remove());
+
+    const okButton = document.createElement("button");
+    okButton.textContent = "OK";
+    okButton.style = "background-color: #ff5f5f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;";
+    okButton.addEventListener("click", () => {
+        deleteQuestion(uuid);
+        modal.remove();
+    });
+
+    buttonContainer.appendChild(cancelButton);
+    buttonContainer.appendChild(okButton);
+
+    confirmationBox.appendChild(message);
+    confirmationBox.appendChild(buttonContainer);
+    modal.appendChild(confirmationBox);
+    document.body.appendChild(modal);
+}
 
 // Scroll to load more questions
 window.addEventListener('scroll', () => { 
