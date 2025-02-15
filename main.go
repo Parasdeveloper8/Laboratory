@@ -172,6 +172,8 @@ func main() {
 		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"path": c.Request.URL.Path})
 	})
 
+	r.DELETE("/delete-que/:id", middlewares.CheckEmail(), deleteroutes.HandleQuesDeletion)
+
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
 }

@@ -185,7 +185,7 @@ const renderAnswers = (data1, id, ques, data2) => {
     });
 }
 
-// Function to delete the blog post
+// Function to delete the question
 async function deleteQuestion(uuid) {
     try {
         console.log(uuid);
