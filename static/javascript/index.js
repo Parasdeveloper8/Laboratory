@@ -1,4 +1,5 @@
 import { scrollFetch } from "./Reusable-functions/reusefuns.js";
+import { formatLike } from "./Reusable-functions/reusefuns.js";
 
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("fail-loader");
@@ -45,25 +46,6 @@ async function fetchBlogs() {
         failLoader.style.display = 'block';
     } finally {
         isLoading = false; // Allow new fetch once the current one finishes
-    }
-}
-
-//Add K ,M,B in likes
-function formatLike(num,countpara){
-    if (num >= 1000 && num < 1000000 ){
-        let divide = num / 1000;
-        let result = divide + "K";
-        countpara.innerText = result;
-    }else if(num >= 1000000 && num < 1000000000 ){
-        let divide = num / 1000000;
-        let result = divide + "M";
-        countpara.innerText = result;
-    }else if(num >= 1000000000){
-        let divide = num / 1000000000;
-        let result = divide + "B";
-        countpara.innerText = result;
-    }else{
-        countpara.innerText = num;
     }
 }
 

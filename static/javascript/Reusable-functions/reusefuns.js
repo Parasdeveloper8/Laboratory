@@ -16,3 +16,24 @@ export function scrollFetch(callback){
     });
     }
    
+    //This function is used to format likes on behalf of their number
+    //Adding K,M,B after likes
+    //num is number of likes
+    //countpara is  HTMLParagraphElement
+export function formatLike(num,countpara){
+        if (num >= 1000 && num < 1000000 ){
+            let divide = num / 1000;
+            let result = divide + "K";
+            countpara.innerText = result;
+        }else if(num >= 1000000 && num < 1000000000 ){
+            let divide = num / 1000000;
+            let result = divide + "M";
+            countpara.innerText = result;
+        }else if(num >= 1000000000){
+            let divide = num / 1000000000;
+            let result = divide + "B";
+            countpara.innerText = result;
+        }else{
+            countpara.innerText = num;
+        }
+    }
