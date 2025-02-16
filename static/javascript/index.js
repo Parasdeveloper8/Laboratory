@@ -1,3 +1,5 @@
+import { scrollFetch } from "./Reusable-functions/reusefuns.js";
+
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("fail-loader");
 let page = 1;
@@ -323,15 +325,7 @@ const addLikes = async (post_id) => {
     }
 }
 
-// Adding scroll event to load more blogs when scrolled to the bottom
-window.addEventListener('scroll', () => {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-
-    if (scrollPosition >= documentHeight - 10) {
-        fetchBlogs();
-    }
-});
+scrollFetch(fetchBlogs);
 
 // Initial fetch
 fetchBlogs();

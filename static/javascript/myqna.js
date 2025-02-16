@@ -1,3 +1,4 @@
+import { scrollFetch } from "./Reusable-functions/reusefuns.js";
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
 
@@ -242,12 +243,4 @@ function showDeleteConfirmation(uuid) {
     document.body.appendChild(modal);
 }
 
-// Scroll to load more questions
-window.addEventListener('scroll', () => { 
-    const scrollPosition = window.scrollY + window.innerHeight; 
-    const documentHeight = document.documentElement.scrollHeight; 
-
-    if (scrollPosition >= documentHeight - 10) {
-        fetchQuestions();
-    } 
-});
+scrollFetch(fetchQuestions);

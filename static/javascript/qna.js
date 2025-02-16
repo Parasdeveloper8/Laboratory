@@ -1,3 +1,4 @@
+import { scrollFetch } from "./Reusable-functions/reusefuns.js";
 const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
@@ -314,11 +315,4 @@ const search = async (e)=>{
 }
 
 // Scroll to load more questions
-window.addEventListener('scroll', () => { 
-    const scrollPosition = window.scrollY + window.innerHeight; 
-    const documentHeight = document.documentElement.scrollHeight; 
-
-    if (scrollPosition >= documentHeight - 10) {
-        fetchQuestions();
-    } 
-});
+scrollFetch(fetchQuestions);

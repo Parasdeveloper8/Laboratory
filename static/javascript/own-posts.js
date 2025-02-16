@@ -1,3 +1,5 @@
+import { scrollFetch } from "./Reusable-functions/reusefuns.js";
+
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("f-loader");
 loader.style.display = 'block';
@@ -221,13 +223,7 @@ function showDeleteConfirmation(postId) {
     modal.appendChild(confirmationBox);
     document.body.appendChild(modal);
 }
-window.addEventListener('scroll', () => { 
-    const scrollPosition = window.scrollY + window.innerHeight; 
-    const documentHeight = document.documentElement.scrollHeight; 
-    
-    if (scrollPosition >= documentHeight-50) {
-        fetchMyBlogs();
-    } 
-}); 
+
+scrollFetch(fetchMyBlogs);
 // Fetch and render blogs on page load
 fetchMyBlogs();
