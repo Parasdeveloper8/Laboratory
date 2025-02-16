@@ -28,7 +28,10 @@ async function fetchBlogs() {
 
         // API 2 - Fetch likes count
         const response2 = await fetch("http://localhost:4900/postlikenums");
-        const data2 = await response2.json();
+        let data2 = await response2.json();
+       
+        //Ensures json is always array
+        if(!Array.isArray(data2))data2=[];
 
         loader.style.display = 'none';
         row++;
@@ -67,14 +70,17 @@ function renderBlogs(blogs, data2) {
     const div = document.getElementById("blogs");
 
     // Map the likes data by PostId for easier access
-    const likesMap = data2.reduce((acc, item) => {
-        acc[item.PostId] = item.Likes_Number; // Store likes by PostId
+    const likesMap = (data2 ?? []).reduce((acc, item) => {
+        if (item && item.PostId !== null && item.Likes_Number !== null) { 
+            acc[item.PostId] = item.Likes_Number; 
+        }
         return acc;
     }, {});
-
+    
+    
     blogs.forEach(blog => {
         const likeCount = likesMap[blog.Post_Id] || 0; // Use blog.Post_Id for the correct like count
-
+        
         const post_id = blog.Post_Id;
         const blogContainer = document.createElement("div");
         blogContainer.className = "blog-item";
