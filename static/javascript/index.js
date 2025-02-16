@@ -30,10 +30,10 @@ async function fetchBlogs() {
 
         // API 2 - Fetch likes count
         const response2 = await fetch("http://localhost:4900/postlikenums");
-        let data2 = await response2.json();
+        const data2 = await response2.json();
        
         //Ensures json is always array
-        if(!Array.isArray(data2))data2=[];
+        //if(!Array.isArray(data2))data2=[];
 
         loader.style.display = 'none';
         row++;
