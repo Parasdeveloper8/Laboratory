@@ -4,10 +4,11 @@ const searchValue = document.getElementById("search-value");
 //const loader = document.getElementById('r-loader');
 const div = document.getElementById("blogs");
 //loader.style.display = 'none';
-document.getElementById("search-bar").addEventListener("click",()=>search);
-const search = async (e)=>{
-      e.preventDefault();
+
+
+const search = async ()=>{
     //loader.style.display = 'block';
+    console.log("triggered");
     div.innerHTML = "";
     try{
      const searchAPI = `http://localhost:4900/search?val=${searchValue.value}`;
@@ -30,6 +31,14 @@ const search = async (e)=>{
             //loader.style.display = 'block';
     }
 }
+document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
+document.addEventListener("DOMContentLoaded",()=>{
+    const searchBtn = document.getElementById("search-btn");
+    if(searchBtn){
+          searchBtn.addEventListener("click",search);
+    }
+});
+
 // Function to render blogs
 function renderBlogs(blogs) {
     blogs.forEach(blog => {
