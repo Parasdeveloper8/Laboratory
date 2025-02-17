@@ -15,9 +15,9 @@
         <nav class="navbar-expand-lg bg-body-tertiary position-fixed navbar">
             <div class="container-fluid">
                 <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
-                <form class="form-inline d-flex mx-auto" id="search-bar" onsubmit="search(event)">
+                <form class="form-inline d-flex mx-auto" id="search-bar">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search Que" aria-label="Search" id="search-value">
-                    <button type="submit" style="border:none;" class="bg-body-tertiary"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button type="button" style="border:none;" class="bg-body-tertiary" id="search-btn"><i class="fa fa-search" aria-hidden="true"></i></button>
                   </form>
                <!--<p class="fs-4 fst-italic">{{.username}}</p>-->
             </div>

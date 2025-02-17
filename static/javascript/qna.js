@@ -288,8 +288,7 @@ const addLikes = async (ans_id) => {
 
 const searchValue = document.getElementById("search-value");
 //function to search question
-const search = async (e)=>{
-    e.preventDefault();
+const search = async ()=>{
     //loader.style.display = 'block';
     quesList.innerHTML = "";
     try{
@@ -313,6 +312,12 @@ const search = async (e)=>{
             //loader.style.display = 'block';
     }
 }
-
+document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
+document.addEventListener("DOMContentLoaded",()=>{
+    const searchBtn = document.getElementById("search-btn");
+    if(searchBtn){
+          searchBtn.addEventListener("click",search);
+    }
+});
 // Scroll to load more questions
 scrollFetch(fetchQuestions);

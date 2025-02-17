@@ -7,8 +7,6 @@ const div = document.getElementById("blogs");
 
 
 const search = async ()=>{
-    //loader.style.display = 'block';
-    console.log("triggered");
     div.innerHTML = "";
     try{
      const searchAPI = `http://localhost:4900/search?val=${searchValue.value}`;
