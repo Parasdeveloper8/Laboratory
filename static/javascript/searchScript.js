@@ -1,39 +1,19 @@
 import { showCommentsDialog } from "./Reusable-functions/reusefuns.js";
-
+import { search } from "./Reusable-functions/reusefuns.js";
 const searchValue = document.getElementById("search-value");
 //const loader = document.getElementById('r-loader');
 const div = document.getElementById("blogs");
 //loader.style.display = 'none';
 
-
-const search = async ()=>{
-    div.innerHTML = "";
-    try{
-     const searchAPI = `http://localhost:4900/search?val=${searchValue.value}`;
-     const response = await fetch(searchAPI,{
-        method:"POST",
-        headers:{ "Content-Type": "application/json" }
-     });
-     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    //loader.style.display = 'none';
-    const data = await response.json();
-    if(data.data == null){
-        div.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No post found</p>";
-    }
-    renderBlogs(data.data);
-    }
-    catch(error){
-        console.error("Failed to search", error);
-            //loader.style.display = 'block';
-    }
+function searchPost(){
+    const api = `http://localhost:4900/search?val=${searchValue.value}`;
+      search(div,api,"No post found",renderBlogs);
 }
 document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
 document.addEventListener("DOMContentLoaded",()=>{
     const searchBtn = document.getElementById("search-btn");
     if(searchBtn){
-          searchBtn.addEventListener("click",search);
+          searchBtn.addEventListener("click",searchPost);
     }
 });
 

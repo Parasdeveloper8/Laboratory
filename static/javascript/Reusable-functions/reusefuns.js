@@ -79,3 +79,29 @@ export function showCommentsDialog(comments) {
 
     document.body.appendChild(dialog);
 }
+
+//This function searches posts and questions
+//It can be adjusted according to parameters
+//This is reusable 
+export async function search (div,api,failInfo,renderFunction){
+    div.innerHTML = "";
+    try{
+     const searchAPI = api;
+     const response = await fetch(searchAPI,{
+        method:"POST",
+        headers:{ "Content-Type": "application/json" }
+     });
+     if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    //loader.style.display = 'none';
+    const data = await response.json();
+    if(data.data == null){
+        div.innerHTML = `<p style='text-align:center;padding-top:10%;'>&#128528; ${failInfo}</p>`;
+    }
+    renderFunction(data.data);
+    }
+    catch(error){
+        console.error("Failed to search", error);
+    }
+}
