@@ -1,7 +1,10 @@
 import { scrollFetch } from "./Reusable-functions/reusefuns.js";
+import { search } from "./Reusable-functions/reusefuns.js";
+
 const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
+const searchValue = document.getElementById("search-value");
 
 loader.style.display = 'block';
 
@@ -18,6 +21,12 @@ const openDialog = () => {
 // Close dialog box to put question
 const closeDialog = () => {
     dialogBox.style.display = 'none';
+}
+
+//search question
+function searchQuestion(){
+      const api = `http://localhost:4900/searchQues?val=${searchValue.value}`;
+      search(quesList,api,"No related question found",renderQues);
 }
 
 // Add question
@@ -286,37 +295,11 @@ const addLikes = async (ans_id) => {
     }
 }
 
-const searchValue = document.getElementById("search-value");
-//function to search question
-const search = async ()=>{
-    //loader.style.display = 'block';
-    quesList.innerHTML = "";
-    try{
-     const searchAPI = `http://localhost:4900/searchQues?val=${searchValue.value}`;
-     const response = await fetch(searchAPI,{
-        method:"POST",
-        headers:{ "Content-Type": "application/json" }
-     });
-     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    //loader.style.display = 'none';
-    const data = await response.json();
-    if(data.data == null){
-        quesList.innerHTML = "<p style='text-align:center;padding-top:10%;'>&#128528; No related question found</p>";
-    }
-    renderQues(data.data);
-    }
-    catch(error){
-        console.error("Failed to search", error);
-            //loader.style.display = 'block';
-    }
-}
 document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
 document.addEventListener("DOMContentLoaded",()=>{
     const searchBtn = document.getElementById("search-btn");
     if(searchBtn){
-          searchBtn.addEventListener("click",search);
+          searchBtn.addEventListener("click",searchQuestion);
     }
 });
 // Scroll to load more questions
