@@ -1,5 +1,5 @@
 //All reusable functions
-//EJ modules
+//ES modules
 
 //This function runs callback function when user
 //reach at bottom of page

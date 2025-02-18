@@ -1,15 +1,20 @@
 import { showCommentsDialog } from "./Reusable-functions/reusefuns.js";
 import { search } from "./Reusable-functions/reusefuns.js";
+
 const searchValue = document.getElementById("search-value");
-//const loader = document.getElementById('r-loader');
 const div = document.getElementById("blogs");
+
+//const loader = document.getElementById('r-loader');
 //loader.style.display = 'none';
 
+//search posts
 function searchPost(){
     const api = `http://localhost:4900/search?val=${searchValue.value}`;
       search(div,api,"No post found",renderBlogs);
 }
+
 document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
+
 document.addEventListener("DOMContentLoaded",()=>{
     const searchBtn = document.getElementById("search-btn");
     if(searchBtn){
@@ -126,6 +131,7 @@ function renderBlogs(blogs) {
         div.appendChild(blogContainer);
     });
 }
+
 // Function to fetch comments and show dialog
 async function fetchAndShowComments(postId) {
     try {
@@ -141,6 +147,7 @@ async function fetchAndShowComments(postId) {
         console.error("Error fetching comments:", error);
     }
 }
+
 // Function to post a comment
 async function postComment(postId, commentInput, commentList) {
     const comment = commentInput.value.trim();

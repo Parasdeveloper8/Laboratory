@@ -213,7 +213,6 @@ const openShowAnsBox = async (id, ques) => {
     }
 }
 
-
 //render answers
 const renderAnswers = (data1, id, ques, data2) => {
     const answersContainer = document.getElementById(`answers-container-${id}`);
@@ -296,11 +295,13 @@ const addLikes = async (ans_id) => {
 }
 
 document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
+
 document.addEventListener("DOMContentLoaded",()=>{
     const searchBtn = document.getElementById("search-btn");
     if(searchBtn){
           searchBtn.addEventListener("click",searchQuestion);
     }
 });
+
 // Scroll to load more questions
 scrollFetch(fetchQuestions);
