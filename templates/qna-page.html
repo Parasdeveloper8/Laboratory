@@ -31,7 +31,7 @@
     </main>
 
     <div class="dialog" id="dialogueBox">
-        <button onclick="closeDialog()" class="close">X</button>
+        <button id="closeDialog" class="close">X</button>
 
         <form onsubmit="addQue(event)">
             <input type="text" name="que" id="text" placeholder="Write question here ..." required style="border:2px solid black;">
@@ -47,7 +47,7 @@
         </form>
     </div>
 
-    <button id="pen" onclick="openDialog()"><i class="fa fa-plus" aria-hidden="true" id="pen"></i></button>
+    <button id="pen"><i class="fa fa-plus" aria-hidden="true" id="pen"></i></button>
     
     <script src="static/javascript/qna.js" type="module"></script>
 </body>

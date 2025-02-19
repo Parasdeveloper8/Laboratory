@@ -5,6 +5,8 @@ const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
 const searchValue = document.getElementById("search-value");
+const quePen = document.getElementById("pen");
+const closeDialogue = document.getElementById("closeDialog");
 
 loader.style.display = 'block';
 
@@ -18,10 +20,14 @@ const openDialog = () => {
     dialogBox.style.display = 'block';
 }
 
+quePen.addEventListener("click",openDialog);
+
 // Close dialog box to put question
 const closeDialog = () => {
     dialogBox.style.display = 'none';
 }
+
+closeDialogue.addEventListener("click",closeDialog);
 
 //search question
 function searchQuestion(){
