@@ -1,4 +1,4 @@
-FROM golang:1.23.2
+FROM golang:1.23.5
 
 # Working directory in container
 WORKDIR /laboratory
