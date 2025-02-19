@@ -33,7 +33,7 @@
     <div class="dialog" id="dialogueBox">
         <button id="closeDialog" class="close">X</button>
 
-        <form onsubmit="addQue(event)">
+        <form id="addQues">
             <input type="text" name="que" id="text" placeholder="Write question here ..." required style="border:2px solid black;">
             <br>
             <select name="category" id="select">
@@ -43,7 +43,7 @@
                 <option value="other" class="dropdown-item">Other</option>
             </select>
             <br>
-            <button type="submit" class="sub-btn">Submit</button>
+            <button type="button" class="sub-btn" id="subBtn">Submit</button>
         </form>
     </div>
 

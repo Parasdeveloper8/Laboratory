@@ -7,6 +7,18 @@ const loader = document.getElementById("r-loader");
 const searchValue = document.getElementById("search-value");
 const quePen = document.getElementById("pen");
 const closeDialogue = document.getElementById("closeDialog");
+const addQuesForm = document.getElementById("addQues");
+
+//Add event listener to form to prevent reloading
+addQuesForm.addEventListener("submit",(e)=>e.preventDefault());
+
+//Add event listener to form button to post question
+document.addEventListener("DOMContentLoaded",()=>{
+    const addQuesBtn = document.getElementById("subBtn");
+    if(addQuesBtn){
+          addQuesBtn.addEventListener("click",addQue);
+    }
+});
 
 loader.style.display = 'block';
 
@@ -36,10 +48,9 @@ function searchQuestion(){
 }
 
 // Add question
-const addQue = async (event) => {
+const addQue = async () => {
     const category = document.getElementById("select");
     const text = document.getElementById("text");
-    event.preventDefault();
     try {
         const api = `http://localhost:4900/post-ques/${text.value}/${category.value}`;
         const response = await fetch(api, {
