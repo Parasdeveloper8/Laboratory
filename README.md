@@ -63,7 +63,9 @@
 /go.mod
 /go.sum
 /main.go                      // Main file to start application
+/package.json                  
 /README.md                    // Project README
+/tsconfig.json                //TS configurations     
 ```
     
 ##### Tools used in it
