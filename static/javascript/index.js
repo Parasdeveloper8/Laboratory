@@ -1,6 +1,6 @@
-import { scrollFetch } from "./Reusable-functions/reusefuns.js";
-import { formatLike } from "./Reusable-functions/reusefuns.js";
-import { showCommentsDialog } from "./Reusable-functions/reusefuns.js";
+import { scrollFetch } from "./reusefuns.js";
+import { formatLike } from "./reusefuns.js";
+import { showCommentsDialog } from "./reusefuns.js";
 
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("fail-loader");

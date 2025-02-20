@@ -1,5 +1,5 @@
-import { scrollFetch } from "./Reusable-functions/reusefuns.js";
-import { search } from "./Reusable-functions/reusefuns.js";
+import { scrollFetch } from "./reusefuns.js";
+import { search } from "./reusefuns.js";
 
 const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
