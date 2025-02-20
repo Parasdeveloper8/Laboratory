@@ -46,11 +46,13 @@
 /static
 |   /CSS                      // All CSS files
 |   /Images                   // All images
-|   /javascript               // All JS files
+|   /javascript               // All JS files(compiled)
 |
 /Structs                      // All structs' files
 |
 /templates                    // All HTML files
+|
+/TS                           // All typescript files
 |
 /.dockerignore
 /.env
