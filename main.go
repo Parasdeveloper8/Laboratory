@@ -32,7 +32,6 @@ func main() {
 
 	//Serve static files
 	r.Static("/static", "./static")
-
 	//loads HTML files
 	r.LoadHTMLGlob("templates/*")
 
