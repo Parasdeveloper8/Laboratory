@@ -70,4 +70,5 @@ function handleFile(file:HTMLInputElement|File) {
     alert('Please select a valid image file.');
   }
 }
+
 export {}
