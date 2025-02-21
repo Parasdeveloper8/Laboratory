@@ -79,7 +79,7 @@ function renderBlogs(blogs, data2) {
         return acc;
     }, {});
     //loop over blogs variable
-    blogs.forEach(blog => {
+    blogs.forEach((blog) => {
         const likeCount = likesMap[blog.Post_Id] || 0; // Use blog.Post_Id for the correct like count
         const post_id = blog.Post_Id;
         const blogContainer = document.createElement("div");

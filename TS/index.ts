@@ -62,11 +62,11 @@ async function fetchBlogs() {
 }
 
 // Function to render blogs
-function renderBlogs(blogs, data2) {
+function renderBlogs(blogs:any, data2:any) {
     const div: HTMLElement | null= document.getElementById("blogs");
 
     // Map the likes data by PostId for easier access
-    const likesMap = (data2 ?? []).reduce((acc, item) => {
+    const likesMap = (data2 ?? []).reduce((acc:any, item:any) => {
         if (item && item.PostId !== null && item.Likes_Number !== null) { 
             acc[item.PostId] = item.Likes_Number; 
         }
@@ -74,7 +74,7 @@ function renderBlogs(blogs, data2) {
     }, {});
     
     //loop over blogs variable
-    blogs.forEach(blog => {
+    blogs.forEach((blog:any) => {
         const likeCount = likesMap[blog.Post_Id] || 0; // Use blog.Post_Id for the correct like count
         
         const post_id = blog.Post_Id;
@@ -216,7 +216,7 @@ function renderBlogs(blogs, data2) {
 }
 
 // Function to fetch comments and show dialog
-async function fetchAndShowComments(postId) {
+async function fetchAndShowComments(postId:any) {
     try {
         const response = await fetch(`http://localhost:4900/get-comments/${postId}`);
         if (!response.ok) {
@@ -232,7 +232,7 @@ async function fetchAndShowComments(postId) {
 }
 
 // Function to post a comment
-async function postComment(postId, commentInput, commentList) {
+async function postComment(postId:any, commentInput:any, commentList:any) {
     const comment = commentInput.value.trim();
     if (comment) {
         try {
@@ -251,7 +251,7 @@ async function postComment(postId, commentInput, commentList) {
     }
 }
 // Like the answer and update the likes count
-const addLikes = async (post_id) => {
+const addLikes = async (post_id:any) => {
     try {
         // Send the like to the backend
         const api = `http://localhost:4900/postlikes/${post_id}`;

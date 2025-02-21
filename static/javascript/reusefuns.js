@@ -56,7 +56,7 @@ export function showCommentsDialog(comments) {
     closeButton.addEventListener("click", () => dialog.remove());
     dialog.appendChild(closeButton);
     if (comments.length > 0) {
-        comments.forEach(comment => {
+        comments.forEach((comment) => {
             const commentItem = document.createElement("div");
             commentItem.style.cssText = "padding: 10px 0; border-bottom: 1px solid #ddd;";
             // Comment text

@@ -3,7 +3,7 @@
 
 //This function runs callback function when user
 //reach at bottom of page
-export function scrollFetch(callback){
+export function scrollFetch(callback:any){
     // Adding scroll event to load more blogs when scrolled to the bottom
     window.addEventListener('scroll', () => {
         const scrollPosition = window.scrollY + window.innerHeight;
@@ -40,7 +40,7 @@ export function formatLike(num:number,countpara:HTMLElement | HTMLParagraphEleme
 
 
 //This function shows comments'dialog box which contains comments
-export function showCommentsDialog(comments) {
+export function showCommentsDialog(comments:any) {
     const dialog:HTMLDivElement = document.createElement("div");
     dialog.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
 
@@ -52,7 +52,7 @@ export function showCommentsDialog(comments) {
     dialog.appendChild(closeButton);
 
     if (comments.length > 0) {
-        comments.forEach(comment => {
+        comments.forEach((comment:any) => {
             const commentItem :HTMLDivElement = document.createElement("div");
             commentItem.style.cssText = "padding: 10px 0; border-bottom: 1px solid #ddd;";
 
@@ -83,7 +83,7 @@ export function showCommentsDialog(comments) {
 //This function searches posts and questions
 //It can be adjusted according to parameters
 //This is reusable 
-export async function search (div:HTMLDivElement,api:string,failInfo,renderFunction){
+export async function search (div:HTMLDivElement,api:string,failInfo:any,renderFunction:any){
     div.innerHTML = "";
     try{
      const searchAPI = api;
@@ -105,3 +105,4 @@ export async function search (div:HTMLDivElement,api:string,failInfo,renderFunct
         console.error("Failed to search", error);
     }
 }
+export {}
