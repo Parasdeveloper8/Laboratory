@@ -70,6 +70,7 @@
     
 ##### Tools used in it
 - It is built in `Go`,`javascript`,`HTML`,`CSS` .
+- For type safety ,Typescript is used.
 - Database : `MySQL`
 - For containerization we use docker.
 - You can find image of this project on dockerhub.
