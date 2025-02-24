@@ -198,7 +198,7 @@ async function deleteQuestion(uuid:string) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Reload questions after successful deletion delay of 3 secs
+        // Reload questions on successful deletion after delay of 3 secs
         setTimeout(()=>location.reload(),3000);
         
     } catch (error) {
