@@ -130,8 +130,8 @@ function deleteBlog(postId) {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            // Reload blogs after successful deletion
-            fetchMyBlogs();
+            // Reload page on successful deletion after delay of 3 secs
+            setTimeout(() => location.reload(), 3000);
         }
         catch (error) {
             console.error("Error deleting blog:", error);
