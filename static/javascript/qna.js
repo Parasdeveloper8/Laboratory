@@ -1,6 +1,15 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { scrollFetch } from "./reusefuns.js";
 import { search } from "./reusefuns.js";
-
+//Ids from qna-page.html
 const dialogBox = document.getElementById('dialogueBox');
 const quesList = document.getElementById("questions-list");
 const loader = document.getElementById("r-loader");
@@ -8,52 +17,55 @@ const searchValue = document.getElementById("search-value");
 const quePen = document.getElementById("pen");
 const closeDialogue = document.getElementById("closeDialog");
 const addQuesForm = document.getElementById("addQues");
-
-//Add event listener to form to prevent reloading
-addQuesForm.addEventListener("submit",(e)=>e.preventDefault());
-
+if (addQuesForm) {
+    addQuesForm.addEventListener("submit", (e) => e.preventDefault());
+} //Add event listener to form to prevent reloading
 //Add event listener to form button to post question
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded", () => {
     const addQuesBtn = document.getElementById("subBtn");
-    if(addQuesBtn){
-          addQuesBtn.addEventListener("click",addQue);
+    if (addQuesBtn) {
+        addQuesBtn.addEventListener("click", addQue);
     }
 });
-
-loader.style.display = 'block';
-
+if (loader)
+    loader.style.display = 'block';
 let page = 1;
 let limit = 5;
 let row = 0;
 let isLoading = false; // To prevent multiple fetches at once
-
 // Open dialog box to put question
 const openDialog = () => {
-    dialogBox.style.display = 'block';
-}
-
-quePen.addEventListener("click",openDialog);
-
+    if (dialogBox)
+        dialogBox.style.display = 'block';
+};
+if (quePen)
+    quePen.addEventListener("click", openDialog);
 // Close dialog box to put question
 const closeDialog = () => {
-    dialogBox.style.display = 'none';
-}
-
-closeDialogue.addEventListener("click",closeDialog);
-
+    if (dialogBox)
+        dialogBox.style.display = 'none';
+};
+if (closeDialogue)
+    closeDialogue.addEventListener("click", closeDialog);
 //search question
-function searchQuestion(){
-      const api = `http://localhost:4900/searchQues?val=${searchValue.value}`;
-      search(quesList,api,"No related question found",renderQues);
+function searchQuestion() {
+    if (!searchValue)
+        return;
+    //convert HTMLElement to HTMLInputElement
+    const searchVal = searchValue;
+    const api = `http://localhost:4900/searchQues?val=${searchVal.value}`;
+    search(quesList, api, "No related question found", renderQues);
 }
-
 // Add question
-const addQue = async () => {
+const addQue = () => __awaiter(void 0, void 0, void 0, function* () {
     const category = document.getElementById("select");
     const text = document.getElementById("text");
+    //convert HTMLElement to HTMLInputElement
+    const categoryValue = category.value;
+    const textValue = text.value;
     try {
-        const api = `http://localhost:4900/post-ques/${text.value}/${category.value}`;
-        const response = await fetch(api, {
+        const api = `http://localhost:4900/post-ques/${textValue}/${categoryValue}`;
+        const response = yield fetch(api, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });
@@ -61,46 +73,45 @@ const addQue = async () => {
             closeDialog();
             fetchQuestions(); // Refresh the questions after submitting
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error on posting question", error);
     }
-}
-
-const fetchQuestions = async () => {
-    if (isLoading) return; // If the current fetch is still in progress, don't fetch again
+});
+const fetchQuestions = () => __awaiter(void 0, void 0, void 0, function* () {
+    if (isLoading)
+        return; // If the current fetch is still in progress, don't fetch again
     isLoading = true;
-
     try {
         const api = `http://localhost:4900/ques-data/${row}/${limit}`;
-        const response = await fetch(api);
-        const data = await response.json();
-
+        const response = yield fetch(api);
+        const data = yield response.json();
         // Check if there are no more questions to fetch
         if (data.data.length === 0) {
-            loader.style.display = 'none';  // Hide the loader
-            return;  // No more data, stop fetching
+            if (loader)
+                loader.style.display = 'none'; // Hide the loader
+            return; // No more data, stop fetching
         }
-
-        loader.style.display = 'none'; // Hide the loader when new data is fetched
-        row += limit;  // Update the row to the next set of questions
-        page++;  // Update page number for pagination
-        renderQues(data.data);  // Render new questions
-    } catch (error) {
+        if (loader)
+            loader.style.display = 'none'; // Hide the loader when new data is fetched
+        row += limit; // Update the row to the next set of questions
+        page++; // Update page number for pagination
+        renderQues(data.data); // Render new questions
+    }
+    catch (error) {
         console.error("Error on fetching questions", error);
-    } finally {
+    }
+    finally {
         isLoading = false; // Allow new fetch once the current one finishes
     }
-}
-
+});
 // Render questions dynamically
 const renderQues = (questionsToDisplay) => {
-    questionsToDisplay.forEach(quest => {
+    questionsToDisplay.forEach((quest) => {
         const { Text, Username, Category, FormattedTime, Profile_Image, Id } = quest;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
-
         const shortenedUuid = Id.replace(/-/g, ''); // Remove hyphens
-
         questionCard.innerHTML = `
             <div class="card">
                 <div class="card-header">
@@ -137,121 +148,119 @@ const renderQues = (questionsToDisplay) => {
                 </form>
             </div>
         `;
-
+        if (!quesList)
+            return;
         quesList.appendChild(questionCard); // Append the newly created card
-
         // Bind event listeners for the dynamically created buttons
         const ansBtn = document.getElementById(`ans-btn-${shortenedUuid}`);
-        ansBtn.addEventListener("click", () => openPostAnsBox(shortenedUuid));
-
+        if (ansBtn)
+            ansBtn.addEventListener("click", () => openPostAnsBox(shortenedUuid));
         const closeAnsBtn = document.getElementById(`close-ans-${shortenedUuid}`);
-        closeAnsBtn.addEventListener("click", () => closePostAnsBox(shortenedUuid));
-
+        if (closeAnsBtn)
+            closeAnsBtn.addEventListener("click", () => closePostAnsBox(shortenedUuid));
         const ansForm = document.getElementById(`ans-form-${shortenedUuid}`);
-        ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
-
+        if (ansForm)
+            ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
         const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
-        ansBox.addEventListener("click", () => openShowAnsBox(shortenedUuid, Text));
-
+        if (ansBox)
+            ansBox.addEventListener("click", () => openShowAnsBox(shortenedUuid, Text));
         const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
-        closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));
+        if (closeAnsBtn2)
+            closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));
     });
-}
-
+};
 fetchQuestions();
-
 // Open post answer dialogue box
 const openPostAnsBox = (id) => {
     const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
-    postAnsDialogueBox.style.display = 'block';
-}
-
+    if (postAnsDialogueBox)
+        postAnsDialogueBox.style.display = 'block';
+};
 // Close post answer dialogue box
 const closePostAnsBox = (id) => {
     const postAnsDialogueBox = document.getElementById(`postAnsDia-${id}`);
-    postAnsDialogueBox.style.display = 'none';
-}
-
+    if (postAnsDialogueBox)
+        postAnsDialogueBox.style.display = 'none';
+};
 // Submit Answer
-const subAns = async (event, id) => {
+const subAns = (event, id) => __awaiter(void 0, void 0, void 0, function* () {
     event.preventDefault();
     try {
         const answerText = document.getElementById(`answerText-${id}`);
-        const api = `http://localhost:4900/post-ans/${id}/${answerText.value}`;
-        const response = await fetch(api, {
+        const ansTextValue = answerText.value;
+        const api = `http://localhost:4900/post-ans/${id}/${ansTextValue}`;
+        const response = yield fetch(api, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });
         if (response.ok) {
             closePostAnsBox(id);
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error on posting Answers", error);
     }
-}
-
+});
 // Close Answers Box
 const closeAnsBox = (id) => {
     document.title = "Ques & Ans";
     const ansBox = document.getElementById(`ansBox-${id}`);
+    if (!ansBox)
+        return;
     ansBox.style.display = 'none';
-}
-
+};
 // Open Answers box
-const openShowAnsBox = async (id, ques) => {
+const openShowAnsBox = (id, ques) => __awaiter(void 0, void 0, void 0, function* () {
     const ansLoader = document.getElementById(`ans-loader-${id}`);
-    ansLoader.style.display = 'block';
+    if (ansLoader)
+        ansLoader.style.display = 'block';
     try {
         const ansBox = document.getElementById(`ansBox-${id}`);
-        
         // Clear the previous answers container before rendering
         const answersContainer = document.getElementById(`answers-container-${id}`);
-        answersContainer.innerHTML = '';  // Clear any previous content
-
-        ansBox.style.display = 'block';
-
-        const response = await fetch(`http://localhost:4900/answers/${id}`);
-        const data = await response.json();
-
-        const response2 = await fetch(`http://localhost:4900/likenums`);
-        const data2 = await response2.json();
-
-        ansLoader.style.display = 'none';
+        if (!answersContainer)
+            return;
+        answersContainer.innerHTML = ''; // Clear any previous content
+        if (ansBox)
+            ansBox.style.display = 'block';
+        const response = yield fetch(`http://localhost:4900/answers/${id}`);
+        const data = yield response.json();
+        const response2 = yield fetch(`http://localhost:4900/likenums`);
+        const data2 = yield response2.json();
+        if (ansLoader)
+            ansLoader.style.display = 'none';
         renderAnswers(data.data, id, ques, data2.data); // Render new answers
-
         // Ensure layout and scrollbar behavior is correct after rendering answers
         setTimeout(() => {
             // Force a reflow to reset the overflow and ensure scrollbar visibility
             document.body.style.overflowY = 'auto';
         }, 100);
-    } catch (error) {
-        console.error("Error fetching answers", error);
-        ansLoader.style.display = 'block';
     }
-}
-
+    catch (error) {
+        console.error("Error fetching answers", error);
+        if (ansLoader)
+            ansLoader.style.display = 'block';
+    }
+});
 //render answers
 const renderAnswers = (data1, id, ques, data2) => {
     const answersContainer = document.getElementById(`answers-container-${id}`);
+    if (!answersContainer)
+        return;
     answersContainer.style.maxHeight = '380px';
     answersContainer.style.overflowY = 'auto';
-
     // Map the likes data by Ans_id for easier access
     const likesMap = data2.reduce((acc, item) => {
         acc[item.Ans_id] = item.Likes_Number; // Store likes by Ans_id
         return acc;
     }, {});
-
     // Iterate over answers and render them
     data1.forEach((ans) => {
         const { Answer, Username, Ans_id } = ans;
-
         // Create a new div for the answer
         const anss = document.createElement("div");
-
         // Get the like count for the current answer, default to 0 if not found
         const likeCount = likesMap[Ans_id] || 0;
-        
         document.title = ques;
         // Insert the answer and like information into the HTML
         anss.innerHTML = `
@@ -276,49 +285,48 @@ const renderAnswers = (data1, id, ques, data2) => {
                 </div>
             </div>
         `;
-
         // Append the answer card to the answers container
-        answersContainer.appendChild(anss);
-
+        if (answersContainer)
+            answersContainer.appendChild(anss);
         // Add event listener for the like button
         const likeBtn = document.getElementById(`ans-id-${Ans_id}`);
-        likeBtn.addEventListener("click", () => addLikes(Ans_id));
+        if (likeBtn)
+            likeBtn.addEventListener("click", () => addLikes(Ans_id));
     });
-}
-
+};
 // Like the answer and update the likes count
-const addLikes = async (ans_id) => {
+const addLikes = (ans_id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Send the like to the backend
         const api = `http://localhost:4900/likes/${ans_id}`;
-        const response = await fetch(api, {
+        const response = yield fetch(api, {
             method: "POST",
             headers: { "Content-Type": "application/json" }
         });
-
         // If the like was successfully posted, update the like button and count
         if (response.ok) {
             const likeBtn = document.getElementById(`ans-id-${ans_id}`);
             likeBtn.disabled = true; // Disable the like button after clicking it
-
             // Increment the likes count on the page
             const likeCountElement = document.getElementById(`like-count-${ans_id}`);
+            if (!likeCountElement)
+                return;
             let currentLikes = parseInt(likeCountElement.innerText) || 0;
-            likeCountElement.innerText = currentLikes + 1;
+            likeCountElement.innerText = Number(currentLikes + 1).toString();
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error on adding Likes to answer", error);
     }
-}
-
-document.getElementById("search-bar").addEventListener("submit",(e)=>e.preventDefault());
-
-document.addEventListener("DOMContentLoaded",()=>{
+});
+const searchBar = document.getElementById("search-bar");
+if (searchBar)
+    searchBar.addEventListener("submit", (e) => e.preventDefault());
+document.addEventListener("DOMContentLoaded", () => {
     const searchBtn = document.getElementById("search-btn");
-    if(searchBtn){
-          searchBtn.addEventListener("click",searchQuestion);
+    if (searchBtn) {
+        searchBtn.addEventListener("click", searchQuestion);
     }
 });
-
 // Scroll to load more questions
 scrollFetch(fetchQuestions);
