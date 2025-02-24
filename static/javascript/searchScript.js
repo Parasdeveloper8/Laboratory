@@ -14,11 +14,9 @@ const searchValue = document.getElementById("search-value");
 const div = document.getElementById("blogs");
 //const loader = document.getElementById('r-loader');
 //loader.style.display = 'none';
-//convert HTMLElement to HTMLInputElement
-const _searchInValue = searchValue.value;
 //search posts
 function searchPost() {
-    const api = `http://localhost:4900/search?val=${_searchInValue}`;
+    const api = `http://localhost:4900/search?val=${searchValue.value}`;
     search(div, api, "No post found", renderBlogs);
 }
 const searchBar = document.getElementById("search-bar");

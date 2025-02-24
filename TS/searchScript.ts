@@ -5,11 +5,9 @@ const searchValue:HTMLElement | null = document.getElementById("search-value");
 const div:HTMLElement | null = document.getElementById("blogs");
 //const loader = document.getElementById('r-loader');
 //loader.style.display = 'none';
-//convert HTMLElement to HTMLInputElement
-const _searchInValue = (searchValue as HTMLInputElement).value;
 //search posts
 function searchPost(){
-    const api:string = `http://localhost:4900/search?val=${_searchInValue}`;
+    const api:string = `http://localhost:4900/search?val=${(searchValue as HTMLInputElement).value}`;
       search((div as HTMLDivElement),api,"No post found",renderBlogs);
 }
 const searchBar:HTMLElement | null = document.getElementById("search-bar");
