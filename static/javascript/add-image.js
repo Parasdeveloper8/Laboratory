@@ -72,4 +72,4 @@ function handleFile(file) {
         alert('Please select a valid image file.');
     }
 }
-export {};
+//export {};
