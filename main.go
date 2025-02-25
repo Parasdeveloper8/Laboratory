@@ -173,6 +173,8 @@ func main() {
 
 	r.DELETE("/delete-que/:id", middlewares.CheckEmail(), deleteroutes.HandleQuesDeletion)
 
+	r.GET("/mean-mode-median", Routes.RenderMeMoMed)
+
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
 }
