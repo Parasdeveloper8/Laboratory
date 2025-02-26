@@ -175,6 +175,8 @@ func main() {
 
 	r.GET("/mean-mode-median", Routes.RenderMeMoMed)
 
+	r.POST("/processStatsData", postroutes.HandleProcessStats)
+
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
 }
