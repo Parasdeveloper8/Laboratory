@@ -14,20 +14,16 @@ import (
 )
 
 func HandleProcessStats(c *gin.Context) {
-	//Stage I
 	file := reusable.ParseReqFile("file", c)
 
-	//Stage II
 	fileContent := reusable.ReadFileContent(file, c)
 	defer fileContent.Close()
 
-	//Stage III
 	fileBytes := reusable.ReadFileContentByte(fileContent, c)
 
 	// Convert image to Base64
 	imageBase64 := base64.StdEncoding.EncodeToString(fileBytes)
 
-	//Stage Iv
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
@@ -43,10 +39,10 @@ func HandleProcessStats(c *gin.Context) {
 	payload := map[string]any{
 		"inputs": map[string]any{
 			"image": imageBase64,
-			"text":  []string{"Describe this image", "Show text"},
+			"text":  []string{"Tell median of following data"},
 		},
 	}
-	fmt.Println(imageBase64)
+	//fmt.Println(imageBase64)
 	//payload map[string]string to []byte
 	payloadBytes, _ := json.Marshal(payload)
 	//Creates http request
@@ -71,6 +67,6 @@ func HandleProcessStats(c *gin.Context) {
 		fmt.Println(err)
 		return
 	}
-
+	//send response in string
 	c.JSON(http.StatusOK, gin.H{"response": string(body)})
 }
