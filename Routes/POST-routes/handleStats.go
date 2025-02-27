@@ -1,11 +1,21 @@
 package postroutes
 
 import (
-	"net/http"
+	reusable "Laboratory/Reusable"
 
 	"github.com/gin-gonic/gin"
 )
 
 func HandleProcessStats(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"mess": "Success"})
+	db := reusable.LoadSQLStructConfigs(c)
+	//Stage I
+	file := reusable.ParseReqFile("file", c)
+
+	//Stage II
+	fileContent := reusable.ReadFileContent(file, c)
+	defer fileContent.Close()
+
+	//Stage III
+	fileBytes := reusable.ReadFileContentByte(fileContent, c)
+
 }

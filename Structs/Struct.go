@@ -23,6 +23,7 @@ type Configurations struct {
 	DB_CONNECTION_LIMIT int
 	EMAIL               string `env:"EMAIL"`
 	EMAIL_PASSWORD      string `env:"EMAIL_PASSWORD"`
+	API_KEY_HUG         string `env:"API_KEY_HUG"` //API key to model
 }
 
 var GlobalConfigurations *Configurations
@@ -40,7 +41,9 @@ func Init() (*Configurations, error) {
 	email := os.Getenv("EMAIL")
 	email_password := os.Getenv("EMAIL_PASSWORD")
 	db_name := os.Getenv("DB_NAME")
-	GlobalConfigurations = &Configurations{DB_USER: db_user, DB_URL: db_url, DB_HOST: db_host, DB_NAME: db_name, DB_CONNECTION_LIMIT: 10, DB_PASSWORD: db_password, EMAIL: email, EMAIL_PASSWORD: email_password, SECRETKEY: secretkey}
+	api_key_hug := os.Getenv("API_KEY_HUG")
+	GlobalConfigurations = &Configurations{DB_USER: db_user, DB_URL: db_url, DB_HOST: db_host, DB_NAME: db_name, DB_CONNECTION_LIMIT: 10, DB_PASSWORD: db_password, EMAIL: email, EMAIL_PASSWORD: email_password, SECRETKEY: secretkey, API_KEY_HUG: api_key_hug}
+
 	//fmt.Println(GlobalConfigurations)
 	return GlobalConfigurations, nil
 }
