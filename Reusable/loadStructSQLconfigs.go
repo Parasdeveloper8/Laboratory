@@ -14,6 +14,7 @@ import (
 func LoadSQLStructConfigs(c *gin.Context) *sql.DB {
 	//First load configurations from reusable_structs
 	configs, err := reusable_structs.Init()
+
 	if err != nil {
 		fmt.Println("Failed to load configurations", err)
 	}
