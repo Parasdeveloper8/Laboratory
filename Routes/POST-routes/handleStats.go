@@ -13,6 +13,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Response struct {
+	Answer string  `json:"answer"`
+	Score  float64 `json:"score"`
+}
+
 func HandleProcessStats(c *gin.Context) {
 	file := reusable.ParseReqFile("file", c)
 
@@ -33,13 +38,13 @@ func HandleProcessStats(c *gin.Context) {
 	apikey := configs.API_KEY_HUG
 
 	//API of model
-	api := "https://api-inference.huggingface.co/models/openai/clip-vit-large-patch14"
+	api := "https://api-inference.huggingface.co/models/"
 
 	//Input to AI model
 	payload := map[string]any{
 		"inputs": map[string]any{
-			"image": imageBase64,
-			"text":  []string{"How is this person?"},
+			"image":    imageBase64,
+			"question": ,
 		},
 	}
 	//fmt.Println(imageBase64)
@@ -60,15 +65,19 @@ func HandleProcessStats(c *gin.Context) {
 		return
 	}
 	defer resp.Body.Close()
-
+	var respnse []Response
 	// Read response
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+	err = json.Unmarshal(body, &respnse)
+	if err != nil {
+		fmt.Println(err)
+	}
 	//send response in string
-	c.JSON(http.StatusOK, gin.H{"response": string(body)})
+	c.JSON(http.StatusOK, gin.H{"response": respnse})
 }
 
 //Models like Donut, TrOCR, or GOT-OCR2.0 can extract text and structure it into JSON format.
