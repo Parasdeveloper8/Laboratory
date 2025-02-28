@@ -33,13 +33,13 @@ func HandleProcessStats(c *gin.Context) {
 	apikey := configs.API_KEY_HUG
 
 	//API of model
-	api := "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large"
+	api := "https://api-inference.huggingface.co/models/openai/clip-vit-large-patch14"
 
 	//Input to AI model
 	payload := map[string]any{
 		"inputs": map[string]any{
 			"image": imageBase64,
-			"text":  []string{"Tell median of following data"},
+			"text":  []string{"How is this person?"},
 		},
 	}
 	//fmt.Println(imageBase64)
@@ -70,3 +70,5 @@ func HandleProcessStats(c *gin.Context) {
 	//send response in string
 	c.JSON(http.StatusOK, gin.H{"response": string(body)})
 }
+
+//Models like Donut, TrOCR, or GOT-OCR2.0 can extract text and structure it into JSON format.
