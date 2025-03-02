@@ -8,9 +8,18 @@
 <body>
     <h1>Mean Mode Median</h1>
     
-    <form action="/processStatsData" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" capture required>
-        <button type="submit">Submit</button>
+    <form action="/processStatsData" method="post" enctype="multipart/form-data" id="myform">
+        <input type="file" name="file" required>
+        <fieldset>
+            <legend>What should I find for you</legend>
+        <label for="r1">Mean</label>
+        <input type="radio" class="" value="mean" name="stats" id="r1">
+        <label for="r2">Mode</label>
+        <input type="radio" class="" value="mode" name="stats" id="r2">
+        <label for="r3">Median</label>
+        <input type="radio" class="" value="median" name="stats" id="r3">
+        </fieldset>
+        <button type="submit" id="mybtn">Find</button>
     </form>
 
     <p>working on this feature</p>

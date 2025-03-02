@@ -153,4 +153,4 @@ function fetchProfileData() {
 }
 // Call the function to fetch and display profile data
 fetchProfileData();
-//export {};
+export {};
