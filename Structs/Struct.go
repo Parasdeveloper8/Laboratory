@@ -24,6 +24,7 @@ type Configurations struct {
 	EMAIL               string `env:"EMAIL"`
 	EMAIL_PASSWORD      string `env:"EMAIL_PASSWORD"`
 	API_KEY_HUG         string `env:"API_KEY_HUG"` //API key to model
+	SPACE_OCR_KEY       string `env:"SPACE_OCR_KEY"`
 }
 
 var GlobalConfigurations *Configurations
@@ -42,7 +43,8 @@ func Init() (*Configurations, error) {
 	email_password := os.Getenv("EMAIL_PASSWORD")
 	db_name := os.Getenv("DB_NAME")
 	api_key_hug := os.Getenv("API_KEY_HUG")
-	GlobalConfigurations = &Configurations{DB_USER: db_user, DB_URL: db_url, DB_HOST: db_host, DB_NAME: db_name, DB_CONNECTION_LIMIT: 10, DB_PASSWORD: db_password, EMAIL: email, EMAIL_PASSWORD: email_password, SECRETKEY: secretkey, API_KEY_HUG: api_key_hug}
+	space_ocr_key := os.Getenv("SPACE_OCR_KEY")
+	GlobalConfigurations = &Configurations{DB_USER: db_user, DB_URL: db_url, DB_HOST: db_host, DB_NAME: db_name, DB_CONNECTION_LIMIT: 10, DB_PASSWORD: db_password, EMAIL: email, EMAIL_PASSWORD: email_password, SECRETKEY: secretkey, API_KEY_HUG: api_key_hug, SPACE_OCR_KEY: space_ocr_key}
 
 	//fmt.Println(GlobalConfigurations)
 	return GlobalConfigurations, nil
