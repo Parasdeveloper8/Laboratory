@@ -8,6 +8,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -15,13 +16,19 @@ import (
 
 // Extract data in JSON format
 func HandleProcessStats(c *gin.Context) {
+	//make response variable global
+	var Response map[string]interface{}
+
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to load config"})
 		return
 	}
 
-	apiKey := configs.SPACE_OCR_KEY
+	//Get choice of user what he wants to find eg.Mean,Mode or Median
+	choice := c.PostForm("stats")
+
+	apiKey := configs.SPACE_OCR_KEY //API key
 
 	// Get uploaded file
 	file := reusable.ParseReqFile("file", c)
@@ -71,8 +78,8 @@ func HandleProcessStats(c *gin.Context) {
 			lines := strings.Split(cleaned, "\n")                            //Splits a string into a slice
 
 			// Step 2: Extract ranges and frequencies directly
-			var ranges []string
-			var frequencies []string
+			var class_interval []string
+			var frequencies []int
 			isFrequency := false
 
 			for _, line := range lines {
@@ -88,23 +95,29 @@ func HandleProcessStats(c *gin.Context) {
 
 				// Sort data into ranges or frequencies
 				if isFrequency {
-					//if freq, err := strconv.Atoi(line); err == nil {
-					//frequencies = append(frequencies, freq)
-					//}
-					frequencies = append(frequencies, line)
+					if freq, err := strconv.Atoi(line); err == nil {
+						frequencies = append(frequencies, freq)
+					}
+
 				} else {
-					ranges = append(ranges, strings.ReplaceAll(line, " ", ""))
+					class_interval = append(class_interval, strings.ReplaceAll(line, " ", ""))
 				}
 			}
-
 			// Step 3: Create JSON response
-			response := gin.H{
-				"ranges":    ranges,
+			Response = gin.H{
+				"c.i":       class_interval,
 				"frequency": frequencies,
 			}
-			c.JSON(http.StatusOK, response)
+			c.JSON(http.StatusOK, Response)
 			return
 		}
+	}
+	if choice == "mean" {
+		mean := reusable.CalculateMean()
+	} else if choice == "mode" {
+		mode := reusable.CalculateMode()
+	} else if choice == "median" {
+		median := reusable.CalculateMedian()
 	}
 
 	// Error if no text found
