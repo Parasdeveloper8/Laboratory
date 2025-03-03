@@ -5,6 +5,7 @@ import (
 	reusable_structs "Laboratory/Structs"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/http"
@@ -16,6 +17,8 @@ import (
 
 // Extract data in JSON format
 func HandleProcessStats(c *gin.Context) {
+	var class_interval []string
+	var frequencies []float64
 	//make response variable global
 	var Response map[string]interface{}
 
@@ -72,14 +75,11 @@ func HandleProcessStats(c *gin.Context) {
 	// Extract text from response
 	if parsedResults, ok := result["ParsedResults"].([]interface{}); ok && len(parsedResults) > 0 {
 		if parsedText, ok := parsedResults[0].(map[string]interface{})["ParsedText"].(string); ok {
-			// Step 1: Clean OCR text
+			// Clean OCR text
 			cleaned := strings.ReplaceAll(parsedText, "\r\n", "\n")
 			cleaned = strings.ReplaceAll(cleaned, "F requency", "Frequency") // Fix OCR error
 			lines := strings.Split(cleaned, "\n")                            //Splits a string into a slice
 
-			// Step 2: Extract ranges and frequencies directly
-			var class_interval []string
-			var frequencies []int
 			isFrequency := false
 
 			for _, line := range lines {
@@ -96,7 +96,7 @@ func HandleProcessStats(c *gin.Context) {
 				// Sort data into ranges or frequencies
 				if isFrequency {
 					if freq, err := strconv.Atoi(line); err == nil {
-						frequencies = append(frequencies, freq)
+						frequencies = append(frequencies, float64(freq))
 					}
 
 				} else {
@@ -113,11 +113,23 @@ func HandleProcessStats(c *gin.Context) {
 		}
 	}
 	if choice == "mean" {
-		mean := reusable.CalculateMean()
+
+		fmt.Println("Calculating Mean") //debugging line
+		mean := reusable.CalculateMean(class_interval, frequencies)
+		fmt.Println(mean)
+
 	} else if choice == "mode" {
-		mode := reusable.CalculateMode()
+
+		fmt.Println("Calculating Mode") //debugging line
+		mode := reusable.CalculateMode(class_interval, frequencies)
+		fmt.Println(mode)
+
 	} else if choice == "median" {
-		median := reusable.CalculateMedian()
+
+		fmt.Println("Calculating Median") //debugging line
+		median := reusable.CalculateMedian(class_interval, frequencies)
+		fmt.Println(median)
+
 	}
 
 	// Error if no text found

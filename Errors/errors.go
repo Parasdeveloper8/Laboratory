@@ -7,4 +7,5 @@ var (
 	ErrInvalidCredentials = errors.New("invalid credentials")
 	ErrDbQuery            = errors.New("database query error")
 	ErrInvalidPass        = errors.New("Invalid Password")
+	ErrCIFIunequal        = errors.New("Fields in C.I and F.I should be equal")
 )
