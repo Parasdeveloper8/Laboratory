@@ -14,15 +14,25 @@ func IndexOf(nums []float64, value float64) float64 {
 			return float64(i)
 		}
 	}
+	return -1
 }
 
 // Calculate mean from api data
-func CalculateMean(c_i []string, freq []float64) float64 {
-
+func CalculateMean(c_i []string, freq []float64) {
+	fmt.Println("Mean")
 }
 
 // calculate mode from api data
 func CalculateMode(c_i []string, freq []float64) (float64, error) {
+	//struct for statistics data(mean)
+	type Data struct {
+		H  float64 //Height
+		L  float64 //lower limit of model class
+		F1 float64
+		F2 float64
+		F0 float64
+	}
+
 	lenF_I := len(freq)
 	lenC_I := len(c_i)
 
@@ -62,11 +72,17 @@ func CalculateMode(c_i []string, freq []float64) (float64, error) {
 	//lower limit
 	lowerLimit := classLimit[0]
 	height := classLimit[1] - classLimit[0]
+	f1 := largestNumFI   //f1
+	f0 := indexOfNum - 1 //f0
+	f2 := indexOfNum + 1 //f2
 
-	return 0, nil
+	var data = &Data{L: float64(lowerLimit), H: float64(height), F1: f1, F0: f0, F2: f2}
+	formula := data.L + (data.F1-data.F0/(2*data.F1-data.F0-data.F2))/data.H
+	answer := formula
+	return answer, nil
 }
 
 // calculate median from api data
-func CalculateMedian(c_i []string, freq []float64) float64 {
-
+func CalculateMedian(c_i []string, freq []float64) {
+	fmt.Println("Median")
 }

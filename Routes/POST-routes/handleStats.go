@@ -103,7 +103,7 @@ func HandleProcessStats(c *gin.Context) {
 					class_interval = append(class_interval, strings.ReplaceAll(line, " ", ""))
 				}
 			}
-			// Step 3: Create JSON response
+			//Step 3: Create JSON response
 			Response = gin.H{
 				"c.i":       class_interval,
 				"frequency": frequencies,
@@ -115,20 +115,21 @@ func HandleProcessStats(c *gin.Context) {
 	if choice == "mean" {
 
 		fmt.Println("Calculating Mean") //debugging line
-		mean := reusable.CalculateMean(class_interval, frequencies)
-		fmt.Println(mean)
+		reusable.CalculateMean(class_interval, frequencies)
+		//fmt.Println(mean)
 
 	} else if choice == "mode" {
 
 		fmt.Println("Calculating Mode") //debugging line
-		mode := reusable.CalculateMode(class_interval, frequencies)
-		fmt.Println(mode)
+		reusable.CalculateMode(class_interval, frequencies)
+		//c.JSON(http.StatusOK, gin.H{"mode": mode})
+		//fmt.Println(mode)
 
 	} else if choice == "median" {
 
 		fmt.Println("Calculating Median") //debugging line
-		median := reusable.CalculateMedian(class_interval, frequencies)
-		fmt.Println(median)
+		reusable.CalculateMedian(class_interval, frequencies)
+		//fmt.Println(median)
 
 	}
 
