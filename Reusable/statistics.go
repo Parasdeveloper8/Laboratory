@@ -3,8 +3,11 @@ package reusable
 import (
 	custom_errors "Laboratory/Errors"
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 // Checking index of given value
@@ -23,7 +26,7 @@ func CalculateMean(c_i []string, freq []float64) {
 }
 
 // calculate mode from api data
-func CalculateMode(c_i []string, freq []float64) (float64, error) {
+func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 	//struct for statistics data(mean)
 	type Data struct {
 		H  float64 //Height
@@ -39,7 +42,7 @@ func CalculateMode(c_i []string, freq []float64) (float64, error) {
 	if lenC_I != lenF_I {
 		err := custom_errors.ErrCIFIunequal
 		fmt.Println(err)
-		return 0, err
+		return
 	}
 	var largestNumFI float64 = freq[0] //
 	//check largest number in frequency table
@@ -54,32 +57,54 @@ func CalculateMode(c_i []string, freq []float64) (float64, error) {
 	indexOfModelClass := indexOfNum
 
 	modelClass := c_i[int(indexOfModelClass)]
-	modelClass = strings.Replace(modelClass, "-", "", -1)
+	parts := strings.Split(modelClass, "-")
+	if len(parts) != 2 {
+		fmt.Printf("invalid class interval format: %v", modelClass)
+		return
+	}
 
-	//Trim any trailing spaces and split the string by spaces
-	parts := strings.Fields(modelClass)
 	classLimit := make([]int, 0, len(parts))
-
 	//Convert each part to an integer
 	for _, part := range parts {
 		num, err := strconv.Atoi(part)
+		fmt.Println(parts)
 		if err != nil {
 			fmt.Println("Error converting:", err)
-			return 0, err
+			return
 		}
 		classLimit = append(classLimit, num)
 	}
 	//lower limit
-	lowerLimit := classLimit[0]
-	height := classLimit[1] - classLimit[0]
-	f1 := largestNumFI   //f1
-	f0 := indexOfNum - 1 //f0
-	f2 := indexOfNum + 1 //f2
+	lowerLimit, err := strconv.Atoi(parts[0])
+	if err != nil {
+		fmt.Println("mode:Failed to convert into integer")
+		return
+	}
+	//upper limit
+	upperLimit, err := strconv.Atoi(parts[1])
+	if err != nil {
+		fmt.Println("mode:Failed to convert into integer")
+		return
+	}
 
+	if len(classLimit) < 2 {
+		fmt.Println("mode:class limit is less than 2")
+		return
+	}
+	height := upperLimit - lowerLimit
+	f1 := largestNumFI //f1
+	var f0, f2 float64
+	if indexOfNum > 0 {
+		f0 = freq[int(indexOfNum)-1] //f0
+	}
+	if int(indexOfNum) < len(freq)-1 {
+		f2 = freq[int(indexOfNum)+1] //f2
+	}
 	var data = &Data{L: float64(lowerLimit), H: float64(height), F1: f1, F0: f0, F2: f2}
-	formula := data.L + (data.F1-data.F0/(2*data.F1-data.F0-data.F2))/data.H
+	fmt.Println(f1, f2, f0, height, lowerLimit)
+	formula := data.L + ((data.F1-data.F0)/((2*data.F1)-data.F0-data.F2))*data.H
 	answer := formula
-	return answer, nil
+	c.JSON(http.StatusOK, gin.H{"Mode:": answer})
 }
 
 // calculate median from api data

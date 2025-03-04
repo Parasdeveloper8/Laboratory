@@ -20,7 +20,7 @@ func HandleProcessStats(c *gin.Context) {
 	var class_interval []string
 	var frequencies []float64
 	//make response variable global
-	var Response map[string]interface{}
+	//var Response map[string]interface{}
 
 	configs, err := reusable_structs.Init()
 	if err != nil {
@@ -79,14 +79,13 @@ func HandleProcessStats(c *gin.Context) {
 			cleaned := strings.ReplaceAll(parsedText, "\r\n", "\n")
 			cleaned = strings.ReplaceAll(cleaned, "F requency", "Frequency") // Fix OCR error
 			lines := strings.Split(cleaned, "\n")                            //Splits a string into a slice
-
 			isFrequency := false
 
 			for _, line := range lines {
 				//remove whitespaces
 				line = strings.TrimSpace(line)
-				if line == "" {
-					continue
+				if line == "" || line == "Class" || line == "Class Interval" {
+					continue //skip table names
 				}
 				if line == "Frequency" {
 					isFrequency = true
@@ -103,36 +102,23 @@ func HandleProcessStats(c *gin.Context) {
 					class_interval = append(class_interval, strings.ReplaceAll(line, " ", ""))
 				}
 			}
-			//Step 3: Create JSON response
-			Response = gin.H{
-				"c.i":       class_interval,
-				"frequency": frequencies,
-			}
-			c.JSON(http.StatusOK, Response)
-			return
 		}
 	}
 	if choice == "mean" {
-
 		fmt.Println("Calculating Mean") //debugging line
 		reusable.CalculateMean(class_interval, frequencies)
 		//fmt.Println(mean)
 
 	} else if choice == "mode" {
-
 		fmt.Println("Calculating Mode") //debugging line
-		reusable.CalculateMode(class_interval, frequencies)
-		//c.JSON(http.StatusOK, gin.H{"mode": mode})
-		//fmt.Println(mode)
-
+		reusable.CalculateMode(class_interval, frequencies, c)
 	} else if choice == "median" {
-
 		fmt.Println("Calculating Median") //debugging line
 		reusable.CalculateMedian(class_interval, frequencies)
 		//fmt.Println(median)
 
 	}
-
 	// Error if no text found
-	c.JSON(http.StatusInternalServerError, gin.H{"error": "No text found in image or error occurred"})
+	//c.JSON(http.StatusInternalServerError, gin.H{"error": "No text found in image or error occurred"})
+
 }
