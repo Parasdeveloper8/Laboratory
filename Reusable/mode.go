@@ -11,10 +11,10 @@ import (
 )
 
 // Checking index of given value
-func IndexOf(nums []float64, value float64) float64 {
+func IndexOf(nums []float64, value float64) int {
 	for i, v := range nums {
 		if v == value {
-			return float64(i)
+			return i
 		}
 	}
 	return -1
