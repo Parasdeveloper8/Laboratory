@@ -20,11 +20,6 @@ func IndexOf(nums []float64, value float64) float64 {
 	return -1
 }
 
-// Calculate mean from api data
-func CalculateMean(c_i []string, freq []float64) {
-	fmt.Println("Mean")
-}
-
 // calculate mode from api data
 func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 	//struct for statistics data(mean)
@@ -36,15 +31,17 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 		F0 float64
 	}
 
-	lenF_I := len(freq)
-	lenC_I := len(c_i)
+	lenF_I := len(freq) //length of freq slice (freq)
+	lenC_I := len(c_i)  //length of c_i slice (class interval)
 
+	//If length of both c_i and freq slices are different
 	if lenC_I != lenF_I {
-		err := custom_errors.ErrCIFIunequal
+		err := custom_errors.ErrCIFIunequal //Custom error from Errors/errors.go
 		fmt.Println(err)
 		return
 	}
-	var largestNumFI float64 = freq[0] //
+
+	var largestNumFI float64 //largest frequency in table
 	//check largest number in frequency table
 	for _, num := range freq {
 		if num > largestNumFI {
@@ -67,7 +64,7 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 	//Convert each part to an integer
 	for _, part := range parts {
 		num, err := strconv.Atoi(part)
-		fmt.Println(parts)
+		//fmt.Println(parts) debugging line
 		if err != nil {
 			fmt.Println("Error converting:", err)
 			return
@@ -101,13 +98,8 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 		f2 = freq[int(indexOfNum)+1] //f2
 	}
 	var data = &Data{L: float64(lowerLimit), H: float64(height), F1: f1, F0: f0, F2: f2}
-	fmt.Println(f1, f2, f0, height, lowerLimit)
+	//fmt.Println(f1, f2, f0, height, lowerLimit) debugging line
 	formula := data.L + ((data.F1-data.F0)/((2*data.F1)-data.F0-data.F2))*data.H
 	answer := formula
 	c.JSON(http.StatusOK, gin.H{"Mode:": answer})
-}
-
-// calculate median from api data
-func CalculateMedian(c_i []string, freq []float64) {
-	fmt.Println("Median")
 }
