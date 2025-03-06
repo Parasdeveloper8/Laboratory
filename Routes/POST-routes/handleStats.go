@@ -2,6 +2,7 @@ package postroutes
 
 import (
 	reusable "Laboratory/Reusable"
+	statistics "Laboratory/Statistics"
 	reusable_structs "Laboratory/Structs"
 	"bytes"
 	"encoding/json"
@@ -19,6 +20,7 @@ import (
 func HandleProcessStats(c *gin.Context) {
 	var class_interval []string
 	var frequencies []float64
+	var cumulativeFreq []float64
 	//make response variable global
 	//var Response map[string]interface{}
 
@@ -91,7 +93,11 @@ func HandleProcessStats(c *gin.Context) {
 					isFrequency = true
 					continue
 				}
-
+				if line == "Cf" || line == "CF" || line == "C.F" {
+					if cf, err := strconv.Atoi(line); err == nil {
+						cumulativeFreq = append(cumulativeFreq, float64(cf))
+					}
+				}
 				// Sort data into ranges or frequencies
 				if isFrequency {
 					if freq, err := strconv.Atoi(line); err == nil {
@@ -106,17 +112,16 @@ func HandleProcessStats(c *gin.Context) {
 	}
 	if choice == "mean" {
 		fmt.Println("Calculating Mean") //debugging line
-		reusable.CalculateMean(class_interval, frequencies)
+		statistics.CalculateMean(class_interval, frequencies)
 		//fmt.Println(mean)
 
 	} else if choice == "mode" {
 		fmt.Println("Calculating Mode") //debugging line
-		reusable.CalculateMode(class_interval, frequencies, c)
+		statistics.CalculateMode(class_interval, frequencies, c)
 	} else if choice == "median" {
 		fmt.Println("Calculating Median") //debugging line
-		reusable.CalculateMedian(class_interval, frequencies)
+		statistics.CalculateMedian(class_interval, frequencies, cumulativeFreq, c)
 		//fmt.Println(median)
-
 	}
 	// Error if no text found
 	//c.JSON(http.StatusInternalServerError, gin.H{"error": "No text found in image or error occurred"})

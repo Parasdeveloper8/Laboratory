@@ -1,4 +1,4 @@
-package reusable
+package statistics
 
 import "fmt"
 

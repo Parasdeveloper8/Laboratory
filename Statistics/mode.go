@@ -1,7 +1,8 @@
-package reusable
+package statistics
 
 import (
 	custom_errors "Laboratory/Errors"
+	reusable "Laboratory/Reusable"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -9,16 +10,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
-
-// Checking index of given value
-func IndexOf(nums []float64, value float64) int {
-	for i, v := range nums {
-		if v == value {
-			return i
-		}
-	}
-	return -1
-}
 
 // calculate mode from api data
 func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
@@ -49,7 +40,7 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 		}
 	}
 	//index of largestNumFI
-	indexOfNum := IndexOf(freq, largestNumFI)
+	indexOfNum := reusable.IndexOf(freq, largestNumFI)
 	//index of model class is also equal to index of frequency
 	indexOfModelClass := indexOfNum
 
