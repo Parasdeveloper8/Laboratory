@@ -48,6 +48,8 @@
 |   /Images                   // All images
 |   /javascript               // All JS files(compiled)
 |
+/Statistics                   //All statistics files
+|
 /Structs                      // All structs' files
 |
 /templates                    // All HTML files
