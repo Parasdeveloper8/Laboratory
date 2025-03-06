@@ -1,5 +1,10 @@
 package reusable
 
+import (
+	"fmt"
+	"strconv"
+)
+
 // Checking index of given value
 func IndexOf(nums []float64, value float64) int {
 	for i, v := range nums {
@@ -17,4 +22,19 @@ func SumAllValues(num []float64) float64 {
 		initVal += i
 	}
 	return initVal
+}
+
+// Convert each part to an integer
+// Slice1 = slice whose each part will be converted into int
+// Slice2 = slice in which int values will be stored after conversion
+func EachToInt(slice1 []string, slice2 []int) {
+	for _, part := range slice1 {
+		num, err := strconv.Atoi(part)
+		//fmt.Println(parts) debugging line
+		if err != nil {
+			fmt.Println("Error converting:", err)
+			return
+		}
+		slice2 = append(slice2, num)
+	}
 }
