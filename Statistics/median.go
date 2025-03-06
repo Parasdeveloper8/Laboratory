@@ -4,6 +4,9 @@ import (
 	custom_errors "Laboratory/Errors"
 	reusable "Laboratory/Reusable"
 	"fmt"
+	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,7 +31,7 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 		fmt.Println(err)
 		return
 	}
-	//sum of all values in frequency table
+	//sum of all values in frequency table (N)
 	totalSumOfFreq := reusable.SumAllValues(freq)
 	var medianCf float64 //median cf
 
@@ -46,4 +49,54 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 	}
 	indexOfMedianCf = reusable.IndexOf(freq, medianCf)
 	//index of median cf is also equal to index of median class and frequency
+	indexOfMedianClass = indexOfMedianCf
+	indexOfMedianf = indexOfMedianCf
+	//median class
+	medianClass := c_i[indexOfMedianClass]
+	parts := strings.Split(medianClass, "-")
+	if len(parts) != 2 {
+		fmt.Printf("invalid class interval format: %v", medianClass)
+		return
+	}
+
+	classLimit := make([]int, 0, len(parts))
+
+	//convert each part to integer of parts[]
+	reusable.EachToInt(parts, classLimit)
+
+	//lower limit
+	lowerLimit, err := strconv.Atoi(parts[0])
+	if err != nil {
+		fmt.Println("mode:Failed to convert into integer")
+		return
+	}
+	//upper limit
+	upperLimit, err := strconv.Atoi(parts[1])
+	if err != nil {
+		fmt.Println("mode:Failed to convert into integer")
+		return
+	}
+
+	if len(classLimit) < 2 {
+		fmt.Println("mode:class limit is less than 2")
+		return
+	}
+
+	height := upperLimit - lowerLimit
+	frequency := freq[indexOfMedianf]
+
+	//cf (preceding)
+	var preCF float64
+	//Boundary check
+	if indexOfMedianCf == 0 {
+		fmt.Errorf("median:Index of median CF is 0 and index can't be subtracted by -1")
+		return
+	}
+	preCF = cf[indexOfMedianCf-1]
+	data := &Data{
+		L: float64(lowerLimit), Cf: preCF, N: totalSumOfFreq, f: frequency, H: float64(height),
+	}
+
+	formula := data.L + (((data.N/2)-data.Cf)/data.f)*data.H
+	c.JSON(http.StatusOK, gin.H{"median": formula})
 }

@@ -27,14 +27,17 @@ func SumAllValues(num []float64) float64 {
 // Convert each part to an integer
 // Slice1 = slice whose each part will be converted into int
 // Slice2 = slice in which int values will be stored after conversion
-func EachToInt(slice1 []string, slice2 []int) {
+// Returns a slice loaded with values .
+// Use that returned slice
+func EachToInt(slice1 []string, slice2 []int) []int {
 	for _, part := range slice1 {
 		num, err := strconv.Atoi(part)
 		//fmt.Println(parts) debugging line
 		if err != nil {
 			fmt.Println("Error converting:", err)
-			return
+			return nil
 		}
 		slice2 = append(slice2, num)
 	}
+	return slice2
 }

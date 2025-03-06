@@ -52,16 +52,10 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 	}
 
 	classLimit := make([]int, 0, len(parts))
-	//Convert each part to an integer
-	for _, part := range parts {
-		num, err := strconv.Atoi(part)
-		//fmt.Println(parts) debugging line
-		if err != nil {
-			fmt.Println("Error converting:", err)
-			return
-		}
-		classLimit = append(classLimit, num)
-	}
+
+	//Convert each part to an integer of parts[]
+	reusable.EachToInt(parts, classLimit)
+
 	//lower limit
 	lowerLimit, err := strconv.Atoi(parts[0])
 	if err != nil {
