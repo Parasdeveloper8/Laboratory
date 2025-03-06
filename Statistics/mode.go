@@ -54,7 +54,7 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 	classLimit := make([]int, 0, len(parts))
 
 	//Convert each part to an integer of parts[]
-	reusable.EachToInt(parts, classLimit)
+	newClassLimit := reusable.EachToInt(parts, classLimit)
 
 	//lower limit
 	lowerLimit, err := strconv.Atoi(parts[0])
@@ -69,7 +69,7 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 		return
 	}
 
-	if len(classLimit) < 2 {
+	if len(newClassLimit) < 2 {
 		fmt.Println("mode:class limit is less than 2")
 		return
 	}
