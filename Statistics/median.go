@@ -29,13 +29,14 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 	if lenC_I != lenF_I && lenC_I != lenC_f {
 		err := custom_errors.ErrCIFIunequal //Custom error from Errors/errors.go
 		fmt.Println(err)
+		fmt.Println(lenC_f, lenC_I, lenF_I)
+		fmt.Printf("CF :%v", cf) //debugging line
 		return
 	}
 	//sum of all values in frequency table (N)
 	totalSumOfFreq := reusable.SumAllValues(freq)
 	var medianCf float64 //median cf
 
-	var indexOfMedianCf int
 	var indexOfMedianf int
 	var indexOfMedianClass int
 	//Check if any value in cf is greater than half of totalSumOfFreq
@@ -47,10 +48,14 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 			break
 		}
 	}
-	indexOfMedianCf = reusable.IndexOf(freq, medianCf)
+	indexOfMedianCf, err := reusable.IndexOf(freq, medianCf)
+	if err != nil {
+		fmt.Println(err)
+	}
 	//index of median cf is also equal to index of median class and frequency
 	indexOfMedianClass = indexOfMedianCf
 	indexOfMedianf = indexOfMedianCf
+	fmt.Println(c_i[indexOfMedianClass])
 	//median class
 	medianClass := c_i[indexOfMedianClass]
 	parts := strings.Split(medianClass, "-")
@@ -62,7 +67,7 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 	classLimit := make([]int, 0, len(parts))
 
 	//convert each part to integer of parts[]
-	reusable.EachToInt(parts, classLimit)
+	newClassLimit := reusable.EachToInt(parts, classLimit)
 
 	//lower limit
 	lowerLimit, err := strconv.Atoi(parts[0])
@@ -77,7 +82,7 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 		return
 	}
 
-	if len(classLimit) < 2 {
+	if len(newClassLimit) < 2 {
 		fmt.Println("mode:class limit is less than 2")
 		return
 	}
@@ -89,7 +94,7 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 	var preCF float64
 	//Boundary check
 	if indexOfMedianCf == 0 {
-		fmt.Errorf("median:Index of median CF is 0 and index can't be subtracted by -1")
+		fmt.Println("median:Index of median CF is 0 and index can't be subtracted by -1")
 		return
 	}
 	preCF = cf[indexOfMedianCf-1]

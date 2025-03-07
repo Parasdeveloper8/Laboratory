@@ -40,7 +40,10 @@ func CalculateMode(c_i []string, freq []float64, c *gin.Context) {
 		}
 	}
 	//index of largestNumFI
-	indexOfNum := reusable.IndexOf(freq, largestNumFI)
+	indexOfNum, err := reusable.IndexOf(freq, largestNumFI)
+	if err != nil {
+		fmt.Println(err)
+	}
 	//index of model class is also equal to index of frequency
 	indexOfModelClass := indexOfNum
 
