@@ -118,9 +118,11 @@ func HandleProcessStats(c *gin.Context) {
 		fmt.Println("Calculating Median") //debugging line
 		half := len(frequencies) / 2
 		cf := frequencies[half:] //Separate last values
-		fmt.Println(cf)          //debugging line
+		fi := frequencies[:half] //rest of values
+		//fmt.Println(cf)          //debugging line
+		//fmt.Println(fi)          //debugging line
 		//add those values in cf
-		statistics.CalculateMedian(class_interval, frequencies, cf, c)
+		statistics.CalculateMedian(class_interval, fi, cf, c)
 		//fmt.Println(median)
 	}
 	// Error if no text found

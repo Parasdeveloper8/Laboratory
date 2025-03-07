@@ -35,27 +35,33 @@ func CalculateMedian(c_i []string, freq []float64, cf []float64, c *gin.Context)
 	}
 	//sum of all values in frequency table (N)
 	totalSumOfFreq := reusable.SumAllValues(freq)
+	//fmt.Println(totalSumOfFreq) //debugging line
 	var medianCf float64 //median cf
 
 	var indexOfMedianf int
 	var indexOfMedianClass int
 	//Check if any value in cf is greater than half of totalSumOfFreq
 	//Also find index of medianClassNumber
-	for _, i := range freq {
-		N := totalSumOfFreq / 2
+	N := totalSumOfFreq / 2
+	//fmt.Println(N) //debugging line
+	for _, i := range cf {
 		if i > N {
 			medianCf = float64(i)
 			break
 		}
 	}
-	indexOfMedianCf, err := reusable.IndexOf(freq, medianCf)
+	//fmt.Printf("medianCf:%v\n", medianCf) //debugging line
+	//fmt.Printf("freq: %v\n", freq)        //debugging line
+	indexOfMedianCf, err := reusable.IndexOf(cf, medianCf)
 	if err != nil {
 		fmt.Println(err)
+	}
+	if indexOfMedianCf == -1 {
+		return
 	}
 	//index of median cf is also equal to index of median class and frequency
 	indexOfMedianClass = indexOfMedianCf
 	indexOfMedianf = indexOfMedianCf
-	fmt.Println(c_i[indexOfMedianClass])
 	//median class
 	medianClass := c_i[indexOfMedianClass]
 	parts := strings.Split(medianClass, "-")
