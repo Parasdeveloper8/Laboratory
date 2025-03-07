@@ -1,18 +1,20 @@
 package reusable
 
 import (
+	custom_errors "Laboratory/Errors"
 	"fmt"
 	"strconv"
 )
 
 // Checking index of given value
-func IndexOf(nums []float64, value float64) int {
+func IndexOf(nums []float64, value float64) (int, error) {
 	for i, v := range nums {
 		if v == value {
-			return i
+			return i, nil
 		}
 	}
-	return -1
+	err := custom_errors.ErrCheckIndex
+	return -1, err
 }
 
 // Sum all values in array
