@@ -20,7 +20,6 @@ import (
 func HandleProcessStats(c *gin.Context) {
 	var class_interval []string
 	var frequencies []float64
-	var cumulativeFreq []float64
 	//make response variable global
 	//var Response map[string]interface{}
 
@@ -78,11 +77,13 @@ func HandleProcessStats(c *gin.Context) {
 	if parsedResults, ok := result["ParsedResults"].([]interface{}); ok && len(parsedResults) > 0 {
 		if parsedText, ok := parsedResults[0].(map[string]interface{})["ParsedText"].(string); ok {
 			// Clean OCR text
+			//fmt.Println(parsedResults...) //debugging line
+			//unpack slice parsedResults...
+			//we can use ... in variadic parameters
 			cleaned := strings.ReplaceAll(parsedText, "\r\n", "\n")
 			cleaned = strings.ReplaceAll(cleaned, "F requency", "Frequency") // Fix OCR error
 			lines := strings.Split(cleaned, "\n")                            //Splits a string into a slice
 			isFrequency := false
-
 			for _, line := range lines {
 				//remove whitespaces
 				line = strings.TrimSpace(line)
@@ -92,11 +93,6 @@ func HandleProcessStats(c *gin.Context) {
 				if line == "Frequency" {
 					isFrequency = true
 					continue
-				}
-				if line == "Cf" || line == "CF" || line == "C.F" {
-					if cf, err := strconv.Atoi(line); err == nil {
-						cumulativeFreq = append(cumulativeFreq, float64(cf))
-					}
 				}
 				// Sort data into ranges or frequencies
 				if isFrequency {
@@ -120,10 +116,13 @@ func HandleProcessStats(c *gin.Context) {
 		statistics.CalculateMode(class_interval, frequencies, c)
 	} else if choice == "median" {
 		fmt.Println("Calculating Median") //debugging line
-		statistics.CalculateMedian(class_interval, frequencies, cumulativeFreq, c)
+		half := len(frequencies) / 2
+		cf := frequencies[half:] //Separate last values
+		fmt.Println(cf)          //debugging line
+		//add those values in cf
+		statistics.CalculateMedian(class_interval, frequencies, cf, c)
 		//fmt.Println(median)
 	}
 	// Error if no text found
 	//c.JSON(http.StatusInternalServerError, gin.H{"error": "No text found in image or error occurred"})
-
 }
