@@ -108,7 +108,7 @@ func HandleProcessStats(c *gin.Context) {
 	}
 	if choice == "mean" {
 		fmt.Println("Calculating Mean") //debugging line
-		statistics.CalculateMean(class_interval, frequencies)
+		statistics.CalculateMean(class_interval, frequencies, c)
 		//fmt.Println(mean)
 
 	} else if choice == "mode" {
