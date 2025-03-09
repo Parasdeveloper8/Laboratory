@@ -9,6 +9,7 @@
 - You can post questions.
 - You can search for videos.
 - You can search for answers.
+- You can find accurate mean,mode and median answers from just image.
   
   1.Gravitational force calculator
   
