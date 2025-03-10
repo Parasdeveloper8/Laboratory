@@ -41,3 +41,17 @@ fieldset{
 button:hover {
     background-color: #0056b3;
 }
+input[type="radio"] + label::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    bottom: 0;
+    left: 0;
+    transition: width 0.5s ease-in-out;
+}
+
+input[type="radio"]:hover + label::after {
+    width: 100%;
+}
