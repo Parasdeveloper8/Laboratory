@@ -63,9 +63,9 @@
 <body>
     <button onclick="window.location.href = '/'" class="home-btn"><i class="fas fa-home home-icon"></i></button>
     <form action="/update-profile" method="post">
-        <input type="text" name="new-name" placeholder="New Name" required>
+        <input type="text" name="new-name" placeholder="New Name" required value= {{.data.Name}}>
         <br>
-        <input type="text" name="new-role" placeholder="New Role" required>
+        <input type="text" name="new-role" placeholder="New Role" required value= {{.data.Role}}>
         <br>
         <input type="submit" value="Update">
         <p>If you don't want to update both things just write current profile details</p>
