@@ -179,6 +179,8 @@ func main() {
 
 	r.GET("/sanskrit", GETAPI.SansWordInfo) //API to get sanskrit word info
 
+	r.GET("/shabd-vivaran", Routes.RenderShabdVivaranPage)
+
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
 }
