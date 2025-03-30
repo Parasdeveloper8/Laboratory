@@ -39,3 +39,13 @@ type PostLikes struct {
 	PostId       string `db:"post_id"`
 	Likes_Number int64  `db:"likes_number"`
 }
+
+//struct for Sanskrit json data
+type Sanskrit struct {
+	Shabd    string `json:"shabd"`
+	Arth     string `json:"arth"`
+	Vachan   string `json:"vachan"`
+	Vibhakti string `json:"vibhakti"`
+	Ling     string `json:"ling"`
+	Karak    string `json:"karak"`
+}

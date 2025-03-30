@@ -177,6 +177,8 @@ func main() {
 
 	r.POST("/processStatsData", postroutes.HandleProcessStats)
 
+	r.GET("/sanskrit", GETAPI.SansWordInfo) //API to get sanskrit word info
+
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
 }
