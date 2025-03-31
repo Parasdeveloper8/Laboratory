@@ -36,4 +36,4 @@ const calcGravitationalForce = (event) => {
     resultContainer.innerHTML = `<p>Force = ${formula} Newton</p>`;
     return formula;
 };
-export {};
+
