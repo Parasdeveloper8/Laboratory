@@ -39,10 +39,10 @@
 |
 /Reusable                     // Reusable functions' files
 |
-/Routes                       
-|   /DELETE-routes            // All functions related to DELETE method
-|   /POST-routes              // All functions related to POST method
-|   /Render-routes            // All functions related to rendering HTML pages
+/Handler                    
+|   /deleteHandlers          // All functions related to DELETE method
+|   /getHandlers          // All functions related to POST method
+|   /postHandlers            // All functions related to rendering HTML pages
 |
 /static
 |   /CSS                      // All CSS files

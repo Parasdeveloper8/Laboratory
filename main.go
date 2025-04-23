@@ -2,10 +2,10 @@ package main
 
 import (
 	"Laboratory/GETAPI"
+	"Laboratory/Handler/deleteHandlers"
+	"Laboratory/Handler/getHandlers"
+	"Laboratory/Handler/postHandlers"
 	middlewares "Laboratory/Middlewares"
-	deleteroutes "Laboratory/Routes/DELETE-routes"
-	postroutes "Laboratory/Routes/POST-routes"
-	Routes "Laboratory/Routes/Render-routes"
 	reusable_structs "Laboratory/Structs"
 	"Laboratory/cors"
 	"flag"
@@ -64,104 +64,104 @@ func main() {
 	//Routes Start from here------------------------------->
 
 	//Check Session middleware from Middlewares folder
-	r.GET("/", middlewares.CheckSession(), Routes.HomeHandler)
+	r.GET("/", middlewares.CheckSession(), getHandlers.HomeHandler)
 
-	r.GET("/atomic-mass-page", Routes.RenderAtomicMassPage)
+	r.GET("/atomic-mass-page", getHandlers.RenderAtomicMassPage)
 
-	r.GET("/page-to-post", Routes.RenderPostPage)
+	r.GET("/page-to-post", getHandlers.RenderPostPage)
 
 	r.GET("/atomic-mass", GETAPI.AtomicMassAPI) //API to get atomic mass
 
-	r.POST("/Addpost", middlewares.CheckEmail(), postroutes.HandlePost)
+	r.POST("/Addpost", middlewares.CheckEmail(), postHandlers.HandlePost)
 
 	r.GET("/blogs/:row/:limit", GETAPI.GetPosts) //API to get images
 
-	r.GET("/own-posts-page", middlewares.CheckEmail(), Routes.RenderOwnPostPage)
+	r.GET("/own-posts-page", middlewares.CheckEmail(), getHandlers.RenderOwnPostPage)
 
 	r.GET("/my-posts/:row/:limit", GETAPI.GetMyPosts) //API to get own posts
 
-	r.GET("register-page", Routes.RenderRegisterPage)
+	r.GET("register-page", getHandlers.RenderRegisterPage)
 
-	r.GET("login-page", Routes.RenderLoginPage)
+	r.GET("login-page", getHandlers.RenderLoginPage)
 
-	r.POST("/register", postroutes.HandleRegistration)
+	r.POST("/register", postHandlers.HandleRegistration)
 
-	r.POST("/login", postroutes.HandleLogin)
+	r.POST("/login", postHandlers.HandleLogin)
 
-	r.GET("/afterlogin", middlewares.CheckEmail(), Routes.RenderAfterLoginPage)
+	r.GET("/afterlogin", middlewares.CheckEmail(), getHandlers.RenderAfterLoginPage)
 
-	r.POST("/logout", postroutes.HandleLogout)
+	r.POST("/logout", postHandlers.HandleLogout)
 
-	r.GET("/profile", middlewares.CheckEmail(), Routes.RenderProfilePage)
+	r.GET("/profile", middlewares.CheckEmail(), getHandlers.RenderProfilePage)
 
 	r.GET("/profile-data", GETAPI.ProfileDataAPI) //API to get profile data
 
-	r.GET("/add-image-page", Routes.RenderAddImagePage)
+	r.GET("/add-image-page", getHandlers.RenderAddImagePage)
 
-	r.POST("/add-image", postroutes.HandleAddImage)
+	r.POST("/add-image", postHandlers.HandleAddImage)
 
-	r.GET("/tools-page", Routes.RenderToolspage)
+	r.GET("/tools-page", getHandlers.RenderToolspage)
 
-	r.GET("/find-metal-page", Routes.RenderMetalOrNotPage)
+	r.GET("/find-metal-page", getHandlers.RenderMetalOrNotPage)
 
 	r.GET("/metal-or-not", GETAPI.MetalOrNotAPI) //API to get elements which are metals or not
 
-	r.POST("post-comments/:post_id", postroutes.HandleComments)
+	r.POST("post-comments/:post_id", postHandlers.HandleComments)
 
 	r.GET("/get-comments/:post_id", GETAPI.GetComments) //API to get comments
 
-	r.POST("/resetlink", postroutes.ResetLink)
+	r.POST("/resetlink", postHandlers.ResetLink)
 
-	r.GET("/resetpasspage", Routes.RenderPassChangePage)
+	r.GET("/resetpasspage", getHandlers.RenderPassChangePage)
 
-	r.POST("/resetpassword", postroutes.ResetPassword)
+	r.POST("/resetpassword", postHandlers.ResetPassword)
 
-	r.POST("/update-profile", middlewares.CheckEmail(), postroutes.HandleUpdateProfile)
+	r.POST("/update-profile", middlewares.CheckEmail(), postHandlers.HandleUpdateProfile)
 
-	r.GET("change-profile-page", Routes.RenderChangeProfileForm)
+	r.GET("change-profile-page", getHandlers.RenderChangeProfileForm)
 
-	r.DELETE("/delete-post/:post_id", middlewares.CheckEmail(), deleteroutes.HandleDeletePost)
+	r.DELETE("/delete-post/:post_id", middlewares.CheckEmail(), deleteHandlers.HandleDeletePost)
 
-	r.DELETE("/delete-image/:email", middlewares.CheckEmail(), deleteroutes.HandleDeleteImage)
+	r.DELETE("/delete-image/:email", middlewares.CheckEmail(), deleteHandlers.HandleDeleteImage)
 
-	r.GET("/gravitational-force", Routes.RenderGravitationalPage)
+	r.GET("/gravitational-force", getHandlers.RenderGravitationalPage)
 
-	r.GET("/chemical-formulae", Routes.RenderChemicalFormulaePage)
+	r.GET("/chemical-formulae", getHandlers.RenderChemicalFormulaePage)
 
 	r.GET("/SymbolValency", GETAPI.GetSymbolValency) //API to get symbols and valencies
 
-	r.POST("/search", middlewares.CheckEmail(), postroutes.HandleSearch)
+	r.POST("/search", middlewares.CheckEmail(), postHandlers.HandleSearch)
 
-	r.GET("/search-page", Routes.RenderSearchPage)
+	r.GET("/search-page", getHandlers.RenderSearchPage)
 
-	r.GET("/Qna", Routes.RenderQNAPage)
+	r.GET("/Qna", getHandlers.RenderQNAPage)
 
-	r.POST("/post-ques/:text/:category", middlewares.CheckEmail(), postroutes.HandlePostQues)
+	r.POST("/post-ques/:text/:category", middlewares.CheckEmail(), postHandlers.HandlePostQues)
 
 	r.GET("/ques-data/:row/:limit", GETAPI.GetQuestions) //API to get questions
 
-	r.POST("/post-ans/:id/:answer", middlewares.CheckEmail(), postroutes.HandlePostAns)
+	r.POST("/post-ans/:id/:answer", middlewares.CheckEmail(), postHandlers.HandlePostAns)
 
 	r.GET("/answers/:queId", GETAPI.GetAnswers) //API to get answers on the basis of question Id
 
 	r.GET("/notifications", GETAPI.GetNotifications) //Work Remaining
 
-	r.GET("/notify-page", Routes.RenderNotifyPage) //work Remaining
+	r.GET("/notify-page", getHandlers.RenderNotifyPage) //work Remaining
 
-	r.POST("/likes/:ansId", middlewares.CheckEmail(), postroutes.HandleLikes)
+	r.POST("/likes/:ansId", middlewares.CheckEmail(), postHandlers.HandleLikes)
 
 	r.GET("/likenums", GETAPI.GETLikes) //API to get likes
 
-	r.POST("/postlikes/:postId", middlewares.CheckEmail(), postroutes.HandlePostLikes)
+	r.POST("/postlikes/:postId", middlewares.CheckEmail(), postHandlers.HandlePostLikes)
 
 	r.GET("/postlikenums", GETAPI.GetPostLikes) //API to get likes of post
 
-	r.POST("/searchQues", postroutes.HandleQueSearch)
+	r.POST("/searchQues", postHandlers.HandleQueSearch)
 
 	//Route to get metrics information
 	r.GET("/debug/vars", expvar.Handler())
 
-	r.GET("/myques", middlewares.CheckEmail(), Routes.RenderMyQuesPage)
+	r.GET("/myques", middlewares.CheckEmail(), getHandlers.RenderMyQuesPage)
 
 	r.GET("/myques-data/:row/:limit", middlewares.CheckEmail(), GETAPI.GetOwnQuestions) //API to get own questions
 
@@ -171,15 +171,15 @@ func main() {
 		c.HTML(http.StatusNotFound, "NotFound.html", gin.H{"path": c.Request.URL.Path})
 	})
 
-	r.DELETE("/delete-que/:id", middlewares.CheckEmail(), deleteroutes.HandleQuesDeletion)
+	r.DELETE("/delete-que/:id", middlewares.CheckEmail(), deleteHandlers.HandleQuesDeletion)
 
-	r.GET("/mean-mode-median", Routes.RenderMeMoMed)
+	r.GET("/mean-mode-median", getHandlers.RenderMeMoMed)
 
-	r.POST("/processStatsData", postroutes.HandleProcessStats)
+	r.POST("/processStatsData", postHandlers.HandleProcessStats)
 
 	r.GET("/sanskrit", GETAPI.SansWordInfo) //API to get sanskrit word info
 
-	r.GET("/shabd-vivaran", Routes.RenderShabdVivaranPage)
+	r.GET("/shabd-vivaran", getHandlers.RenderShabdVivaranPage)
 
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
