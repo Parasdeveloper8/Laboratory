@@ -92,4 +92,4 @@ __Just Start this project__
   
 __creator__ : _paras prajapat_
 
-![Logo](./static/Images/logo-color.png "Logo")
+![Logo](./static/Images/logo.png "Logo")
