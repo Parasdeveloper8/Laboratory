@@ -155,7 +155,7 @@ const renderQues = (questionsToDisplay:any) => {
         if(ansForm) ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
 
         const ansBox:HTMLElement | null  = document.getElementById(`show-ans-btn-${shortenedUuid}`);
-        if(ansBox) ansBox.addEventListener("click", () => window.location.href=`/answersPage/${shortenedUuid}`);
+        if(ansBox) ansBox.addEventListener("click", () => window.location.href=`/answersPage/${Text}/${shortenedUuid}`);
 
         const closeAnsBtn2:HTMLElement | null  = document.getElementById(`closeAnsBox-${shortenedUuid}`);
         if(closeAnsBtn2) closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));

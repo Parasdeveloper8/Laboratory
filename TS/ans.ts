@@ -1,11 +1,15 @@
 //id from ansPage.html
 const cenDiv = document.getElementById("central-cont");
+const heading = document.getElementById("que");
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     try{
     const pathParts = window.location.pathname.split("/");
-    const queId = pathParts[2];
+    const que = decodeURIComponent(pathParts[2]);
+    const queId = pathParts[3];
 
+    document.title = que;
+    if(heading) heading.innerText = que;
     const response = await fetch(`http://localhost:4900/answers/${queId}`);
     const data = await response.json();
 

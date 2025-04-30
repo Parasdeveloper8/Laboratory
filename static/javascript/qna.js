@@ -163,7 +163,7 @@ const renderQues = (questionsToDisplay) => {
             ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
         const ansBox = document.getElementById(`show-ans-btn-${shortenedUuid}`);
         if (ansBox)
-            ansBox.addEventListener("click", () => window.location.href = `/answersPage/${shortenedUuid}`);
+            ansBox.addEventListener("click", () => window.location.href = `/answersPage/${Text}/${shortenedUuid}`);
         const closeAnsBtn2 = document.getElementById(`closeAnsBox-${shortenedUuid}`);
         if (closeAnsBtn2)
             closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));

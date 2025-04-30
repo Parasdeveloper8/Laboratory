@@ -181,7 +181,7 @@ func main() {
 
 	r.GET("/shabd-vivaran", getHandlers.RenderShabdVivaranPage)
 
-	r.GET("/answersPage/:id", getHandlers.RenderAnsPage)
+	r.GET("/answersPage/:que/:id", getHandlers.RenderAnsPage)
 
 	//Start server on port defined in flag
 	r.Run(":" + *addr) //use port 4900 to call API
