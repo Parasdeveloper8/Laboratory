@@ -58,3 +58,4 @@ if (myform) {
     });
 }
 const getMass = fetchAndDisplayElements;
+export {};
