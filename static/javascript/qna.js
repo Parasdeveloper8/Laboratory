@@ -63,11 +63,16 @@ const addQue = () => __awaiter(void 0, void 0, void 0, function* () {
     //convert HTMLElement to HTMLInputElement
     const categoryValue = category.value;
     const textValue = text.value;
+    const jsonData = {
+        text: textValue,
+        category: categoryValue
+    };
     try {
-        const api = `http://localhost:4900/post-ques/${textValue}/${categoryValue}`;
+        const api = `http://localhost:4900/post-ques`;
         const response = yield fetch(api, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jsonData)
         });
         if (response.ok) {
             closeDialog();

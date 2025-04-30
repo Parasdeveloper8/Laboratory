@@ -14,11 +14,11 @@ import (
 This function sends questions to database with a question id and user's details.
 */
 func HandlePostQues(c *gin.Context) {
-	//get question text from path parameters
-	ques := c.Param("text")
-
-	//get the category from path parameters
-	category := c.Param("category")
+	//struct to hold json body data sent from frontend
+	var Data struct {
+		Text     string `json:"text"`
+		Category string `json:"category"`
+	}
 
 	// Get the session
 	session := sessions.Default(c)
@@ -35,9 +35,15 @@ func HandlePostQues(c *gin.Context) {
 	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 
+	//bind json body to struct
+	if err := c.ShouldBindJSON(&Data); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to bind json body"})
+		return
+	}
+
 	//query to insert question in database
 	query := "insert into laboratory.questions(text,email,username,id,category) values(?,?,?,?,?)"
-	_, err := db.Exec(query, ques, sessionEmail, sessionUserName, que_id, category)
+	_, err := db.Exec(query, &Data.Text, sessionEmail, sessionUserName, que_id, &Data.Category)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save file to database"})
 		fmt.Println(err)

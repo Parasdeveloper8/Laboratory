@@ -136,7 +136,7 @@ func main() {
 
 	r.GET("/Qna", getHandlers.RenderQNAPage)
 
-	r.POST("/post-ques/:text/:category", middlewares.CheckEmail(), postHandlers.HandlePostQues)
+	r.POST("/post-ques", middlewares.CheckEmail(), postHandlers.HandlePostQues)
 
 	r.GET("/ques-data/:row/:limit", GETAPI.GetQuestions) //API to get questions
 

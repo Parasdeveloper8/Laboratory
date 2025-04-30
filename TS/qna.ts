@@ -55,11 +55,17 @@ const addQue = async () => {
     //convert HTMLElement to HTMLInputElement
     const categoryValue = (category as HTMLInputElement).value;
     const textValue = (text as HTMLInputElement).value;
+
+    const jsonData = {
+          text:textValue,
+          category:categoryValue
+    }
     try {
-        const api:string = `http://localhost:4900/post-ques/${textValue}/${categoryValue}`;
+        const api:string = `http://localhost:4900/post-ques`;
         const response = await fetch(api, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jsonData)
         });
         if (response.ok) {
             closeDialog();
