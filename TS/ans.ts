@@ -1,25 +1,32 @@
-//id from ansPage.html
+//ids from ansPage.html
 const cenDiv = document.getElementById("central-cont");
 const heading = document.getElementById("que");
 
 document.addEventListener("DOMContentLoaded",async ()=>{
     try{
     const pathParts = window.location.pathname.split("/");
+    //get second part of url and remove extra 20% signs
     const que = decodeURIComponent(pathParts[2]);
+    //get third part of url
     const queId = pathParts[3];
-
+    //set title
     document.title = que;
-    if(heading) heading.innerText = que;
+    if(heading) heading.innerText = "Q. " + que;
+    
+    //fetch answers
     const response = await fetch(`http://localhost:4900/answers/${queId}`);
     const data = await response.json();
-
+    //fetch number of likes
     const response2 = await fetch(`http://localhost:4900/likenums`);
     const data2 = await response2.json();
-
-    renderAnswers(data.data, data2.data); // Render new answers
-
+    if(data2.data == null){
+        //if data2 is null then pass blank array to prevent error in reduce method
+    renderAnswers(data.data, []);
+    }
+    renderAnswers(data.data,data2.data);
     }catch(error){
-        console.log("Failed to fetch answers");
+        if(cenDiv) cenDiv.innerHTML = "<p class='text-center fs-4'>😧No answers available</p>";
+        console.log("Failed to fetch answers : ",error);
     }
 });
 
@@ -45,8 +52,8 @@ const renderAnswers = (data1:any, data2:any) => {
         
         // Insert the answer and like information into the HTML
         anss.innerHTML = `
-            <div class="card">
-                <div class="card-header">
+                <div class="card mx-auto" style="background-color:white !important;width:80vw">
+                <div class="card-header" style="background-color:white !important;border:none;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
                             <strong>${Username}</strong>
@@ -54,17 +61,17 @@ const renderAnswers = (data1:any, data2:any) => {
                     </div>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Answer</h5>
-                    <p class="card-text">${Answer}</p>
-                    <br>
-                    <div class="lk-div">
-                        <button class="like-btn" id="ans-id-${Ans_id}">
-                            <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                    <p class="card-text" >${Answer}</p>
+                    <div class="lk-div d-flex flex-column align-items-center" style="width:50px">
+                        <button class="like-btn" id="ans-id-${Ans_id}" style="background-color:white;border:none;">
+                            <i class="fa fa-thumbs-up" aria-hidden="true" style="color:red"></i>
                         </button>
                         <p class="like-count" id="like-count-${Ans_id}">${likeCount}</p>
                     </div>
                 </div>
             </div>
+            <br/>
+            <br/>
         `;
 
         // Append the answer card to the answers container
