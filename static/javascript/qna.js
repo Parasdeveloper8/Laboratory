@@ -193,10 +193,15 @@ const subAns = (event, id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const answerText = document.getElementById(`answerText-${id}`);
         const ansTextValue = answerText.value;
-        const api = `http://localhost:4900/post-ans/${id}/${ansTextValue}`;
+        const api = `http://localhost:4900/post-ans`;
+        const jsonData = {
+            id: id,
+            answer: ansTextValue
+        };
         const response = yield fetch(api, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(jsonData)
         });
         if (response.ok) {
             closePostAnsBox(id);

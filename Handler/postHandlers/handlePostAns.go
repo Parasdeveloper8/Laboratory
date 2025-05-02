@@ -18,9 +18,11 @@ func HandlePostAns(c *gin.Context) {
 	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 
-	//extract answer and que_id from path parameters.
-	answer := c.Param("answer")
-	que_id := c.Param("id")
+	//struct to hold json body data sent from frontend
+	var Data struct {
+		Id     string `json:"id"`
+		Answer string `json:"answer"`
+	}
 
 	// Get the session
 	session := sessions.Default(c)
@@ -32,9 +34,15 @@ func HandlePostAns(c *gin.Context) {
 	//generate answerId
 	ans_id := uuid.New().String()
 
+	//bind json body to struct
+	if err := c.ShouldBindJSON(&Data); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to bind json body"})
+		return
+	}
+
 	//query to insert answer in database
 	query := "insert into laboratory.answers(text,email,id,username,ans_id ) values(?,?,?,?,?)"
-	_, err := db.Exec(query, answer, sessionEmail, que_id, sessionUserName, ans_id)
+	_, err := db.Exec(query, &Data.Answer, sessionEmail, &Data.Id, sessionUserName, ans_id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save answer in database"})
 		fmt.Println(err)

@@ -184,14 +184,20 @@ const closePostAnsBox = (id:string) => {
 
 // Submit Answer
 const subAns = async (event:any, id:string) => {
+    
     event.preventDefault();
     try {
         const answerText:HTMLElement | null  = document.getElementById(`answerText-${id}`);
         const ansTextValue = (answerText as HTMLInputElement).value;
-        const api:string = `http://localhost:4900/post-ans/${id}/${ansTextValue}`;
+        const api:string = `http://localhost:4900/post-ans`;
+        const jsonData = {
+            id:id,
+            answer:ansTextValue
+        }
         const response = await fetch(api, {
             method: "POST",
-            headers: { "Content-Type": "application/json" }
+            headers: { "Content-Type": "application/json" },
+            body:JSON.stringify(jsonData)
         });
         if (response.ok) {
             closePostAnsBox(id);

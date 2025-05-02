@@ -140,7 +140,7 @@ func main() {
 
 	r.GET("/ques-data/:row/:limit", GETAPI.GetQuestions) //API to get questions
 
-	r.POST("/post-ans/:id/:answer", middlewares.CheckEmail(), postHandlers.HandlePostAns)
+	r.POST("/post-ans", middlewares.CheckEmail(), postHandlers.HandlePostAns)
 
 	r.GET("/answers/:queId", GETAPI.GetAnswers) //API to get answers on the basis of question Id
 
