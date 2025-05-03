@@ -14,9 +14,9 @@ type BlogsData struct {
 }
 
 type ProfileData struct {
-	Name          string `db:"name"`
-	Profile_image []byte `db:"profile_image"`
-	Email         string `db:"email"`
-	Role          string `db:"role"`
-	About         string `db:"about"`
+	Name          string      `db:"name"`
+	Profile_image []byte      `db:"profile_image"`
+	Email         string      `db:"email"`
+	Role          string      `db:"role"`
+	About         interface{} `db:"about"`
 }
