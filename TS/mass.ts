@@ -47,9 +47,9 @@ const myform :HTMLElement | null = document.getElementById("myform");
 if(myform){
 myform.addEventListener("submit",function(event){
        event.preventDefault();
+       fetchAndDisplayElements();
 });
 }
 
-const getMass = fetchAndDisplayElements;
 /*window.onload = fetchAndDisplayElements;*/
 export {}

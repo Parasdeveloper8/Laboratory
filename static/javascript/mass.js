@@ -55,7 +55,7 @@ const myform = document.getElementById("myform");
 if (myform) {
     myform.addEventListener("submit", function (event) {
         event.preventDefault();
+        fetchAndDisplayElements();
     });
 }
-const getMass = fetchAndDisplayElements;
 export {};
