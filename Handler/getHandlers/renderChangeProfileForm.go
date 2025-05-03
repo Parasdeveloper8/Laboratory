@@ -20,15 +20,16 @@ func RenderChangeProfileForm(c *gin.Context) {
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
 
-	query := "select name,role from laboratory.users where email = ?"
+	query := "select name,role,about from laboratory.users where email = ?"
 	row := db.QueryRow(query, sessionEmail)
 	//struct to hold values
 	type RprofileData struct {
-		Name string `db:"name"`
-		Role string `db:"role"`
+		Name  string `db:"name"`
+		Role  string `db:"role"`
+		About string `db:"about"`
 	}
 	var prData RprofileData
-	if err := row.Scan(&prData.Name, &prData.Role); err != nil {
+	if err := row.Scan(&prData.Name, &prData.Role, &prData.About); err != nil {
 		fmt.Println("Failed to scan data in struct:\n", err)
 		fmt.Printf("Returned data :\n %v", row)
 	}

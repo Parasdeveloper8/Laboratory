@@ -21,9 +21,11 @@ func HandleUpdateProfile(c *gin.Context) {
 
 	newName := c.PostForm("new-name")
 	newRole := c.PostForm("new-role")
+	newAbout := c.PostForm("new-about")
+
 	//update profile data on the basis of email given
-	query := "UPDATE laboratory.users SET name = ?, role = ? WHERE email = ?"
-	result, err := db.Exec(query, newName, newRole, sessionEmail)
+	query := "UPDATE laboratory.users SET name = ?, role = ?,about = ? WHERE email = ?"
+	result, err := db.Exec(query, newName, newRole, newAbout, sessionEmail)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Failed to update data in database %v", err)})
 		return

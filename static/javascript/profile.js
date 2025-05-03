@@ -66,6 +66,11 @@ function fetchProfileData() {
                 nameElement.innerHTML = `<p>${profile.Name || 'No name available'}</p>`;
                 nameContainer.appendChild(nameElement);
                 profileContainer.appendChild(nameContainer);
+                // About
+                const aboutContainer = document.createElement('div');
+                aboutContainer.classList.add('about-container');
+                aboutContainer.innerHTML = `<p>${profile.About}</p>`;
+                profileContainer.appendChild(aboutContainer);
                 // Email
                 const emailElement = document.createElement('div');
                 emailElement.classList.add('profile-email');
