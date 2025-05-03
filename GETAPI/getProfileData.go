@@ -22,12 +22,12 @@ func ProfileDataAPI(c *gin.Context) {
 
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
-	query := "select profile_image,name,email,role from laboratory.users where email=?"
+	query := "select profile_image,name,email,role,about from laboratory.users where email=?"
 	rows := db.QueryRow(query, sessionEmail)
 
-	var profile reusable_structs.ProfileData
+	var profile reusable_structs.ProfileData //Structs/Struct2.go
 	//Scanning rows 'values
-	err := rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role)
+	err := rows.Scan(&profile.Profile_image, &profile.Name, &profile.Email, &profile.Role, &profile.About)
 	if err != nil {
 		log.Printf("Failed to scan row: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err})

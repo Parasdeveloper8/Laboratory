@@ -18,4 +18,5 @@ type ProfileData struct {
 	Profile_image []byte `db:"profile_image"`
 	Email         string `db:"email"`
 	Role          string `db:"role"`
+	About         string `db:"about"`
 }
