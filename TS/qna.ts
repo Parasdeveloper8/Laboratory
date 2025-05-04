@@ -9,8 +9,18 @@ const searchValue: HTMLElement | null = document.getElementById("search-value");
 const quePen: HTMLElement | null = document.getElementById("pen");
 const closeDialogue: HTMLElement | null = document.getElementById("closeDialog");
 const addQuesForm: HTMLElement | null = document.getElementById("addQues");
+const textarea:HTMLElement | null = document.getElementById('text');
 
 if(addQuesForm) {addQuesForm.addEventListener("submit",(e)=>e.preventDefault());}//Add event listener to form to prevent reloading
+
+
+function autoResizeTextArea(textarea: HTMLTextAreaElement) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
+textarea?.addEventListener('input', () => autoResizeTextArea(textarea as HTMLTextAreaElement));
+
 
 //Add event listener to form button to post question
 document.addEventListener("DOMContentLoaded",()=>{
@@ -139,8 +149,7 @@ const renderQues = (questionsToDisplay:any) => {
             <div class="dialog" id="postAnsDia-${shortenedUuid}">
                 <button class="close" id="close-ans-${shortenedUuid}">X</button>
                 <form id="ans-form-${shortenedUuid}">
-                    <input type="text" placeholder="Your Answer here" name="ans" id="answerText-${shortenedUuid}" style="border:2px solid black;">
-                    <br>
+                    <textarea placeholder="Your Answer here" name="ans" id="answerText-${shortenedUuid}" class="text" required></textarea>
                     <br>
                     <button type="submit" class="sub-btn">Post Answer</button>
                 </form>
@@ -153,6 +162,9 @@ const renderQues = (questionsToDisplay:any) => {
         // Bind event listeners for the dynamically created buttons
         const ansBtn:HTMLElement | null = document.getElementById(`ans-btn-${shortenedUuid}`);
         if(ansBtn) ansBtn.addEventListener("click", () => openPostAnsBox(shortenedUuid));
+
+        const textarea2:HTMLElement | null = document.getElementById(`answerText-${shortenedUuid}`);
+        if(textarea2) textarea2.addEventListener('input', () => autoResizeTextArea(textarea2 as HTMLTextAreaElement));
 
         const closeAnsBtn:HTMLElement | null  = document.getElementById(`close-ans-${shortenedUuid}`);
         if(closeAnsBtn) closeAnsBtn.addEventListener("click", () => closePostAnsBox(shortenedUuid));

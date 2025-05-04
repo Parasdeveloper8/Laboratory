@@ -16,6 +16,8 @@
           alter table laboratory.answers add column username varchar(255) not null;
           alter table laboratory.answers modify column ans_id varchar(255) not null unique;
           alter table laboratory.answers modify column ans_id varchar(255) not null;
+          alter table laboratory.answers modify column text mediumtext;
+          alter table laboratory.users modify column about varchar(255) default 'no data';
 /*---------------------------ALTER QUERIES END----------------------------------------*/
             
             
