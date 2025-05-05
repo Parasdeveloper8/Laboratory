@@ -173,7 +173,11 @@ const renderQues = (questionsToDisplay:any) => {
         if(ansForm) ansForm.addEventListener("submit", (event) => subAns(event, shortenedUuid));
 
         const ansBox:HTMLElement | null  = document.getElementById(`show-ans-btn-${shortenedUuid}`);
-        if(ansBox) ansBox.addEventListener("click", () => window.location.href=`/answersPage/${Text}/${shortenedUuid}`);
+        if(ansBox) ansBox.addEventListener("click", () => {
+            //encode Text to prevent URL errors
+            const encodedText = encodeURIComponent(Text);
+            window.location.href=`/answersPage/${encodedText}/${shortenedUuid}`
+        });
 
         const closeAnsBtn2:HTMLElement | null  = document.getElementById(`closeAnsBox-${shortenedUuid}`);
         if(closeAnsBtn2) closeAnsBtn2.addEventListener('click', () => closeAnsBox(shortenedUuid));
