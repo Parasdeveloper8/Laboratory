@@ -1,4 +1,9 @@
-const apiUrl:string = 'http://localhost:4900/profile-data';
+//get profile id from path params
+const pathParts = window.location.pathname.split("/");
+const profileId = pathParts[2];
+
+const apiUrl:string = `http://localhost:4900/profile-data/${profileId}`;
+
 //Ids from profile.html
 // Fetch profile data from the API
 async function fetchProfileData() {
@@ -39,7 +44,7 @@ async function fetchProfileData() {
           <button class='fa fa-pencil pencil' aria-hdden='true'></button>
           `;
         } else {
-          photoContainer.innerHTML = `<img src="static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
+          photoContainer.innerHTML = `<img src="/static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
           <button class='fa fa-pencil pencil' aria-hdden='true'></button>
           `;
         }

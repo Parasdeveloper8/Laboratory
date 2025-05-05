@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var Name, Pass, Mail string
+var Name, Pass, Mail, ProfileId string
 
 //This function takes email and password from user
 /*
@@ -23,8 +23,8 @@ func SqlLogin(email, password string, c *gin.Context) (bool, error) {
 		if email matches in users table ,this will return results
 		and scan returned results in variables for further work
 	*/
-	query := "SELECT email, password ,name FROM laboratory.users WHERE email = ?"
-	err := db.QueryRow(query, email).Scan(&Mail, &Pass, &Name)
+	query := "SELECT email, password ,name,profileId FROM laboratory.users WHERE email = ?"
+	err := db.QueryRow(query, email).Scan(&Mail, &Pass, &Name, &ProfileId)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusNotFound, gin.H{"info": "Not a User"})
 		return false, err

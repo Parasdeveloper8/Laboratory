@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 /*
@@ -23,9 +24,13 @@ func SqlBcryptRegister(name, email, password, role string, c *gin.Context) (bool
 		log.Fatalf("Failed to hash password %v", err) //Fatal to terminate program
 		return false, err
 	}
+
+	//create unique id for profile
+	profileId := uuid.New().String() + name
+
 	// Insert data into the database
-	query := "insert into laboratory.users (name,email,password,role) values (?,?,?,?)"
-	result, err := db.Exec(query, name, email, hashedPassword, role)
+	query := "insert into laboratory.users (name,email,password,role,profileId) values (?,?,?,?,?)"
+	result, err := db.Exec(query, name, email, hashedPassword, role, profileId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("Failed to insert data into database or already registered %v", err)})
 		return false, err

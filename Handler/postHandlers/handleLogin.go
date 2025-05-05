@@ -22,6 +22,8 @@ func HandleLogin(c *gin.Context) {
 	// Set session values
 	session.Set("username", reusable.Name)
 	session.Set("email", reusable.Mail)
+	session.Set("profileId", reusable.ProfileId)
+
 	err = session.Save()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save session"})

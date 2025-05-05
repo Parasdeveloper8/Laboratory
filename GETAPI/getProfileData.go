@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,13 +16,12 @@ func ProfileDataAPI(c *gin.Context) {
 	db := reusable.LoadSQLStructConfigs(c)
 	defer db.Close()
 	//query to get images
-	// Get the session
-	session := sessions.Default(c)
 
-	// Retrieve the email from the session
-	sessionEmail, _ := session.Get("email").(string)
-	query := "select profile_image,name,email,role,about from laboratory.users where email=?"
-	rows := db.QueryRow(query, sessionEmail)
+	// Retrieve the profile id from the path params
+	profileId := c.Param("profileId")
+
+	query := "select profile_image,name,email,role,about from laboratory.users where profileId=?"
+	rows := db.QueryRow(query, profileId)
 
 	var profile reusable_structs.ProfileData //Structs/Struct2.go
 	//Scanning rows 'values

@@ -7,7 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const apiUrl = 'http://localhost:4900/profile-data';
+//get profile id from path params
+const pathParts = window.location.pathname.split("/");
+const profileId = pathParts[2];
+const apiUrl = `http://localhost:4900/profile-data/${profileId}`;
 //Ids from profile.html
 // Fetch profile data from the API
 function fetchProfileData() {
@@ -48,7 +51,7 @@ function fetchProfileData() {
           `;
                 }
                 else {
-                    photoContainer.innerHTML = `<img src="static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
+                    photoContainer.innerHTML = `<img src="/static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
           <button class='fa fa-pencil pencil' aria-hdden='true'></button>
           `;
                 }
