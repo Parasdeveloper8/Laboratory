@@ -11,6 +11,7 @@ type BlogsData struct {
 	Title         string  `db:"title"`
 	FormattedTime string
 	Category      string `db:"category"`
+	ProfileId     string `db:"profileId"`
 }
 
 type ProfileData struct {

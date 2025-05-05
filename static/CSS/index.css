@@ -90,6 +90,13 @@ main {
         filter: drop-shadow(2px 1px black);
     }
 }
+.profile-link{
+    text-decoration:none;
+    color:black;
+    & :hover{
+        text-decoration: underline black;
+    }
+}
 @keyframes rotate{
     0%{
         transform:rotate(0deg);

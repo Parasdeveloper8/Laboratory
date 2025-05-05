@@ -98,7 +98,9 @@ function renderBlogs(blogs, data2) {
         emailIcon.alt = "User Icon";
         emailIcon.style.cssText = "width: 20px; height: 20px; margin-right: 8px;";
         nameBar.appendChild(emailIcon);
-        nameBar.appendChild(document.createTextNode(blog.UserName));
+        const nameLink = document.createElement("div");
+        nameLink.innerHTML = `<a href='/profile/${blog.ProfileId}' class='profile-link' title='visit ${blog.UserName} profile'><b>${blog.UserName}</b></a>`;
+        nameBar.appendChild(nameLink);
         const uploadedTime = document.createElement("div");
         uploadedTime.textContent = blog.FormattedTime;
         uploadedTime.style.cssText = "font-size: 12px; color: #777; text-align: right;";
