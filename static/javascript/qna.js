@@ -119,7 +119,7 @@ const fetchQuestions = () => __awaiter(void 0, void 0, void 0, function* () {
 // Render questions dynamically
 const renderQues = (questionsToDisplay) => {
     questionsToDisplay.forEach((quest) => {
-        const { Text, Username, Category, FormattedTime, Profile_Image, Id } = quest;
+        const { Text, Username, Category, FormattedTime, Profile_Image, Id, ProfileId } = quest;
         const questionCard = document.createElement("div");
         questionCard.classList.add("col-12", "col-md-6", "mb-3"); // Use col-md-6 for 2 cards per row, col-12 for full width on small screens
         const shortenedUuid = Id.replace(/-/g, ''); // Remove hyphens
@@ -129,7 +129,7 @@ const renderQues = (questionsToDisplay) => {
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
                             <img src="${Profile_Image ? `data:image/jpeg;base64,${Profile_Image}` : 'static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
-                            <strong>${Username}</strong>
+                            <a href='/profile/${ProfileId}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
                         </div>
                         <p class="text-muted">${FormattedTime}</p>
                     </div>

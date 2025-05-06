@@ -29,7 +29,8 @@ func GetQuestions(c *gin.Context) {
 	  questions.id,
 	  questions.time,
 	  questions.category,
-	  users.profile_image
+	  users.profile_image,
+	  users.profileId
 	  from laboratory.questions
 	  join laboratory.users
 	  on questions.email = users.email
@@ -45,8 +46,8 @@ func GetQuestions(c *gin.Context) {
 			into struct's fields using rows.Next()
 	*/
 	for rows.Next() {
-		var ques reusable_structs.Questions
-		err := rows.Scan(&ques.Text, &ques.Username, &ques.Id, &ques.Time, &ques.Category, &ques.Profile_Image)
+		var ques reusable_structs.Questions //struct from Structs/Struct4.go
+		err := rows.Scan(&ques.Text, &ques.Username, &ques.Id, &ques.Time, &ques.Category, &ques.Profile_Image, &ques.ProfileId)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})

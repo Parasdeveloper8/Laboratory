@@ -18,6 +18,7 @@ type Questions struct {
 	Time          []uint8 `db:"time"`
 	FormattedTime string
 	Profile_Image []byte `db:"profile_image"`
+	ProfileId     string `db:"profileId"`
 }
 
 //Struct of Answers
