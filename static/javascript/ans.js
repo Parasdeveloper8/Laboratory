@@ -52,7 +52,7 @@ const renderAnswers = (data1, data2) => {
     }, {});
     // Iterate over answers and render them
     data1.forEach((ans) => {
-        const { Answer, Username, Ans_id } = ans;
+        const { Answer, Username, Ans_id, ProfileId, Profile_Image } = ans;
         // Create a new div for the answer
         const anss = document.createElement("div");
         // Get the like count for the current answer, default to 0 if not found
@@ -63,7 +63,8 @@ const renderAnswers = (data1, data2) => {
                 <div class="card-header" style="background-color:white !important;border:none;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
-                            <strong>${Username}</strong>
+                            <img src="${Profile_Image ? `data:image/jpeg;base64,${Profile_Image}` : '/static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
+                            <a href='/profile/${ProfileId}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
                         </div>
                     </div>
                 </div>

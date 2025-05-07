@@ -23,7 +23,7 @@ func GetAnswers(c *gin.Context) {
 	defer db.Close()
 
 	//query
-	query := "select text,id,username,ans_id from laboratory.answers where id = ?"
+	query := "select text,id,username,ans_id,users.profileId,users.profile_image from laboratory.answers join laboratory.users on answers.email = users.email where id = ?"
 	rows, err := db.Query(query, que_id)
 
 	if err != nil {
@@ -37,7 +37,7 @@ func GetAnswers(c *gin.Context) {
 	*/
 	for rows.Next() {
 		var panswers reusable_structs.Answers //struct in Struct4.go
-		err := rows.Scan(&panswers.Answer, &panswers.Que_id, &panswers.Username, &panswers.Ans_id)
+		err := rows.Scan(&panswers.Answer, &panswers.Que_id, &panswers.Username, &panswers.Ans_id, &panswers.ProfileId, &panswers.Profile_Image)
 		if err != nil {
 			log.Printf("Failed to scan row: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err})

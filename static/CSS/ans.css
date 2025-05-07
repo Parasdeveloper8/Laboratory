@@ -23,3 +23,10 @@
   .rl-div{
     background-color: white;
   }
+  .profile-link{
+    text-decoration:none;
+    color:black;
+    & :hover{
+        text-decoration: underline black;
+    }
+}
