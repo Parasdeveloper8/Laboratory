@@ -27,11 +27,13 @@ document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, vo
         //fetch number of likes
         const response2 = yield fetch(`http://localhost:4900/likenums`);
         const data2 = yield response2.json();
-        if (data2.data == null) {
+        if (data2.data !== null) {
+            renderAnswers(data.data, data2.data);
+        }
+        else {
             //if data2 is null then pass blank array to prevent error in reduce method
             renderAnswers(data.data, []);
         }
-        renderAnswers(data.data, data2.data);
     }
     catch (error) {
         if (cenDiv)

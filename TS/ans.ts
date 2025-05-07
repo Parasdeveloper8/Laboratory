@@ -19,11 +19,12 @@ document.addEventListener("DOMContentLoaded",async ()=>{
     //fetch number of likes
     const response2 = await fetch(`http://localhost:4900/likenums`);
     const data2 = await response2.json();
-    if(data2.data == null){
-        //if data2 is null then pass blank array to prevent error in reduce method
-    renderAnswers(data.data, []);
+    if(data2.data !== null){ 
+        renderAnswers(data.data,data2.data);
+    }else{
+       //if data2 is null then pass blank array to prevent error in reduce method
+        renderAnswers(data.data, []);
     }
-    renderAnswers(data.data,data2.data);
     }catch(error){
         if(cenDiv) cenDiv.innerHTML = "<p class='text-center fs-4'>😧No answers available</p>";
         console.log("Failed to fetch answers : ",error);
