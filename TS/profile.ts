@@ -4,7 +4,13 @@ const profileId = pathParts[2];
 
 const apiUrl:string = `http://localhost:4900/profile-data/${profileId}`;
 
+
 //Ids from profile.html
+/*const header:HTMLElement | null = document.getElementById("header");
+if((header as HTMLInputElement).value == "self"){
+   
+}
+*/
 // Fetch profile data from the API
 async function fetchProfileData() {
   try {

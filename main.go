@@ -92,7 +92,7 @@ func main() {
 
 	r.POST("/logout", postHandlers.HandleLogout)
 
-	r.GET("/profile/:profileId", middlewares.CheckEmail(), getHandlers.RenderProfilePage)
+	r.GET("/profile/:profileId/:userProfileId", middlewares.CheckEmail(), getHandlers.RenderProfilePage)
 
 	r.GET("/profile-data/:profileId", GETAPI.ProfileDataAPI) //API to get profile data
 
