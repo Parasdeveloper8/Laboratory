@@ -4,15 +4,23 @@ const profileId = pathParts[2];
 
 const apiUrl:string = `http://localhost:4900/profile-data/${profileId}`;
 
+let whoIs:boolean;
 
 //Ids from profile.html
-/*const header:HTMLElement | null = document.getElementById("header");
-if((header as HTMLInputElement).value == "self"){
-   
+const header:HTMLElement | null = document.getElementById("header");
+if((header as HTMLInputElement).value == "true"){
+   whoIs = true;
+   console.log(whoIs);
+}else{
+  whoIs = false;
+  console.log(whoIs);
 }
-*/
+
+let hasRendered = false;
 // Fetch profile data from the API
 async function fetchProfileData() {
+  if (hasRendered) return;
+
   try {
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -24,6 +32,7 @@ async function fetchProfileData() {
 
     // Check if the 'data' array exists and contains profiles
     if (responseData) {
+      hasRendered = true;
       const profilesContainer:HTMLElement | null = document.getElementById('profiles-container');
       if(profilesContainer) profilesContainer.innerHTML = ''; // Clear any previous content
 
@@ -42,16 +51,16 @@ async function fetchProfileData() {
             window.location.href = "/add-image-page";
           }
       }
-        // Profile photo
+       // Profile photo
         const photoContainer:HTMLDivElement = document.createElement('div');
         photoContainer.classList.add('profile-photo-container');
         if (profile.Profile_image && profile.Profile_image.trim() !== '') {
           photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">
-          <button class='fa fa-pencil pencil' aria-hdden='true'></button>
+           <button class='fa fa-pencil pencil' aria-hidden='true' ${whoIs ? '' : 'disabled'}></button>
           `;
         } else {
           photoContainer.innerHTML = `<img src="/static/Images/avatar_face_only.png" alt="default-img" class="profile-photo">
-          <button class='fa fa-pencil pencil' aria-hdden='true'></button>
+           <button class='fa fa-pencil pencil' aria-hidden='true' ${whoIs ? '' : 'disabled'}></button>
           `;
         }
         // Attach event listener for the pencil button
@@ -79,7 +88,7 @@ async function fetchProfileData() {
         // Email
         const emailElement:HTMLDivElement = document.createElement('div');
         emailElement.classList.add('profile-email');
-        emailElement.textContent = profile.Email || 'No email available';
+        emailElement.textContent = `${whoIs ? profile.Email : " "}`
         profileContainer.appendChild(emailElement);
 
         // Role
@@ -90,7 +99,8 @@ async function fetchProfileData() {
         roleElement.textContent = profile.Role || 'No role available';
         roleContainer.appendChild(roleElement);
         profileContainer.appendChild(roleContainer);
-
+        
+        if(whoIs){
         // Change Profile button
         const changeProfile :HTMLButtonElement = document.createElement('button');
         changeProfile.classList.add('change-profile-button');
@@ -99,7 +109,8 @@ async function fetchProfileData() {
           window.location.href = "/change-profile-page";
         });
         profileContainer.appendChild(changeProfile);
-
+      } 
+      if(whoIs){
         // Delete Image button
         const deleteImageButton:HTMLButtonElement = document.createElement('button');
         deleteImageButton.classList.add('delete-image-button');
@@ -125,31 +136,39 @@ async function fetchProfileData() {
                 } else {
                   alert('Failed to delete the image');
                 }
+                 
               } catch (error) {
                 console.error('Error deleting the image:', error);
                 alert('An error occurred while deleting the image');
               }
+            
             }
+          
           } else {
             alert('Email not available for this profile');
           }
+        
         });
         profileContainer.appendChild(deleteImageButton);
-        
+      }
+
+        if(whoIs){
         const mpost:HTMLAnchorElement = document.createElement("a");
         mpost.href="/own-posts-page";
         mpost.className = 'text-decoration-none';
         mpost.innerHTML = `<p class='text-center fs-4 text-body-emphasis'>My Posts <i class="fa-solid fa-arrow-right"></i></p>`;
-
         profileContainer.appendChild(mpost);
 
+        }
+
+       if(whoIs){
         const mques:HTMLAnchorElement = document.createElement("a");
         mques.href = "/myques";
         mques.className = 'text-decoration-none';
         mques.innerHTML = `<p class='text-center fs-4 text-body-emphasis'>My Ques <i class="fa-solid fa-arrow-right"></i></p>`;
       
         profileContainer.appendChild(mques);
-
+       }
         // Append the profile container to the profiles container in HTML
         if(profilesContainer) profilesContainer.appendChild(profileContainer);
       }else {
@@ -157,7 +176,7 @@ async function fetchProfileData() {
       const profilesCont = document.getElementById('profiles-container');
       if(profilesCont) profilesCont.textContent = 'No profiles available';
     }
-
+  
   } catch (error) {
     console.error(error);
     const profilesCont = document.getElementById('profiles-container');

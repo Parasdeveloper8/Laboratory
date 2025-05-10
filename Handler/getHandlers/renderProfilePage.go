@@ -18,6 +18,7 @@ func RenderProfilePage(c *gin.Context) {
 		//set header that user is other
 		c.Header("userIs", "other")
 		c.HTML(http.StatusOK, "profile.html", gin.H{"who": false})
+		return
 	}
 	c.Header("userIs", "self")
 	c.HTML(http.StatusOK, "profile.html", gin.H{"who": true})

@@ -44,6 +44,8 @@ func HandleAddImage(c *gin.Context) {
 	session := sessions.Default(c)
 	// Retrieve the email from the session
 	sessionEmail, _ := session.Get("email").(string)
+	//Retrieve the profileId from the session
+	sessionProfileId, _ := session.Get("profileId").(string)
 
 	//I am using update query to insert image or replace old image by new image.
 	query := "update laboratory.users set profile_image = ? where email = ?"
@@ -58,6 +60,6 @@ func HandleAddImage(c *gin.Context) {
 
 	//receiver
 	result := <-Resultchan
-	c.Redirect(http.StatusSeeOther, "/profile")
+	c.Redirect(http.StatusSeeOther, "/profile/"+sessionProfileId+"/"+sessionProfileId)
 	fmt.Println(result)
 }

@@ -10,6 +10,7 @@ const quePen: HTMLElement | null = document.getElementById("pen");
 const closeDialogue: HTMLElement | null = document.getElementById("closeDialog");
 const addQuesForm: HTMLElement | null = document.getElementById("addQues");
 const textarea:HTMLElement | null = document.getElementById('text');
+const senderId:HTMLElement | null = document.getElementById('senderId');
 
 if(addQuesForm) {addQuesForm.addEventListener("submit",(e)=>e.preventDefault());}//Add event listener to form to prevent reloading
 
@@ -126,7 +127,7 @@ const renderQues = (questionsToDisplay:any) => {
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
                             <img src="${Profile_Image ? `data:image/jpeg;base64,${Profile_Image}` : 'static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
-                            <a href='/profile/${ProfileId}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
+                            <a href='/profile/${ProfileId}/${(senderId as HTMLInputElement).value}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
                         </div>
                         <p class="text-muted">${FormattedTime}</p>
                     </div>

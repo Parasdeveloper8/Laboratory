@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 //ids from ansPage.html
 const cenDiv = document.getElementById("central-cont");
 const heading = document.getElementById("que");
+const senderId = document.getElementById('senderId');
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const pathParts = window.location.pathname.split("/");
@@ -64,7 +65,7 @@ const renderAnswers = (data1, data2) => {
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
                             <img src="${Profile_Image ? `data:image/jpeg;base64,${Profile_Image}` : '/static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
-                            <a href='/profile/${ProfileId}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
+                            <a href='/profile/${ProfileId}/${senderId.value}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
                         </div>
                     </div>
                 </div>

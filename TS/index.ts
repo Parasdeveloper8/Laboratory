@@ -1,5 +1,6 @@
 import { scrollFetch ,formatLike,showCommentsDialog} from "./reusefuns.js";
 
+const senderId: HTMLElement | null = document.getElementById("sender");
 //loader
 const loader : HTMLElement | null = document.getElementById('r-loader');
 
@@ -98,7 +99,7 @@ function renderBlogs(blogs:any, data2:any) {
 
         nameBar.appendChild(emailIcon);
         const nameLink:HTMLDivElement = document.createElement("div");
-        nameLink.innerHTML = `<a href='/profile/${blog.ProfileId}' class='profile-link' title='visit ${blog.UserName} profile'><b>${blog.UserName}</b></a>`;
+        nameLink.innerHTML = `<a href='/profile/${blog.ProfileId}/${(senderId as HTMLInputElement).value}' class='profile-link' title='visit ${blog.UserName} profile'><b>${blog.UserName}</b></a>`;
         nameBar.appendChild(nameLink);
 
         const uploadedTime : HTMLDivElement = document.createElement("div");

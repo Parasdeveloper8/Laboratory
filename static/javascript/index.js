@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { scrollFetch, formatLike, showCommentsDialog } from "./reusefuns.js";
+const senderId = document.getElementById("sender");
 //loader
 const loader = document.getElementById('r-loader');
 //loads when fail to display more posts
@@ -99,7 +100,7 @@ function renderBlogs(blogs, data2) {
         emailIcon.style.cssText = "width: 20px; height: 20px; margin-right: 8px;";
         nameBar.appendChild(emailIcon);
         const nameLink = document.createElement("div");
-        nameLink.innerHTML = `<a href='/profile/${blog.ProfileId}' class='profile-link' title='visit ${blog.UserName} profile'><b>${blog.UserName}</b></a>`;
+        nameLink.innerHTML = `<a href='/profile/${blog.ProfileId}/${senderId.value}' class='profile-link' title='visit ${blog.UserName} profile'><b>${blog.UserName}</b></a>`;
         nameBar.appendChild(nameLink);
         const uploadedTime = document.createElement("div");
         uploadedTime.textContent = blog.FormattedTime;
