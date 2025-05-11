@@ -3,6 +3,7 @@ import { scrollFetch } from "./reusefuns.js";
 //Ids from myques.html
 const quesList:HTMLElement | null = document.getElementById("questions-list");
 const loader:HTMLElement | null = document.getElementById("r-loader");
+const senderId:HTMLElement | null = document.getElementById('senderId');
 if(loader) loader.style.display = 'block';
 
 let page:number = 1;
@@ -148,7 +149,7 @@ const renderAnswers = (data1:any, id:string, ques:any, data2:any) => {
 
     // Iterate over answers and render them
     data1.forEach((ans:any) => {
-        const { Answer, Username, Ans_id } = ans;
+        const { Answer, Username, Ans_id,ProfileId,Profile_Image } = ans;
 
         // Create a new div for the answer
         const anss:HTMLDivElement = document.createElement("div");
@@ -163,7 +164,8 @@ const renderAnswers = (data1:any, id:string, ques:any, data2:any) => {
                 <div class="card-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center">
-                            <strong>${Username}</strong>
+                            <img src="${Profile_Image ? `data:image/jpeg;base64,${Profile_Image}` : '/static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
+                            <a href='/profile/${ProfileId}/${(senderId as HTMLInputElement).value}' class='profile-link' title='visit ${Username} profile'><b>${Username}</b></a>
                         </div>
                     </div>
                 </div>
