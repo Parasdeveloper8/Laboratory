@@ -3,7 +3,7 @@ import { scrollFetch } from "./reusefuns.js";
 //Ids from ownPostPage.html
 const loader:HTMLElement | null = document.getElementById('r-loader');
 const failLoader:HTMLElement | null = document.getElementById("f-loader");
-
+const senderId:HTMLElement | null = document.getElementById('sender');
 if(loader) loader.style.display = 'block';
 if(failLoader) failLoader.style.display = 'none';
 
@@ -145,14 +145,14 @@ async function fetchAndShowComments(postId:string) {
         const data = await response.json();
         const comments = data.data || [];
         //console.log("Fetched comments:", comments); // Debugging line
-        showCommentsDialog(comments);
+        showCommentsDialog(comments,(senderId as HTMLInputElement));
     } catch (error) {
         console.error("Error fetching comments:", error);
     }
 }
 
 // Function to show comments dialog
-function showCommentsDialog(comments:any) {
+function showCommentsDialog(comments:any,senderId:HTMLInputElement) {
     const dialog:HTMLDivElement = document.createElement("div");
     dialog.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
 
@@ -168,9 +168,16 @@ function showCommentsDialog(comments:any) {
             const commentItem:HTMLDivElement = document.createElement("div");
             commentItem.style.cssText = "padding: 10px 0; border-bottom: 1px solid #ddd;";
 
-            // Comment text
-            const commentText:HTMLDivElement = document.createElement("div");
-            commentText.textContent = `${comment.UserName}: ${comment.Comment_Text}`;
+             // Comment text
+            const commentText :HTMLDivElement= document.createElement("div");
+            commentText.innerHTML = `<div class="d-flex align-items-center">
+                            <img src="${comment.Profile_Image ? `data:image/jpeg;base64,${comment.Profile_Image}` : 'static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
+                            <a href='/profile/${comment.ProfileId}/${senderId.value}' class='profile-link' title='visit ${comment.UserName} profile'><b>${comment.UserName}</b></a>
+                            </div>
+                            <div>
+                            <p>${comment.Comment_Text}</p>
+                            </div>
+                            `;
             commentItem.appendChild(commentText);
 
             // Comment time

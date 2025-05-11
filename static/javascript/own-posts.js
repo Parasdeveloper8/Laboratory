@@ -11,6 +11,7 @@ import { scrollFetch } from "./reusefuns.js";
 //Ids from ownPostPage.html
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("f-loader");
+const senderId = document.getElementById('sender');
 if (loader)
     loader.style.display = 'block';
 if (failLoader)
@@ -149,7 +150,7 @@ function fetchAndShowComments(postId) {
             const data = yield response.json();
             const comments = data.data || [];
             //console.log("Fetched comments:", comments); // Debugging line
-            showCommentsDialog(comments);
+            showCommentsDialog(comments, senderId);
         }
         catch (error) {
             console.error("Error fetching comments:", error);
@@ -157,7 +158,7 @@ function fetchAndShowComments(postId) {
     });
 }
 // Function to show comments dialog
-function showCommentsDialog(comments) {
+function showCommentsDialog(comments, senderId) {
     const dialog = document.createElement("div");
     dialog.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
     const closeButton = document.createElement("button");
@@ -171,7 +172,14 @@ function showCommentsDialog(comments) {
             commentItem.style.cssText = "padding: 10px 0; border-bottom: 1px solid #ddd;";
             // Comment text
             const commentText = document.createElement("div");
-            commentText.textContent = `${comment.UserName}: ${comment.Comment_Text}`;
+            commentText.innerHTML = `<div class="d-flex align-items-center">
+                            <img src="${comment.Profile_Image ? `data:image/jpeg;base64,${comment.Profile_Image}` : 'static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
+                            <a href='/profile/${comment.ProfileId}/${senderId.value}' class='profile-link' title='visit ${comment.UserName} profile'><b>${comment.UserName}</b></a>
+                            </div>
+                            <div>
+                            <p>${comment.Comment_Text}</p>
+                            </div>
+                            `;
             commentItem.appendChild(commentText);
             // Comment time
             const commentTime = document.createElement("div");
