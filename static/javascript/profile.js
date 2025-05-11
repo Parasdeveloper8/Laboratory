@@ -60,8 +60,11 @@ function fetchProfileData() {
                 const photoContainer = document.createElement('div');
                 photoContainer.classList.add('profile-photo-container');
                 if (profile.Profile_image && profile.Profile_image.trim() !== '') {
-                    photoContainer.innerHTML = `<img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">
+                    photoContainer.innerHTML = `
+          <div>
+          <img src=data:image/jpeg;base64,${profile.Profile_image} alt="Profile Photo" class="profile-photo">
            <button class='fa fa-pencil pencil' aria-hidden='true' ${whoIs ? '' : 'disabled'}></button>
+           </div>
           `;
                 }
                 else {
