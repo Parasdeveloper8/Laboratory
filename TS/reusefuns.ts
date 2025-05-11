@@ -40,7 +40,7 @@ export function formatLike(num:number,countpara:HTMLElement | HTMLParagraphEleme
 
 
 //This function shows comments'dialog box which contains comments
-export function showCommentsDialog(comments:any) {
+export function showCommentsDialog(comments:any,senderId:HTMLInputElement) {
     const dialog:HTMLDivElement = document.createElement("div");
     dialog.style.cssText = "position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 400px; max-height: 300px; background: #fff; border: 1px solid #ddd; border-radius: 8px; overflow-y: auto; z-index: 1000; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);";
 
@@ -58,7 +58,14 @@ export function showCommentsDialog(comments:any) {
 
             // Comment text
             const commentText :HTMLDivElement= document.createElement("div");
-            commentText.textContent = `${comment.UserName}: ${comment.Comment_Text}`;
+            commentText.innerHTML = `<div class="d-flex align-items-center">
+                            <img src="${comment.Profile_Image ? `data:image/jpeg;base64,${comment.Profile_Image}` : 'static/Images/avatar_face_only.png'}" alt="User Icon" style="width: 30px; height: 30px; margin-right: 8px;">
+                            <a href='/profile/${comment.ProfileId}/${senderId.value}' class='profile-link' title='visit ${comment.UserName} profile'><b>${comment.UserName}</b></a>
+                            </div>
+                            <div>
+                            <p>${comment.Comment_Text}</p>
+                            </div>
+                            `;
             commentItem.appendChild(commentText);
 
             // Comment time

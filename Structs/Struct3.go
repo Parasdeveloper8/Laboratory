@@ -23,4 +23,6 @@ type Comments struct {
 	Post_id              string  `db:"post_id"`
 	TimeofComment        []uint8 `db:"time"`
 	FormattedTimeComment string
+	ProfileId            string `db:"profileId"`
+	Profile_Image        []byte `db:"profile_image"`
 }

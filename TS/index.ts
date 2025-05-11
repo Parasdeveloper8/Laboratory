@@ -228,7 +228,7 @@ async function fetchAndShowComments(postId:any) {
         const data = await response.json();
         const comments = data.data || [];
         console.log("Fetched comments:", comments); // Debugging line
-        showCommentsDialog(comments);
+        showCommentsDialog(comments,(senderId as HTMLInputElement));
     } catch (error) {
         console.error("Error fetching comments:", error);
     }

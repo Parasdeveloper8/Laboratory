@@ -212,7 +212,7 @@ function fetchAndShowComments(postId) {
             const data = yield response.json();
             const comments = data.data || [];
             console.log("Fetched comments:", comments); // Debugging line
-            showCommentsDialog(comments);
+            showCommentsDialog(comments, senderId);
         }
         catch (error) {
             console.error("Error fetching comments:", error);
