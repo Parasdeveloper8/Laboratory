@@ -8,7 +8,6 @@ import (
 	middlewares "Laboratory/Middlewares"
 	reusable_structs "Laboratory/Structs"
 	"Laboratory/cors"
-	"flag"
 	"net/http"
 
 	"github.com/Parasdeveloper8/gowebguard/v2/webguard"
@@ -21,11 +20,6 @@ import (
 
 func main() {
 	r := gin.Default()
-
-	//flag
-	addr := flag.String("port", " ", "Runs server")
-	//Parse flag
-	flag.Parse()
 
 	// Set up CORS
 	cors.SetupCORS(r)
@@ -183,6 +177,6 @@ func main() {
 
 	r.GET("/answersPage/:que/:id", getHandlers.RenderAnsPage)
 
-	//Start server on port defined in flag
-	r.Run(":" + *addr) //use port 4900 to call API
+	//Start server
+	r.Run(":" + config.PORT)
 }
