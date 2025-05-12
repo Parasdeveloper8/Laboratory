@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { scrollFetch } from "./reusefuns.js";
+import { formatLike } from "./reusefuns.js";
 //Ids from ownPostPage.html
 const loader = document.getElementById('r-loader');
 const failLoader = document.getElementById("f-loader");
@@ -32,11 +33,17 @@ function fetchMyBlogs() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = yield response.json();
+            //Fetch likes count
+            const response2 = yield fetch("http://localhost:4900/postlikenums");
+            const data2 = yield response2.json();
+            if (!response2.ok) {
+                throw new Error(`HTTP error! status: ${response2.status}`);
+            }
             if (loader)
                 loader.style.display = 'none';
             row++;
             page++;
-            renderBlogs(data.data);
+            renderBlogs(data.data, data2.data);
         }
         catch (error) {
             console.error("Error fetching blogs:", error);
@@ -51,9 +58,17 @@ function fetchMyBlogs() {
     });
 }
 // Function to render blogs
-function renderBlogs(blogs) {
+function renderBlogs(blogs, data2) {
     const div = document.getElementById("blogs");
+    // Map the likes data by PostId for easier access
+    const likesMap = (data2 !== null && data2 !== void 0 ? data2 : []).reduce((acc, item) => {
+        if (item && item.PostId !== null && item.Likes_Number !== null) {
+            acc[item.PostId] = item.Likes_Number;
+        }
+        return acc;
+    }, {});
     blogs.forEach((blog) => {
+        const likeCount = likesMap[blog.Post_id] || 0; // Use blog.Post_Id for the correct like count
         const post_id = blog.Post_id;
         //console.log(blog.Formattedtime);
         const blogContainer = document.createElement("div");
@@ -111,10 +126,27 @@ function renderBlogs(blogs) {
             e.preventDefault();
             fetchAndShowComments(post_id);
         });
+        // DIV to containing button and count of likes
+        const divfBtn = document.createElement("div");
+        // Like button
+        const button = document.createElement("button");
+        button.id = `postlike${blog.Post_Id}`;
+        button.className = "like-btn";
+        button.innerHTML = `
+            <i class="fa fa-heart" aria-hidden="true"></i>
+        `;
+        // Like count
+        const countp = document.createElement("p");
+        formatLike(likeCount, countp);
+        divfBtn.className = "lk-div";
+        // Append both button and count to div
+        divfBtn.appendChild(button);
+        divfBtn.appendChild(countp); // Correctly append the count
         // Append everything to the blog container
         blogContainer.appendChild(mediaWrapper);
         blogContainer.appendChild(title);
         blogContainer.appendChild(viewCommentsLink);
+        blogContainer.appendChild(divfBtn);
         if (!div)
             return;
         // Append the blog container to the main div

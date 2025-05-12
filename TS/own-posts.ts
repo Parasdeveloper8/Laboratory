@@ -1,5 +1,5 @@
 import { scrollFetch } from "./reusefuns.js";
-
+import { formatLike } from "./reusefuns.js";
 //Ids from ownPostPage.html
 const loader:HTMLElement | null = document.getElementById('r-loader');
 const failLoader:HTMLElement | null = document.getElementById("f-loader");
@@ -22,10 +22,16 @@ async function fetchMyBlogs() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
+        //Fetch likes count
+        const response2 = await fetch("http://localhost:4900/postlikenums");
+        const data2 = await response2.json();
+        if(!response2.ok){
+            throw new Error(`HTTP error! status: ${response2.status}`);
+        }
         if(loader) loader.style.display = 'none';
         row++;
         page++;
-        renderBlogs(data.data);
+        renderBlogs(data.data,data2.data);
     } catch (error) {
         console.error("Error fetching blogs:", error);
         if(loader) loader.style.display = 'none';
@@ -36,10 +42,19 @@ async function fetchMyBlogs() {
 }
 
 // Function to render blogs
-function renderBlogs(blogs:any) {
+function renderBlogs(blogs:any,data2:any) {
     const div:HTMLElement | null = document.getElementById("blogs");
+    
+    // Map the likes data by PostId for easier access
+    const likesMap = (data2 ?? []).reduce((acc:any, item:any) => {
+        if (item && item.PostId !== null && item.Likes_Number !== null) { 
+            acc[item.PostId] = item.Likes_Number; 
+        }
+        return acc;
+    }, {});
 
     blogs.forEach((blog:any) => {
+        const likeCount = likesMap[blog.Post_id] || 0; // Use blog.Post_Id for the correct like count
         const post_id:string = blog.Post_id;
         //console.log(blog.Formattedtime);
         const blogContainer:HTMLDivElement = document.createElement("div");
@@ -105,12 +120,32 @@ function renderBlogs(blogs:any) {
             e.preventDefault();
             fetchAndShowComments(post_id);
         });
+        
+        // DIV to containing button and count of likes
+        const divfBtn : HTMLDivElement = document.createElement("div");
+
+        // Like button
+        const button : HTMLButtonElement = document.createElement("button");
+        button.id = `postlike${blog.Post_Id}`;
+        button.className = "like-btn";
+        button.innerHTML = `
+            <i class="fa fa-heart" aria-hidden="true"></i>
+        `;
+
+        // Like count
+        const countp : HTMLParagraphElement= document.createElement("p");
+        formatLike(likeCount,countp);
+         divfBtn.className = "lk-div";
+
+          // Append both button and count to div
+        divfBtn.appendChild(button);
+        divfBtn.appendChild(countp); // Correctly append the count
 
         // Append everything to the blog container
         blogContainer.appendChild(mediaWrapper);
         blogContainer.appendChild(title);
         blogContainer.appendChild(viewCommentsLink);
-
+        blogContainer.appendChild(divfBtn);
         if(!div) return;
         // Append the blog container to the main div
         div.appendChild(blogContainer);
