@@ -13,6 +13,7 @@ func SendMail(to, subject, body string) error {
 	configs, err := reusable_structs.Init()
 	if err != nil {
 		log.Printf("Failed to load configurations: %v", err)
+		return err
 	}
 	from := configs.EMAIL
 	password := configs.EMAIL_PASSWORD
@@ -23,7 +24,7 @@ func SendMail(to, subject, body string) error {
 	m.SetHeader("From", from)
 	m.SetHeader("To", to)
 	m.SetHeader("Subject", subject)
-	m.SetBody("text/plain", body)
+	m.SetBody("text/html", body)
 
 	d := gomail.NewDialer(smtpHost, smtpPort, from, password)
 
