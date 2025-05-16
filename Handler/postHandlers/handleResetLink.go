@@ -38,7 +38,13 @@ func ResetLink(c *gin.Context) {
 	// Success response
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset link generated successfully"})
 	subject := "Password Reset Link"
-	body := "This is your password reset link: http://localhost:4900/resetpasspage"
+	body := `<html>
+	        <body>
+	        <h1>Password Reset Link</h1>
+	        <p>This is your password reset link: <a href='http://localhost:4900/resetpasspage' target='_blank'>reset link</a><p/>
+			<p>With regards<p>
+			<p>Laboratory<p/>
+			`
 	err = reusable.SendMail(passData.Email, subject, body)
 	if err != nil {
 		log.Printf("Failed to send email: %v", err)
