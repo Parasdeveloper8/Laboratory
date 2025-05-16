@@ -32,5 +32,19 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 	fmt.Println(result)
+	subject := "Password changed"
+	body := fmt.Sprintf(`<html>
+	        <body>
+	        <h1>Password for your email %s changed</h1>
+	        <p>If not by you,mail us<p/>
+			<p>With regards<p>
+			<p>Laboratory<p/>
+			`, email)
+	err = reusable.SendMail(email, subject, body)
+	if err != nil {
+		log.Printf("Failed to send email: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send email"})
+		return
+	}
 	c.Redirect(http.StatusSeeOther, "/login-page?message=password change successfully")
 }
